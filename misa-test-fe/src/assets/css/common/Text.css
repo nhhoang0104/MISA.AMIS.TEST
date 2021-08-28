@@ -1,0 +1,21 @@
+.text {
+  font-family: "Notosans";
+  font-size: 13px;
+  color: #111;
+}
+
+.text.text-body-content {
+  white-space: nowrap;
+}
+
+.text.text--center {
+  text-align: center;
+}
+
+.text.text--left {
+  text-align: left;
+}
+
+.text.text--right {
+  text-align: right;
+}

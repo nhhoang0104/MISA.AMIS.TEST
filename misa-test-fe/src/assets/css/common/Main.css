@@ -1,0 +1,75 @@
+@import url("../common/Variables.css");
+@import url("../common/Icon.css");
+@import url("../common/Padding.css");
+@import url("../common/Margin.css");
+@import url("../common/Text.css");
+@import url("../common/Width.css");
+@import url("../common/Dialog.css");
+@import url("../common/Modal.css");
+
+body {
+  font-family: "Notosans";
+  font-size: 13px;
+  box-sizing: border-box;
+  background-color: var(--color-bg);
+  outline: none;
+  margin: 0px;
+}
+
+.flex {
+  display: flex !important;
+}
+
+.label-required {
+  color: red;
+}
+
+.label {
+  font-size: 12px;
+  font-family: "Notosans-Bold";
+  padding-bottom: 4px;
+  white-space: nowrap;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b8bcc3;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-track-piece {
+  background: #f1f1f1;
+  width: 10px;
+}
+
+@font-face {
+  font-family: "Notosans";
+  src: url("../../fonts/notosans-regular.2cb88a13.woff2");
+}
+
+@font-face {
+  font-family: "Notosans-Italic";
+  src: url("../../fonts/notosans-italic.1c1aaac9.woff2");
+}
+
+@font-face {
+  font-family: "Notosans-Bold";
+  src: url("../../fonts/notosans-bold.3ede5aff.woff2");
+}
+
+@font-face {
+  font-family: "Notosans-SemiBold";
+  src: url("../../fonts/notosans-semibold.df3e6dc4.woff2");
+}

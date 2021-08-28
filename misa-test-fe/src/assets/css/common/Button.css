@@ -1,0 +1,39 @@
+@import url("./Variables.css");
+
+button {
+  outline: none;
+  border: none;
+}
+
+.btn {
+  background-color: var(--color-btn-primary);
+  height: 36px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  transition: 0.2s all ease-in-out;
+  padding: 8px 14px 8px 20px;
+}
+
+.btn:hover {
+  background-color: var(--color-btn-primary-hover);
+}
+
+.btn:active {
+  background-color: var(--color-primary);
+}
+
+.btn .btn__text {
+  font-weight: 600;
+  position: relative;
+  color: var(--color-white);
+  display: inline-block;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  font-size: 13px;
+  line-height: 13px;
+}

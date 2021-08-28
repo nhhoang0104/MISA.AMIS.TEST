@@ -1,0 +1,102 @@
+.header {
+  width: 100%;
+  background-color: var(--color-white);
+  height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.header .header__menu {
+  width: 180px;
+  height: 100%;
+  background-color: var(--color-bg-logo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header .header__menu .header__menu__option {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  background: url("../../img/Sprites.64af8f61.svg") no-repeat -424px -86px;
+}
+
+.header .header__menu .header__menu__logo {
+  height: 32px;
+  display: block;
+}
+
+.header .header__menu .header__menu__logo .img-icon {
+  height: 32px;
+}
+
+.header .header__content {
+  height: 100%;
+  width: calc(100% - 180px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header .header__content__left {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.header .header__content__left .branch {
+  display: flex;
+}
+
+.header .header__content__left .branch .branch__content {
+  padding-left: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: "Notosans-SemiBold";
+  text-overflow: ellipsis;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  color: #111;
+}
+
+.header .header__content__left .branch .branch__toggle {
+  display: flex;
+  align-items: center;
+}
+
+.header .header__content__right {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+}
+
+.header .header__content__right .notify {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.header .header__content__right .account-info {
+  display: flex;
+  height: 36px;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.header .header__content__right .account-info .user-name {
+  margin-right: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 14px;
+  color: #111;
+  font-family: "Notosans-SemiBold";
+}
+
+.header .header__content__right .account-info .user-ava {
+  margin-right: 6px;
+}

@@ -1,0 +1,14 @@
+E:\Test\MISA.Test\MISA.Test.Core\bin\Debug\net5.0\MISA.Test.Core.deps.json
+E:\Test\MISA.Test\MISA.Test.Core\bin\Debug\net5.0\MISA.Test.Core.dll
+E:\Test\MISA.Test\MISA.Test.Core\bin\Debug\net5.0\ref\MISA.Test.Core.dll
+E:\Test\MISA.Test\MISA.Test.Core\bin\Debug\net5.0\MISA.Test.Core.pdb
+E:\Test\MISA.Test\MISA.Test.Core\obj\Debug\net5.0\MISA.Test.Core.csproj.AssemblyReference.cache
+E:\Test\MISA.Test\MISA.Test.Core\obj\Debug\net5.0\MISA.Test.Core.Resources.ErrorMsg.resources
+E:\Test\MISA.Test\MISA.Test.Core\obj\Debug\net5.0\MISA.Test.Core.csproj.GenerateResource.cache
+E:\Test\MISA.Test\MISA.Test.Core\obj\Debug\net5.0\MISA.Test.Core.GeneratedMSBuildEditorConfig.editorconfig
+E:\Test\MISA.Test\MISA.Test.Core\obj\Debug\net5.0\MISA.Test.Core.AssemblyInfoInputs.cache
+E:\Test\MISA.Test\MISA.Test.Core\obj\Debug\net5.0\MISA.Test.Core.AssemblyInfo.cs
+E:\Test\MISA.Test\MISA.Test.Core\obj\Debug\net5.0\MISA.Test.Core.csproj.CoreCompileInputs.cache
+E:\Test\MISA.Test\MISA.Test.Core\obj\Debug\net5.0\MISA.Test.Core.dll
+E:\Test\MISA.Test\MISA.Test.Core\obj\Debug\net5.0\ref\MISA.Test.Core.dll
+E:\Test\MISA.Test\MISA.Test.Core\obj\Debug\net5.0\MISA.Test.Core.pdb

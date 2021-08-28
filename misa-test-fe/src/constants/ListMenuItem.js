@@ -1,0 +1,92 @@
+export const ListMenuItem = [
+  {
+    id: 1,
+    link: "/dashboard",
+    label: "Tổng quan",
+    iconName: "icon-dashboard",
+  },
+  {
+    id: 2,
+    link: "/reports",
+    label: "Tiền mặt",
+    iconName: "icon-cash",
+  },
+  {
+    id: 3,
+    link: "/cart",
+    label: "Tiền gửi",
+    iconName: "icon-bank",
+  },
+  {
+    id: 4,
+    link: "/employees",
+    label: "Mua hàng",
+    iconName: "icon-purchase",
+  },
+  {
+    id: 5,
+    link: "/customers",
+    label: "Bán hàng",
+    iconName: "icon-sale",
+  },
+  {
+    id: 6,
+    link: "/settings",
+    label: "Quản lý hóa đơn",
+    iconName: "icon-invoice",
+  },
+  {
+    id: 7,
+    link: "/settings",
+    label: "Kho",
+    iconName: "icon-stock",
+  },
+  {
+    id: 8,
+    link: "/settings",
+    label: "Công cụ dụng cụ",
+    iconName: "icon-tools",
+  },
+  {
+    id: 9,
+    link: "/settings",
+    label: "Tài sản cố định",
+    iconName: "icon-fixed-assets",
+  },
+  {
+    id: 10,
+    link: "/settings",
+    label: "Thuế",
+    iconName: "icon-tax",
+  },
+  {
+    id: 11,
+    link: "/settings",
+    label: "Giá thành",
+    iconName: "icon-price",
+  },
+  {
+    id: 12,
+    link: "/settings",
+    label: "Tổng hợp",
+    iconName: "icon-general",
+  },
+  {
+    id: 13,
+    link: "/settings",
+    label: "Ngân sách",
+    iconName: "icon-budget",
+  },
+  {
+    id: 14,
+    link: "/settings",
+    label: "Báo cáo",
+    iconName: "icon-report",
+  },
+  {
+    id: 15,
+    link: "/settings",
+    label: "Phân tích tài chính",
+    iconName: "icon-finance",
+  },
+];

@@ -1,0 +1,51 @@
+input {
+  outline: none;
+}
+
+input::placeholder {
+  font-size: 12px;
+  font-family: "Notosans-Italic";
+  color: #a7a1a1;
+}
+
+.ms-input {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ms-input .ms-input__input {
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 13px;
+  height: 32px;
+  border-radius: 2px;
+  border: 1px solid #babec5;
+  box-sizing: border-box;
+}
+
+.ms-input .ms-input__input__hover {
+  outline: 1px solid #e2e2e2;
+}
+
+.ms-input .ms-input__input__focus {
+  border: 1px solid #2ca01c;
+}
+
+.ms-input .ms-input__input.input--icon {
+  padding-left: 0.85rem;
+  padding-right: 1.75rem;
+}
+
+.ms-input .ms-input__icon {
+  position: absolute;
+  padding-right: 3px;
+  color: rgb(0, 0, 0, 0.4);
+  user-select: none;
+  top: 8px;
+  left: auto;
+  right: 5px;
+  cursor: pointer;
+}

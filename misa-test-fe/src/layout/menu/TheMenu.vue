@@ -1,0 +1,28 @@
+<template lang="html">
+  <div class="menu scroller">
+    <menu-item
+      v-for="item in listMenuItem"
+      :key="item.id"
+      :item="item"
+    ></menu-item>
+  </div>
+</template>
+
+<script>
+import MenuItem from "./MenuItem.vue";
+import { ListMenuItem } from "@/constants/ListMenuItem.js";
+
+export default {
+  name: "the-menu",
+  components: {
+    MenuItem,
+  },
+  data() {
+    return { listMenuItem: ListMenuItem };
+  },
+};
+</script>
+
+<style lang="css" scoped>
+@import url("../../assets/css/layout/Menu.css");
+</style>

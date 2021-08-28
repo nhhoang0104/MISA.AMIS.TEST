@@ -1,0 +1,59 @@
+.dialog {
+  display: block;
+  overflow: hidden;
+  width: 900px;
+  height: 625px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--color-white);
+  opacity: 1;
+  box-sizing: border-box;
+  z-index: 6;
+}
+.dialog .dialog__header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 5px 5px;
+  position: relative;
+}
+
+.dialog .dialog__header .dialog__header__title {
+  width: 100%;
+  padding: 20px 32px 20px 32px;
+  border-radius: 5px 5px 0 0;
+}
+
+.dialog .dialog__header .dialog__header__title .title {
+  font-family: "Notosans-Bold";
+  font-size: 24px;
+  color: #111;
+}
+
+.dialog .dialog__header .dialog__header__close {
+  display: flex;
+  padding: 12px;
+}
+
+.dialog .dialog__content {
+  transition: all 0.23s ease 0.1s;
+  display: flex;
+  height: 827px;
+  flex-direction: column;
+  overflow: auto;
+  overflow-y: visible;
+  padding: 0 32px 20px 32px;
+}
+
+.dialog .dialog__content .body .row-input {
+  padding-bottom: 12px;
+}
+
+.dialog .dialog__content .body .divide {
+  width: 100%;
+  border-top: 1px solid #e0e0e0;
+  margin: 32px 0 20px 0;
+  position: relative;
+}

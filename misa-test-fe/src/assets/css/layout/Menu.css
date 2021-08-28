@@ -1,0 +1,56 @@
+.menu {
+  width: 180px;
+  height: calc(100vh - 48px);
+  padding-top: 14px;
+  background-color: var(--color-bg-menu);
+  border-right: 1px solid var(--color-border-cus);
+  box-sizing: border-box;
+  float: left;
+  transition: 0.2s all ease-in-out;
+}
+
+.menu.scroller {
+  overflow: auto;
+}
+
+.menu.scroller::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.menu.scroller::-webkit-scrollbar-track-piece {
+  background-color: #f1f1f1;
+  width: 6px;
+}
+
+.menu .menu-item {
+  line-height: 42px;
+  height: 42px;
+  border-left: 6px solid transparent;
+  padding-left: 8px;
+  padding-right: 14px;
+  color: #fff;
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.menu .menu-item:hover {
+  background: #5d5d61;
+}
+
+.menu .menu-item:hover .menu-item__label {
+  color: #fff;
+}
+
+.menu .menu-item .menu-item__icon {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.menu .menu-item .menu-item__label {
+  height: 100%;
+}

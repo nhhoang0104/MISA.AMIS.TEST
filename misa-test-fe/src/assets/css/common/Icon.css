@@ -1,0 +1,153 @@
+.icon {
+  background: url("../../img/Sprites.64af8f61.svg") no-repeat;
+  cursor: pointer;
+}
+
+.icon.header-icon {
+  margin: 0 10px;
+}
+
+.icon.icon-circle {
+  border-radius: 50%;
+}
+
+.icon.icon--r-90 {
+  transform: rotate(90deg);
+  margin-left: 10px;
+}
+
+.icon.icon--14 {
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  min-height: 14px;
+}
+
+.icon.icon--16 {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+}
+
+.icon.icon--24 {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.icon.icon--32 {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+}
+
+.icon.icon-bars {
+  background-position: -843px -30px;
+}
+
+.icon.icon-chevron-right {
+  background-position: -80px -360px;
+}
+
+.icon.icon-chevron-down {
+  background-position: -1076px -32px;
+}
+
+.icon.icon-bell {
+  background-position: -788px -30px;
+}
+
+.icon.icon-user-ava {
+  background-position: -352px -894px;
+}
+
+.icon.icon-dashboard {
+  background-position: -30px -1628px;
+}
+
+.icon.icon-cash {
+  background-position: -73px -1628px;
+}
+
+.icon.icon-bank {
+  background-position: -117px -1628px;
+}
+
+.icon.icon-purchase {
+  background-position: -161px -1628px;
+}
+
+.icon.icon-sale {
+  background-position: -204px -1628px;
+}
+
+.icon.icon-invoice {
+  background-position: -249px -1628px;
+}
+
+.icon.icon-stock {
+  background-position: -291px -1628px;
+}
+
+.icon.icon-tools {
+  background-position: -336px -1628px;
+}
+
+.icon.icon-fixed-assets {
+  background-position: -378px -1630px;
+}
+
+.icon.icon-tax {
+  background-position: -423px -1630px;
+}
+
+.icon.icon-price {
+  background-position: -467px -1628px;
+}
+
+.icon.icon-general {
+  background-position: -510px -1628px;
+}
+
+.icon.icon-budget {
+  background-position: -378px -1659px;
+}
+
+.icon.icon-report {
+  background-position: -547px -1628px;
+}
+
+.icon.icon-finance {
+  background-position: -204px -1664px;
+}
+
+.icon.icon-refresh {
+  background-position: -423px -201px;
+}
+
+.icon.icon-refresh-active {
+  background-position: -1098px -90px;
+}
+
+.icon.icon-export {
+  background-position: -704px -200px;
+}
+
+.icon.icon-export-active {
+  background-position: -1265px -90px;
+}
+
+.icon.icon-search {
+  background-position: -992px -360px;
+}
+
+.icon.icon-help {
+  background-position: -89px -144px;
+}
+
+.icon.icon-close {
+  background-position: -144px -144px;
+}

@@ -1,0 +1,233 @@
+.content__body__grid table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  font-size: 13px;
+  position: relative;
+}
+
+.content__body__grid table thead th {
+  position: sticky;
+  top: 0px;
+  height: 34px;
+  background-color: #eceef1;
+  border-bottom: 1px solid #c7c7c7;
+  border-right: 1px solid #c7c7c7;
+  padding: 0 10px;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.content__body__grid table tbody tr td {
+  height: 40px;
+  padding: 5px 10px;
+  border-bottom: 1px solid #c7c7c7;
+  border-right: 1px dotted #c7c7c7;
+  background-color: var(--color-white);
+  white-space: pre-wrap;
+  z-index: 1;
+}
+
+.content__body__grid table th:nth-child(1) {
+  min-width: 20px;
+  width: 20px;
+  max-width: 20px;
+  background-color: var(--color-white) !important;
+  left: 0px;
+  border: none;
+  z-index: 4;
+}
+
+.content__body__grid table tbody td:nth-child(1) {
+  position: sticky;
+  left: 0px;
+  border: none;
+  background-color: var(--color-white) !important;
+  z-index: 3;
+}
+
+.content__body__grid table th:nth-child(2) {
+  min-width: 40px;
+  max-width: 40px;
+  width: 40px;
+  left: 20px;
+  z-index: 4;
+}
+
+.content__body__grid table tbody td:nth-child(2) {
+  position: sticky;
+  left: 20px;
+  z-index: 3;
+}
+
+.content__body__grid table th:nth-child(3) {
+  min-width: 143px;
+  width: 143px;
+  left: 60px;
+  z-index: 4;
+}
+
+.content__body__grid table tbody td:nth-child(3) {
+  position: sticky;
+  left: 60px;
+  z-index: 3;
+}
+
+.content__body__grid table th:nth-child(4) {
+  min-width: 250px;
+  width: 250px;
+  left: 203px;
+  z-index: 4;
+}
+
+.content__body__grid table tbody td:nth-child(4) {
+  position: sticky;
+  left: 203px;
+  z-index: 3;
+}
+
+.content__body__grid table th:nth-child(5) {
+  min-width: 105px;
+  width: 105px;
+}
+
+.content__body__grid table th:nth-child(6) {
+  min-width: 150px;
+  width: 150px;
+}
+
+.content__body__grid table th:nth-child(7) {
+  min-width: 200px;
+  width: 200px;
+}
+
+.content__body__grid table th:nth-child(8) {
+  min-width: 250px;
+  width: 250px;
+}
+
+.content__body__grid table th:nth-child(9) {
+  min-width: 250px;
+  width: 250px;
+}
+
+.content__body__grid table th:nth-child(10) {
+  min-width: 150px;
+  width: 150px;
+}
+
+.content__body__grid table th:nth-child(11) {
+  min-width: 250px;
+  width: 250px;
+}
+
+.content__body__grid table th:nth-child(12) {
+  min-width: 250px;
+  width: 250px;
+}
+
+.content__body__grid table th:nth-child(13) {
+  min-width: 120px;
+  width: 120px;
+  right: 30px;
+  border-left: 1px solid #c7c7c7;
+  border-right: none;
+  z-index: 4;
+}
+
+.content__body__grid table tbody td:nth-child(13) {
+  position: sticky;
+  right: 30px;
+  border-right: none;
+  border-left: 1px dotted #c7c7c7;
+  z-index: 3;
+}
+
+.content__body__grid table th:nth-child(14) {
+  min-width: 30px;
+  width: 30px;
+  max-width: 30px;
+  right: 0px;
+  background-color: var(--color-white) !important;
+  border: none;
+  z-index: 4;
+}
+
+.content__body__grid table tbody td:nth-child(14) {
+  position: sticky;
+  right: 0px;
+  border: none;
+  background-color: var(--color-white) !important;
+  z-index: 3;
+}
+
+.content__body__grid table tbody tr .selected td {
+  background-color: #f8f8f8;
+}
+
+.content__body__grid table tbody tr:hover td {
+  background-color: #f3f8f8;
+}
+
+.content__body__grid table tbody tr[checked="true"] {
+  background-color: #ebf9f4;
+}
+
+.container {
+  display: block;
+  position: relative;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+  z-index: 99;
+}
+
+.checkmark {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  height: 18px;
+  width: 16px;
+  background-color: #fff;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.container input:checked ~ .checkmark {
+  background-color: #019160;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.container .checkmark:after {
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
