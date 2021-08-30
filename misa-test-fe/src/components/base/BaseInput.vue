@@ -5,7 +5,20 @@
       <div class="label-required" v-show="required">&nbsp;*</div>
     </div>
     <div class="container-input">
+      <DxDateBox
+        v-if="type === 'date'"
+        :value="value"
+        :onValueChanged="onChangeInput"
+        displayFormat="dd/MM/yyyy"
+        placeholder="DD/MM/YYYY"
+        :useMaskBehavior="true"
+        :showClearButton="false"
+        class="dxDateBox"
+        :max="new Date()"
+      />
       <input
+        v-else
+        ref="fouceMe"
         :class="className"
         :required="required"
         :type="type"
@@ -33,9 +46,16 @@
 import FormatData from "@/utils/FormatData";
 import Validation from "@/utils/Validation";
 import ErrorMessage from "@/constants/EnumErrorMsg";
+import DxDateBox from "devextreme-vue/date-box";
+import { locale } from "devextreme/localization";
+locale("vi-VN");
 
 export default {
   name: "base-input",
+
+  components: {
+    DxDateBox,
+  },
 
   props: {
     id: { type: String, required: false },
@@ -92,6 +112,7 @@ export default {
       isFocus: false,
       isValidated: true,
       title: "",
+      valueClone: "",
     };
   },
 
@@ -121,6 +142,7 @@ export default {
      * CreatedBy: NHHoang (27/08/2021)
      */
     focus() {
+      //this.$nextTick(() => this.$refs.focusMe.focus());
       this.className = this.classNameFocus;
       this.isFocus = true;
     },
@@ -139,9 +161,14 @@ export default {
      * CreatedBy: NHHoang (27/08/2021)
      */
     onChangeInput(event) {
-      let tmp = event.target.value;
+      let tmp = null;
 
-      this.validate(tmp);
+      if (this.type === "date") {
+        tmp = event.value;
+      } else {
+        tmp = event.target.value;
+        this.validate(tmp);
+      }
 
       this.$emit("onchangeinput", { id: this.id, value: tmp });
     },
@@ -152,7 +179,10 @@ export default {
      * Modified: NHHoang (28/08/2021)
      */
 
-    validate(value) {
+    validate(tmp = null) {
+      let value = tmp;
+      if (value === null) value = this.value;
+
       if (this.required) {
         if (!Validation.validate(this.format, value)) {
           this.isValidated = false;
@@ -162,10 +192,10 @@ export default {
           this.title = "";
         }
       } else {
-        if (value === null || value.trim() === "") {
+        if (value === null || value?.trim() === "") {
           this.isValidated = true;
           this.title = "";
-        } else {
+        } else if ((value !== null) | (value?.trim() !== "")) {
           if (this.format === "email") {
             if (!Validation.validateEmail(value)) {
               this.isValidated = false;
@@ -187,6 +217,8 @@ export default {
           }
         }
       }
+
+      return this.isValidated;
     },
   },
 };

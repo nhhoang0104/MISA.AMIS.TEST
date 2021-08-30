@@ -3,7 +3,7 @@
     <div class="label">{{ label }}</div>
     <div class="label-required" v-show="required">&nbsp;*</div>
   </div>
-  <div :class="classNameComboBox" @blur="outFocusInput">
+  <div :class="classNameComboBox" @blur="outFocusInput" :validate="isValidated">
     <input
       type="text"
       @focus="onFocusInput"
@@ -72,6 +72,7 @@ export default {
       dataClone: _.cloneDeep(this.data),
       textSearch: "",
       valueSelected: "",
+      isValidated: true,
     };
   },
 
@@ -109,8 +110,9 @@ export default {
     value: {
       immediate: true,
       handler(newVal) {
+        this.validate();
         let tmp = this.dataClone.find((item) => item.id === newVal);
-        if (tmp) this.textSearch = tmp.label;
+        if (tmp) this.textSearch = tmp?.label;
       },
     },
 
@@ -186,6 +188,17 @@ export default {
      */
     onFocusInput() {
       this.isShowed = true;
+    },
+
+    /**
+     * validate du lieu
+     * CreatedBy: NHHoang (29/08/2021)
+     */
+    validate() {
+      if (this.required) {
+        if (this.value === null) this.isValidated = false;
+        else this.isValidated = true;
+      }
     },
   },
 };

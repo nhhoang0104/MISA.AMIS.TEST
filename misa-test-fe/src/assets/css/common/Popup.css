@@ -39,6 +39,7 @@
 .pop-up .pop-up__footer .center {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .pop-up .pop-up__footer .right-first {

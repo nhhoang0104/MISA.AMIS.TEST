@@ -16,7 +16,7 @@
           <base-button
             :label="info.btnLeft"
             :secondary="true"
-            @click="$emit('close')"
+            @click="handleCancel"
           ></base-button>
         </div>
         <div class="right-sec" v-show="info.btnRightSec !== null">
@@ -29,7 +29,7 @@
           <base-button
             :label="info.btnRightFirst"
             :secondary="true"
-            @click="handleCancel"
+            @click="$emit('close')"
           ></base-button>
         </div>
         <div class="center" v-show="info.btnCenter">
@@ -70,7 +70,8 @@ export default {
      * CreatedBy: NHHoang (29/08/2021)
      */
     handleAction() {
-      this.info.action();
+      if (this.info.action !== null) this.info.action();
+
       this.$emit("close");
     },
 
@@ -78,7 +79,7 @@ export default {
       Khi ấn nút cancel sẽ không thực hành động đẫ được truyền vào
     */
     handleCancel() {
-      this.info.cancel();
+      if (this.info.cancel !== null) this.info.cancel();
       this.$emit("close");
     },
   },

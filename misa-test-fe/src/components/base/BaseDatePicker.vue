@@ -1,15 +1,21 @@
 <template>
-  <DxDateBox
-    v-model="cloneModel"
-    displayFormat="dd/MM/yyyy"
-    :height="32"
-    placeholder="DD/MM/YYYY"
-    :useMaskBehavior="true"
-    :width="200"
-    :showClearButton="false"
-    class="dxDateBox"
-    :max="new Date()"
-  />
+  <div>
+    <div class="flex" v-show="hasLabel">
+      <div class="label">{{ label }}</div>
+      <div class="label-required" v-show="required">&nbsp;*</div>
+    </div>
+    <DxDateBox
+      v-model="valueClone"
+      displayFormat="dd/MM/yyyy"
+      :height="height"
+      placeholder="DD/MM/YYYY"
+      :useMaskBehavior="true"
+      :width="width"
+      :showClearButton="false"
+      class="dxDateBox"
+      :max="new Date()"
+    />
+  </div>
 </template>
 
 <script>
@@ -22,9 +28,10 @@ export default {
   components: {
     DxDateBox,
   },
+  props: {},
   data() {
     return {
-      cloneModel: "",
+      valueClone: "",
     };
   },
 };

@@ -130,23 +130,22 @@ namespace MISA.Test.Api.Controllers
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpGet("Export")]
-        public async Task<IActionResult> Export(CancellationToken cancellationToken)
+        [HttpPost("Export")]
+        public async Task<IActionResult> Export(CancellationToken cancellationToken, [FromQuery] string employeeFilter, [FromQuery] int pageSize, [FromQuery] int pageIndex)
         {
             // query data from database  
             await Task.Yield();
 
-            var customers = new List<Employee>();
-
             var stream = new MemoryStream();
-
+            var employees = new List<Employee>();
+                
             var properties = typeof(Employee).GetProperties();
 
             using (var package = new ExcelPackage(stream))
             {
 
                 var workSheet = package.Workbook.Worksheets.Add("Sheet1");
-                workSheet.Cells.LoadFromCollection(customers, true);
+                workSheet.Cells.LoadFromCollection(employees, true);
                 var column = 1;
 
                 foreach (var prop in properties)
@@ -156,7 +155,7 @@ namespace MISA.Test.Api.Controllers
                     workSheet.Cells.AutoFitColumns();
 
                     // xet cac truong export hay ko?
-                    if (propMISAExport.Length > 0)
+                    if (!(propMISAExport.Length == 1))
                     {
                         workSheet.Column(column).Hidden = true;
                     }

@@ -8,7 +8,7 @@
         </div>
         <div class="dialog__header__close">
           <div class="icon icon--24 icon-help m-r-6"></div>
-          <div class="icon icon--24 icon-close" @click="closeForm"></div>
+          <div class="icon icon--24 icon-close" @click="preCloseForm"></div>
         </div>
       </div>
       <div class="dialog__content">
@@ -18,6 +18,7 @@
               <div class="flex row-input">
                 <div class="w-40 p-r--6">
                   <base-input
+                    ref="EmployeeCode"
                     @onchangeinput="onChangeInput"
                     id="EmployeeCode"
                     :value="formData.EmployeeCode"
@@ -28,6 +29,7 @@
                 </div>
                 <div class="w-60">
                   <base-input
+                    ref="FullName"
                     @onchangeinput="onChangeInput"
                     id="FullName"
                     :value="formData.FullName"
@@ -41,6 +43,7 @@
                 <div class="w-100">
                   <combo-box
                     label="Đơn vị"
+                    ref="DepartmentId"
                     :required="true"
                     :data="departmentCbb"
                     :value="formData.DepartmentId"
@@ -61,6 +64,7 @@
               <div class="row-input">
                 <div class="w-100">
                   <base-input
+                    ref="PositionName"
                     :value="formData.PositionName"
                     :hasLabel="true"
                     label="Chức danh"
@@ -73,15 +77,16 @@
             <div class="w-50">
               <div class="flex row-input">
                 <div class="w-40 p-r--6">
-                  <!-- <base-input
+                  <base-input
                     :hasLabel="true"
+                    ref="DateOfBirth"
                     type="date"
                     label="Ngày sinh"
+                    format="date"
                     :value="formData.DateOfBirth"
                     @onchangeinput="onChangeInput"
                     id="DateOfBirth"
-                  ></base-input> -->
-                  <base-date-picker></base-date-picker>
+                  ></base-input>
                 </div>
                 <div class="w-60">
                   <div class="flex flex-column">
@@ -141,6 +146,7 @@
                   <base-input
                     :hasLabel="true"
                     label="Số CMND"
+                    ref="IdentityNumber"
                     @onchangeinput="onChangeInput"
                     :value="formData.IdentityNumber"
                     format="number"
@@ -150,7 +156,9 @@
                 <div class="w-40">
                   <base-input
                     :hasLabel="true"
+                    ref="IdentityDate"
                     type="date"
+                    format="date"
                     label="Ngày cấp"
                     @onchangeinput="onChangeInput"
                     :value="formData.IdentityDate"
@@ -161,6 +169,7 @@
               <div class="row-input">
                 <div class="w-100">
                   <base-input
+                    ref="IdentityPlace"
                     :hasLabel="true"
                     label="Nơi cấp"
                     @onchangeinput="onChangeInput"
@@ -175,6 +184,7 @@
             <div class="row-input">
               <div class="w-100">
                 <base-input
+                  ref="Address"
                   :hasLabel="true"
                   label="Địa chỉ"
                   @onchangeinput="onChangeInput"
@@ -186,6 +196,7 @@
             <div class="flex row-input">
               <div class="w-25 p-r--6">
                 <base-input
+                  ref="MobilePhoneNumber"
                   :hasLabel="true"
                   label="ĐT di động"
                   @onchangeinput="onChangeInput"
@@ -195,6 +206,7 @@
               </div>
               <div class="w-25 p-r--6">
                 <base-input
+                  ref="TelephoneNumber"
                   :hasLabel="true"
                   label="ĐT cố định"
                   @onchangeinput="onChangeInput"
@@ -204,6 +216,7 @@
               </div>
               <div class="w-25">
                 <base-input
+                  ref="Email"
                   :hasLabel="true"
                   label="Email"
                   @onchangeinput="onChangeInput"
@@ -216,6 +229,7 @@
             <div class="flex row-input">
               <div class="w-25 p-r--6">
                 <base-input
+                  ref="BankAccount"
                   :hasLabel="true"
                   label="Tài khoản ngân hàng"
                   @onchangeinput="onChangeInput"
@@ -225,6 +239,7 @@
               </div>
               <div class="w-25 p-r--6">
                 <base-input
+                  ref="BankName"
                   :hasLabel="true"
                   label="Tên ngân hàng"
                   @onchangeinput="onChangeInput"
@@ -234,6 +249,7 @@
               </div>
               <div class="w-25">
                 <base-input
+                  ref="BankBranch"
                   :hasLabel="true"
                   label="Chi nhánh"
                   @onchangeinput="onChangeInput"
@@ -260,10 +276,13 @@
                 <base-button
                   label="Cất"
                   :secondary="true"
-                  @onclick="onSubmit"
+                  @onclick="onSubmit(0)"
                 ></base-button>
               </div>
-              <base-button label="Cất và Thêm"></base-button>
+              <base-button
+                label="Cất và Thêm"
+                @onclick="onSubmit(1)"
+              ></base-button>
             </div>
           </div>
         </div>
@@ -279,6 +298,7 @@ import _ from "lodash";
 import DepartmentAPI from "@/api/components/DepartmentAPI";
 import EmployeeAPI from "@/api/components/EmployeeAPI";
 import FormatData from "@/utils/FormatData.js";
+import ErrorMessage from "@/constants/EnumErrorMsg";
 
 export default {
   props: {
@@ -298,12 +318,13 @@ export default {
     },
   },
 
-  emits: ["closeForm"],
+  emits: ["close-form"],
 
   watch: {
     isShowed(newVal) {
       let tmp = "";
       if (newVal) {
+        this.$refs["EmployeeCode"].focus();
         if (this.formMode === 1 || this.formMode === 3) {
           EmployeeAPI.getNewEmployeeCode().then((res) => {
             this.formData.EmployeeCode = res.data;
@@ -351,6 +372,7 @@ export default {
         action: null,
         cancel: null,
       },
+      isFormDataChange: false,
     };
   },
 
@@ -368,11 +390,26 @@ export default {
 
   methods: {
     /**
+     * Tạo form mới
+     * CreateBy: NHHoang(28/08/2021)
+     */
+    newForm() {
+      this.formData = _.cloneDeep(EmployeeModel);
+      this.isFormDataChange = false;
+
+      EmployeeAPI.getNewEmployeeCode().then((res) => {
+        this.formData.EmployeeCode = res.data;
+        this.$refs["EmployeeCode"].focusInput();
+      });
+    },
+
+    /**
      * Xử lý chọn option trong cac combobox
      * CreateBy: NHHoang(28/08/2021)
      */
     selectItem({ id, value }) {
       this.formData[id] = value;
+      this.isFormDataChange = true;
     },
 
     /**
@@ -381,10 +418,76 @@ export default {
      */
     onChangeInput({ value, id }) {
       this.formData[id] = value;
+      this.isFormDataChange = true;
     },
 
-    onSubmit() {
-      console.log(this.formData);
+    /**
+     * action sẽ được thục hiện khi ấn cất hoặc cất thêm
+     * CreateBy: NHHoang(29/08/2021)
+     */
+    action() {
+      let action = null;
+      if ((this.formMode === 1) | (this.formMode === 3)) {
+        action = EmployeeAPI.add(_.cloneDeep(this.formData));
+      }
+
+      if (this.formMode === 2)
+        action = EmployeeAPI.update(
+          this.employeeId,
+          _.cloneDeep(this.formData)
+        );
+
+      return action;
+    },
+
+    /**
+     * thực hiện action đã trả về ở hầm action
+     */
+    onSubmit(type) {
+
+      if (this.validateForm()) {
+        if (type === 1) {
+          this.action().then(() => {
+            this.newForm();
+          });
+        } else {
+          this.action().then(() => {
+            this.closeForm();
+          });
+        }
+      }
+    },
+
+    /**
+     * validate form
+     * CreatedBy: NHHoang (28/08/2021)
+     */
+    validateForm() {
+      let isValidated = true;
+
+      Object.keys(this.$refs).forEach((el) => {
+        this.$refs[el].validate();
+
+        if (!this.$refs[el].isValidated) {
+          if (isValidated === true) {
+            let msg = ErrorMessage[this.$refs[el].id];
+            this.setPopup(
+              msg,
+              "icon-error",
+              null,
+              null,
+              null,
+              "Đóng",
+              null,
+              null
+            );
+          }
+
+          isValidated = this.$refs[el].isValidated;
+        }
+      });
+
+      return isValidated;
     },
 
     /**
@@ -446,7 +549,31 @@ export default {
      */
     closeForm() {
       this.formData = _.cloneDeep(EmployeeModel);
+      this.isFormDataChange = false;
       this.$emit("close-form");
+    },
+
+    /**
+     * Xử lý xem data có thay đổi không và hỏi người dùng muốn lưu data ko? = popup
+     * CreatedBy: NHHoang (29/08/2021)
+     */
+    preCloseForm() {
+      if (this.isFormDataChange) {
+        let msg = "Dữ liệu đã bị thay đổi. Bạn có muốn cất không";
+
+        this.setPopup(
+          msg,
+          "icon-ques",
+          "Hủy",
+          "Không",
+          "Có",
+          null,
+          this.action(),
+          this.closeForm
+        );
+      } else {
+        this.closeForm();
+      }
     },
   },
 };

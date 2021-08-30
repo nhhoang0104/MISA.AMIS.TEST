@@ -254,7 +254,7 @@ export default {
 
       this.setPopup(
         message,
-        "icon-ques",
+        "icon-warning",
         "Không",
         null,
         "Có",
@@ -292,6 +292,9 @@ export default {
     /**
      * Xử lý show form khi thêm mới
      * tạo mã nhân vien mới
+     * formMode = 1 thêm mới
+     * formMode = 2 sửa
+     * formMode = 3 nhân bản
      * CreatedBy: NHHoang (29/08/2021)
      */
     showForm(formMode) {
