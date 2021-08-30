@@ -1,21 +1,23 @@
-<template lang="html">
+<template>
   <div>
     <div class="flex" v-show="hasLabel">
       <div class="label">{{ label }}</div>
       <div class="label-required" v-show="required">&nbsp;*</div>
     </div>
     <div class="ms-input">
-      <div></div>
       <input
         :class="className"
         :required="required"
-        type="text"
+        :type="type"
+        :value="value"
         :title="title"
         :placeholder="placeholder"
+        :max="`${type === 'date' ? currentDate : null}`"
         @mouseover="mouseOver"
         @mouseout="mouseOut"
         @focus="focus"
         @blur="blur"
+        @input="onChangeInput"
       />
       <div
         class="ms-input__icon icon icon--16"
@@ -27,10 +29,19 @@
 </template>
 
 <script>
+import FormatData from "@/utils/FormatData";
+
 export default {
   name: "base-input",
 
   props: {
+    id: { type: String, required: false },
+
+    type: {
+      type: String,
+      default: "text",
+    },
+    value: { type: String, default: "" },
     required: {
       type: Boolean,
       default: false,
@@ -61,6 +72,8 @@ export default {
     },
   },
 
+  emits: ["onchangeinput"],
+
   data() {
     let tmp = "ms-input__input";
 
@@ -69,6 +82,7 @@ export default {
     }
 
     return {
+      currentDate: FormatData.formatDateInput(new Date()),
       className: tmp,
       classNameDefault: tmp,
       classNameHover: tmp + " ms-input__input__hover",
@@ -76,6 +90,7 @@ export default {
       isFocus: false,
     };
   },
+
   methods: {
     /**
      * Thay đổi style khi mouse hover
@@ -113,6 +128,16 @@ export default {
     blur() {
       this.isFocus = false;
       this.className = this.classNameDefault;
+    },
+
+    /**
+     * Xử lý onchangeinput
+     * CreatedBy: NHHoang (27/08/2021)
+     */
+    onChangeInput(event) {
+      let tmp = event.target.value;
+
+      this.$emit("onchangeinput", { id: this.id, value: tmp });
     },
   },
 };

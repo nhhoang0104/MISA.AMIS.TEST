@@ -124,6 +124,11 @@
 .content__body__grid table th:nth-child(12) {
   min-width: 250px;
   width: 250px;
+  border-right: none;
+}
+
+.content__body__grid table tbody td:nth-child(12) {
+  border-right: none;
 }
 
 .content__body__grid table th:nth-child(13) {

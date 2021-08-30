@@ -1,9 +1,6 @@
-<template lang="html">
+<template>
   <div>
-    <base-modal :show="isLoading"></base-modal>
-    <div class="loader">
-      <clip-loader :loading="isLoading" color="black" size="70px"></clip-loader>
-    </div>
+    <div class="modal"></div>
   </div>
 </template>
 

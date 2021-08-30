@@ -1,79 +1,55 @@
 <template>
-  <div class="pagination">
-    <div class="pagination__left">
-      <div class="text">
-        Hiển thị
-        <b>{{ informationPage }}/{{ totalRecord }}</b> nhân viên
-      </div>
+  <div class="pagination__left">
+    <div class="text">
+      Tổng số:
+      <b>{{ totalRecord }}</b> bản ghi
     </div>
-    <div class="pagination__center">
-      <base-button
-        className="color-bg padding-left--10 padding-right--10"
-        :disable="isInFirstPage"
-        @onclick="onClickFirstPage"
-      >
-        <div class="icon icon--20 icon--firstpage"></div>
-      </base-button>
-      <base-button
-        className="color-bg padding-left--10 padding-right--10 margin-left--10"
-        @onclick="onClickPrevPage"
-        :disable="isInFirstPage"
-      >
-        <div class="icon icon--20 icon--prevpage"></div>
-      </base-button>
-      <base-button
-        v-for="page in pages"
-        :key="page.name"
-        @onclick="onClickPage(page.name)"
-        :disable="page.isDisabled"
-        :circle="true"
-        :className="isPageActive(page.name)"
-        ><div class="text">{{ page.name }}</div>
-      </base-button>
-      <base-button
-        className="color-bg padding-left--10 padding-right--10 margin-left--10"
-        :disable="isInLastPage"
-        @onclick="onClickNextPage"
-      >
-        <div class="icon icon--20 icon--nextpage"></div>
-      </base-button>
-      <base-button
-        className="color-bg padding-left--10 padding-right--10 margin-left--10"
-        :disable="isInLastPage"
-        @onclick="onClickLastPage"
-      >
-        <div class="icon icon--20 icon--lastpage"></div>
-      </base-button>
-    </div>
-    <div class="pagination__right">
+  </div>
+  <div class="pagination__right">
+    <div class="page-size">
       <DxSelectBox
         :value="pageSize"
         :data-source="data"
         value-expr="value"
         display-expr="label"
-        drop-down-button-template="imageIcon"
-        item-template="field"
-        @value-changed="valueChanged"
+        @value-changed="selectSize"
       >
-        <template #imageIcon="{}">
-          <i class="fas fa-sort custom-icon"></i>
-        </template>
-        <template #field="{ data }">
-          <div class="custom-item">
-            {{ data.label }}
-          </div>
-        </template>
       </DxSelectBox>
+    </div>
+    <div class="page-index">
+      <button
+        class="prev"
+        :disabled="currentPage === 1"
+        @click="onClickPrevPage"
+      >
+        Trước
+      </button>
+      <div class="flex index">
+        <button
+          v-for="page in pages"
+          :key="page"
+          :class="isPageSelected(page)"
+          @click="onClickPage(page)"
+        >
+          {{ page }}
+        </button>
+      </div>
+      <button
+        class="next"
+        :disabled="currentPage === totalPage"
+        @click="onClickNextPage"
+      >
+        Sau
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import BaseButton from "./button/BaseButton.vue";
 import { DxSelectBox } from "devextreme-vue/select-box";
 
 export default {
-  components: { BaseButton, DxSelectBox },
+  components: { DxSelectBox },
   name: "base-pagination",
 
   props: {
@@ -81,17 +57,14 @@ export default {
       type: Number,
       required: true,
     },
-
     totalRecord: {
       type: Number,
       required: true,
     },
-
-    totalPages: {
+    totalPage: {
       type: Number,
       required: true,
     },
-
     pageSize: {
       type: Number,
       required: true,
@@ -103,6 +76,7 @@ export default {
   data() {
     return {
       maxVisibleButtons: 3,
+
       data: [
         {
           value: 10,
@@ -125,165 +99,174 @@ export default {
           label: "50 nhân viên/trang",
         },
       ],
+
+      indexTmp: Math.floor(this.currentPage / 3),
     };
   },
 
   computed: {
-    // nếu đang ở index đầu (===1) thì disable btn
-    isInFirstPage: function() {
-      return this.currentPage === 1;
-    },
-
-    // nếu đang ở index cuối(===totalPage) thì disable btn
-    isInLastPage: function() {
-      return this.currentPage === this.totalPages;
-    },
-
-    //tạo index đầu
+    /**
+     * tao index dau
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     startPage: function() {
       if (this.currentPage === 1) {
         return 1;
       }
 
-      if (this.currentPage === this.totalPages) {
-        return this.totalPages - this.maxVisibleButtons + 1;
+      if (this.currentPage === this.totalPage) {
+        return this.totalPage - this.maxVisibleButtons + 1;
       }
 
-      // if (this.pageTotal - this.currentPage < this.maxVisibleButtons) {
-      //   return this.pageTotal - this.maxVisibleButtons + 1;
-      // }
       return this.currentPage - 1 > 0 ? this.currentPage - 1 : 1;
     },
 
-    //tạo index cuối
+    /**
+     * tạo index cuối
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     endPage: function() {
       return Math.min(
         this.startPage + this.maxVisibleButtons - 1,
-        this.totalPages
+        this.totalPage
       );
     },
 
-    // tạo các index từ index đầu(startPage) đến index cuối(endPage)
+    /**
+     * tạo các index từ index đầu(startPage) đến index cuối(endPage)
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     pages: function() {
       const range = [];
 
       for (let i = this.startPage; i <= this.endPage; i += 1) {
-        range.push({
-          name: i,
-          isDisabled: i === this.currentPage,
-        });
+        range.push(i);
       }
 
-      if (range.length === 0)
-        return [
-          {
-            name: 1,
-            isDisabled: true,
-          },
-        ];
+      if (range.length === 0) return [1];
 
       return range;
-    },
-
-    // hien thi thong tin trang
-    informationPage: function() {
-      if (this.totalRecord === 0) return "0";
-
-      if (this.currentPage < this.totalPages)
-        return `${(this.currentPage - 1) * this.pageSize + 1}-${this
-          .currentPage * this.pageSize}`;
-      return `${(this.currentPage - 1) * this.pageSize + 1}-${
-        this.totalRecord
-      }`;
     },
   },
 
   methods: {
-    // chọn index trang đầu tiên(=1)
-    onClickFirstPage() {
-      this.$emit("select-page", 1);
-    },
-
-    // chọn index trang cuối cùng(=pageTotal)
-    onClickLastPage() {
-      this.$emit("select-page", this.totalPages);
-    },
-
-    // Chọn index trang ngẫu nhiễn từ range
+    /**
+     * Chọn index trang ngẫu nhiễn từ range
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     onClickPage(page = 1) {
       this.$emit("select-page", page);
     },
 
-    // chọn index trang tiếp theo của index hiện tại
+    /**
+     * chọn index trang tiếp theo của index hiện tại
+     * CreatedBy: NHHoang (29/08/2021)
+     */
 
     onClickNextPage() {
       this.$emit("select-page", this.currentPage + 1);
     },
 
-    // chọn index trang phía sau index hiện tại
+    /**
+     * chọn index trang phía sau index hiện tại
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     onClickPrevPage() {
       this.$emit("select-page", this.currentPage - 1);
     },
 
-    // xét index trang chọn thì class active
-    isPageActive: function(page) {
-      let tmp = "btn--border margin-left--10";
-
+    /**
+     * xét index trang chọn thì class selected
+     * CreatedBy: NHHoang (29/08/2021)
+     */
+    isPageSelected: function(page) {
       if (this.currentPage === page) {
-        tmp += " btn--active";
-      } else tmp += " color-bg";
+        return "selected";
+      }
 
-      return tmp;
+      return "";
     },
 
-    // chọn kích cỡ trang
-    valueChanged(e) {
+    /**
+     * chọn kích cỡ trang
+     * CreatedBy: NHHoang (29/08/2021)
+     */
+    selectSize(e) {
       this.$emit("select-size", e.value);
     },
   },
 };
 </script>
 
-<style lang="css" scoped>
-@import url("../../css/common/Pagination.css");
+<style lang="css">
+@import url("../../assets/css/common/Pagination.css");
 
-.color-bg {
-  background-color: var(--color-bg-hover);
-  border-color: #bbb;
-  transition: 0.2s all ease-in-out;
+input.dx-texteditor-input {
+  padding: 6px 0px 6px 12px !important;
+  height: 18px !important;
+  box-sizing: border-box;
 }
 
-button.btn:hover {
-  background-color: var(--color-white);
-  border: none;
+.dx-overlay-content.dx-popup-normal.dx-resizable.dx-dropdowneditor-overlay-flipped {
+  transform: translate(0px, -162px) !important;
 }
 
-button.btn:active {
-  background-color: var(--color-primary-default);
-  color: var(--color-white);
+.dx-texteditor.dx-editor-outlined {
+  border-color: #babec5 !important;
+  box-sizing: border-box;
+  border-radius: 2px !important;
 }
 
-button.btn.btn--active:hover {
-  background-color: var(--color-primary-default);
-  border: none;
-}
-
-button.btn:active div.text {
-  color: var(--color-white);
-}
-
-.custom-icon {
-  height: 100%;
-  width: 100%;
-}
-
-.custom-item {
-  margin-left: 5px;
-  font-family: "GoogleSans" !important;
+.dx-texteditor.dx-state-focused.dx-editor-outlined {
+  border-color: #2ca01c !important;
 }
 
 .dx-item.dx-list-item.dx-list-item-selected {
-  background-color: #019160 !important;
   color: #fff !important;
+  background-color: #2ca01c !important;
+}
+
+.dx-list-item.dx-state-focused {
+  color: #2ca01c !important;
+  background-color: #f8f8f8 !important;
+}
+
+.dx-item.dx-list-item.dx-state-active {
+  color: #fff !important;
+  background-color: #2ca01c !important;
+}
+
+.dx-item.dx-list-item.dx-state-hover {
+  color: #2ca01c !important;
+  background-color: #f8f8f8 !important;
+}
+
+.dx-overlay-content.dx-popup-normal.dx-resizable.dx-dropdowneditor-overlay-flipped {
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  border: 1px solid #babec5 !important;
+}
+
+.dx-dropdowneditor-icon {
+  border-radius: 0px !important;
+  border: none !important;
+}
+
+.dx-dropdowneditor-icon:hover {
+  background-color: #e0e0e0 !important;
+}
+
+.dx-texteditor-input {
+  min-height: 32px !important;
+  font-size: 13px !important;
+  font-family: "Notosans" !important;
+}
+
+.dx-item-content.dx-list-item-content {
+  font-family: "Notosans" !important;
+}
+
+.dx-item.dx-list-item {
+  padding: 0px 14px 0px 10px !important;
 }
 </style>

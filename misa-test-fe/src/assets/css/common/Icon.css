@@ -44,6 +44,13 @@
   min-height: 32px;
 }
 
+.icon.icon--48 {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+}
+
 .icon.icon-bars {
   background-position: -843px -30px;
 }
@@ -150,4 +157,24 @@
 
 .icon.icon-close {
   background-position: -144px -144px;
+}
+
+.icon.icon-arrow-dropdown {
+  background-position: -560px -359px;
+}
+
+.icon.icon-arrow-up--blue {
+  background-position: -896px -359px;
+}
+
+.icon.icon-ques {
+  background-position: -826px -456px;
+}
+
+.icon.icon-waring {
+  background-position: -592px -456px;
+}
+
+.icon.icon-error {
+  background-position: -24px -954px;
 }

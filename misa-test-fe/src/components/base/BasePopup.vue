@@ -1,22 +1,25 @@
 <template>
-  <base-modal :show="popup.isShowed"></base-modal>
-  <div :class="className">
-    <div class="pop-up__close" @click="this.$emit('show', false)">
-      <div class="icon icon--close icon--24"></div>
-    </div>
-    <div class="pop-up__header">{{ popup.title }}</div>
-    <div class="pop-up__content">
-      <div class="pop-up__content__icon">
-        <i class="fas fa-exclamation-triangle"></i>
+  <div>
+    <div class="modal"></div>
+    <div class="pop-up">
+      <div class="pop-up__content">
+        <div class="icon__msg">
+          <div class="icon icon--48 icon-waring"></div>
+        </div>
+        <div class="content__msg">
+          Bạn có thứ sự muốn xóa Nhân viên NV17129 không ?
+        </div>
       </div>
-      <div class="pop-up__content__label">{{ popup.content }}</div>
-    </div>
-    <div class="pop-up__footer">
-      <div class="pop-up__footer__btn btn--cancel" @click="handleCancel">
-        Huỷ
-      </div>
-      <div class="pop-up__footer__btn btn--done" @click="handleAction">
-        Đồng ý
+      <div class="pop-up__line"></div>
+      <div class="pop-up__footer">
+        <!-- <div class="left">
+          <base-button label="Hủy" :secondary="true"></base-button>
+        </div>
+        <div class="right-sec"><base-button label="Có"></base-button></div>
+        <div class="right-first">
+          <base-button label="Không" :secondary="true"></base-button>
+        </div> -->
+        <div class="center"><base-button label="Đóng"></base-button></div>
       </div>
     </div>
   </div>
@@ -31,6 +34,7 @@ export default {
       type: Object,
       required: true,
     },
+
     action: {},
   },
 
@@ -41,11 +45,6 @@ export default {
     popup: {
       deep: true,
       immediate: true,
-      handler(newVal) {
-        if (newVal.isShowed === true) {
-          this.className = "pop-up";
-        } else this.className = "pop-up pop-up--hidden";
-      },
     },
   },
 
@@ -76,5 +75,5 @@ export default {
 </script>
 
 <style lang="css">
-@import url("../../css/common/Popup.css");
+@import url("../../assets/css/common/Popup.css");
 </style>

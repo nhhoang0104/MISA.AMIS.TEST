@@ -3,10 +3,13 @@
   height: calc(100vh - 48px);
   background-color: #f4f5f8;
   float: left;
-  transition: 0.2s all ease-in-out;
   padding-left: 20px;
   padding-right: 30px;
   box-sizing: border-box;
+}
+
+.content.minimize {
+  width: calc(100% - 52px);
 }
 
 .content .content__header {
@@ -23,6 +26,7 @@
 }
 
 .content .content__body {
+  position: relative;
   color: var(--color-white);
   background-color: var(--color-white);
   height: calc(100vh - 132px); /*84 + 48*/
@@ -46,15 +50,60 @@
 
 .content .content__body .content__body__toolbar .utils-btn {
   display: flex;
-  padding: 15px 0 0 6px;
+  padding: 19px 0 0 6px;
+}
+
+.content .content__body .content__body__toolbar .utils-btn .refresh:hover {
+  background-position: -1098px -90px;
+}
+
+.content .content__body .content__body__toolbar .utils-btn .refresh:active {
+  background-position: -1098px -90px;
+}
+
+.content .content__body .content__body__toolbar .utils-btn .export:hover {
+  background-position: -1265px -90px;
+}
+
+.content .content__body .content__body__toolbar .utils-btn .export:active {
+  background-position: -1265px -90px;
 }
 
 .content .content__body .content__body__grid {
   background-color: var(--color-white);
-  height: calc(100vh - 207px); /* 48 84 75*/
+  height: calc(100vh - 211px); /* 48 84 75*/
   width: 100%;
   box-sizing: border-box;
   overflow: auto;
+  position: relative;
+}
+
+.content .content__body .box__func {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 120px;
+  top: 100px;
+  left: 900px;
+  z-index: 7;
+  color: #111;
+  border: 1px solid #dbdee1;
+  background-color: #fff;
+  box-sizing: border-box;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.content .content__body .box__func .item__func {
+  text-align: center;
+  padding: 5px 10px 5px 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.content .content__body .box__func .item__func:hover {
+  background-color: #e8e9ec;
+  color: #08bf1e;
 }
 
 .content .content__body .content__body__grid .pagination {
@@ -64,5 +113,7 @@
   height: 46px;
   width: 100%;
   z-index: 5;
+  padding-right: 30px;
+  padding-left: 20px;
   background-color: var(--color-white);
 }

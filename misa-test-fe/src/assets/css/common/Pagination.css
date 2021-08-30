@@ -1,0 +1,67 @@
+.pagination {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.pagination .pagination__left {
+  font-size: 13px;
+  width: 20%;
+}
+
+.pagination .pagination__right {
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+}
+
+.pagination .pagination__right .page-size {
+  min-width: 200px;
+  width: 200px;
+  margin: 0 16px;
+}
+
+.pagination .pagination__right .page-index {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination .pagination__right .page-index button {
+  font-size: 13px;
+  font-family: "Notosans";
+  background-color: white;
+  color: #111;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.pagination .pagination__right .page-index button.prev {
+  margin-right: 13px;
+}
+
+.pagination .pagination__right .page-index button.next {
+  margin-left: 13px;
+}
+
+.pagination .pagination__right .page-index button[disabled] {
+  cursor: default;
+  color: #9e9e9e;
+}
+
+.pagination .pagination__right .page-index .index button {
+  min-width: 20px;
+  width: 20px;
+  font-size: 13px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.pagination .pagination__right .page-index .index button.selected {
+  border: 1px solid #e0e0e0;
+  font-weight: 700;
+}

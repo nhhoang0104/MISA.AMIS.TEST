@@ -5,7 +5,18 @@
 @import url("../common/Text.css");
 @import url("../common/Width.css");
 @import url("../common/Dialog.css");
+@import url("../common/Radio.css");
 @import url("../common/Modal.css");
+@import url("../common/Checkbox.css");
+
+* {
+  font-family: "Notosans";
+  font-size: 13px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
 
 body {
   font-family: "Notosans";
@@ -20,13 +31,18 @@ body {
   display: flex !important;
 }
 
+.flex.flex-column {
+  flex-direction: column !important;
+}
+
 .label-required {
   color: red;
 }
 
 .label {
   font-size: 12px;
-  font-family: "Notosans-Bold";
+  font-family: "Notosans";
+  font-weight: 700;
   padding-bottom: 4px;
   white-space: nowrap;
 }

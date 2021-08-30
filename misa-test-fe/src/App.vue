@@ -1,8 +1,8 @@
 <template lang="html">
   <div>
-    <the-header></the-header>
-    <the-menu></the-menu>
-    <the-content></the-content>
+    <the-header :isMinimize="isMinimize" @minimize="minimize"></the-header>
+    <the-menu :isMinimize="isMinimize"></the-menu>
+    <the-content :isMinimize="isMinimize"></the-content>
   </div>
 </template>
 
@@ -15,6 +15,20 @@ export default {
     "the-header": TheHeader,
     "the-menu": TheMenu,
     "the-content": TheContent,
+  },
+  data() {
+    return {
+      isMinimize: false,
+    };
+  },
+  methods: {
+    /**
+     * Thu nhỏ menu
+     * CreateeBy: NHHoang (28/08/2020)
+     */
+    minimize() {
+      this.isMinimize = !this.isMinimize;
+    },
   },
 };
 </script>

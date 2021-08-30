@@ -1,5 +1,5 @@
 input {
-  outline: none;
+  font-family: "Notosans";
 }
 
 input::placeholder {
@@ -12,6 +12,7 @@ input::placeholder {
   position: relative;
   display: flex;
   flex-direction: column;
+  height: 32px;
   align-items: center;
   justify-content: center;
 }
@@ -20,9 +21,9 @@ input::placeholder {
   width: 100%;
   padding: 6px 10px;
   font-size: 13px;
-  height: 32px;
   border-radius: 2px;
   border: 1px solid #babec5;
+  outline: none;
   box-sizing: border-box;
 }
 
@@ -31,7 +32,7 @@ input::placeholder {
 }
 
 .ms-input .ms-input__input__focus {
-  border: 1px solid #2ca01c;
+  border-color: #2ca01c;
 }
 
 .ms-input .ms-input__input.input--icon {
@@ -43,9 +44,15 @@ input::placeholder {
   position: absolute;
   padding-right: 3px;
   color: rgb(0, 0, 0, 0.4);
-  user-select: none;
   top: 8px;
   left: auto;
   right: 5px;
   cursor: pointer;
+}
+
+input[type="radio"] {
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  width: 20px;
 }

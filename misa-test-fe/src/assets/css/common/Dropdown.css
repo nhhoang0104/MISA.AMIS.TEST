@@ -1,0 +1,136 @@
+@import url("../../css/common/Variables.css");
+
+.dropdown {
+  position: relative;
+  background-color: var(--color-white);
+  width: 100%;
+  max-width: 342px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  padding-left: 16px;
+  cursor: pointer;
+  border: 1px solid #bbb;
+  box-sizing: border-box;
+}
+
+.dropdown__label {
+  display: flex;
+  font-family: "GoogleSans";
+  size: 13px;
+  padding-bottom: 4px;
+}
+
+.dropdown .dropdown__label .dropdown__label__required span {
+  color: #ff0000;
+}
+
+.dropdown .dropdown__content {
+  max-width: 298px;
+  width: 100%;
+}
+
+.dropdown .dropdown__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding-left: 12px;
+  padding-right: 12px;
+  box-sizing: border-box;
+}
+
+.dropdown .dropdown__toggle i {
+  transition: 0.2s all ease-in-out;
+}
+
+.dropdown.dropdown--active {
+  border-color: var(--color-primary-default);
+}
+
+.dropdown .dropdown__select {
+  position: absolute;
+  background-color: #fff;
+  width: 100%;
+  box-shadow: 2px 2px 2px 2px #e9ebee;
+  border-radius: 4px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  top: 40px;
+  left: -1px;
+  z-index: 99;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.dropdown .dropdown__select.dropdown__select--top {
+  box-shadow: 2px 0px 2px 2px #e9ebee;
+  bottom: 40px;
+  top: auto;
+}
+
+.dropdown .dropdown__select.dropdown__select--hide {
+  display: none;
+}
+
+.dropdown .dropdown__select .dropdown__option {
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: 0.2s all ease-in-out;
+  z-index: 1;
+}
+
+.dropdown .dropdown__select .dropdown__option .dropdown__option__check {
+  display: flex;
+  align-items: center;
+  width: 13px;
+  height: 13px;
+  margin-left: 10px;
+  margin-right: 10px;
+  box-sizing: border-box;
+}
+
+.dropdown .dropdown__select .dropdown__option:hover {
+  background-color: var(--color-bg-hover);
+}
+
+.dropdown .dropdown__select .dropdown__option:active {
+  background-color: #019160;
+  color: #fff;
+}
+
+.dropdown
+  .dropdown__select
+  .dropdown__option:active
+  .dropdown__option__check
+  i {
+  display: block;
+}
+
+.dropdown .dropdown__select .dropdown__option[checked="true"] {
+  background-color: #019160;
+  color: #fff;
+}
+
+.dropdown .dropdown__select .dropdown__option[checked="true"]:hover {
+  background-color: #019160;
+}
+
+.dropdown .dropdown__select .dropdown__option .dropdown__option__check i {
+  display: none;
+}
+
+.dropdown
+  .dropdown__select
+  .dropdown__option[checked="true"]
+  .dropdown__option__check
+  i {
+  display: block;
+}

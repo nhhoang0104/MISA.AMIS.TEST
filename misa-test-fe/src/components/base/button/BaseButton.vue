@@ -2,11 +2,11 @@
   <button
     type="button"
     class="btn"
-    :class="[className, circle ? 'btn--circle' : '']"
+    :class="secondary ? 'btn-secondary' : ''"
     @click="$emit('onclick')"
     :disabled="disable"
   >
-    <div class="btn__text">Thêm mới nhân viên</div>
+    <div class="btn__text">{{ label }}</div>
   </button>
 </template>
 
@@ -15,14 +15,15 @@ export default {
   name: "base-button",
   emits: ["onclick"],
   props: {
-    className: {
-      default: "",
+    label: {
+      type: String,
+      required: true,
     },
-    circle: {
+    disable: {
       type: Boolean,
       default: false,
     },
-    disable: {
+    secondary: {
       type: Boolean,
       default: false,
     },

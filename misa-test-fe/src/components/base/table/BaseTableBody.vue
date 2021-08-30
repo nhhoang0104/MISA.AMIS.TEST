@@ -1,15 +1,14 @@
 <template>
   <tbody>
     <tr-cus
+      :ref="item.EmployeeId"
       v-for="item in data"
       :key="item.EmployeeId"
       :columns="columns"
       :data="item"
-      :checked="
-        employeeDeleteList.indexOf(item.EmployeeId) === -1 ? false : true
-      "
-      @click="checkBox(item.EmployeeId)"
       @dblclick="doubleClick(item.EmployeeId)"
+      @show-func="$emit('show-func', item.EmployeeId)"
+      @update="doubleClick(item.EmployeeId)"
     ></tr-cus>
   </tbody>
 </template>
@@ -24,7 +23,7 @@ export default {
     "tr-cus": BaseTableBodyTr,
   },
 
-  emits: ["check-box", "dblclick"],
+  emits: ["check-box", "update", "show-func"],
 
   props: {
     data: {
@@ -55,7 +54,7 @@ export default {
       xử lý double click vào row để xem thông tin chi tiết
     */
     doubleClick(id) {
-      this.$emit("dblclick", id);
+      this.$emit("update", id);
     },
   },
 };

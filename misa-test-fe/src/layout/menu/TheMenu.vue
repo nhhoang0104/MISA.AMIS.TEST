@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="menu scroller">
+  <div class="menu scroller" :class="isMinimize ? 'minimize' : ''">
     <menu-item
       v-for="item in listMenuItem"
       :key="item.id"
@@ -14,6 +14,12 @@ import { ListMenuItem } from "@/constants/ListMenuItem.js";
 
 export default {
   name: "the-menu",
+  props: {
+    isMinimize: {
+      type: Boolean,
+      required: true,
+    },
+  },
   components: {
     MenuItem,
   },
