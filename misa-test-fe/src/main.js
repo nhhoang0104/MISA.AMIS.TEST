@@ -11,6 +11,7 @@ import {
 import { BaseComboBox, BaseComboBoxOption } from "@/components/base/comboBox";
 import BasePagination from "@/components/base/BasePagination.vue";
 import BasePopup from "./components/base/BasePopup.vue";
+import BaseDatePicker from "./components/base/BaseDatePicker.vue";
 
 import "devextreme/dist/css/dx.light.css";
 
@@ -28,5 +29,7 @@ app.component(BaseComboBoxOption.name, BaseComboBoxOption);
 
 app.component(BasePagination.name, BasePagination);
 app.component(BasePopup.name, BasePopup);
+
+app.component(BaseDatePicker.name, BaseDatePicker);
 
 app.mount("#app");

@@ -16,6 +16,15 @@ class EmployeeAPI extends BaseAPI {
       `${this.controller}/Filter?pageIndex=${pageIndex}&pageSize=${pageSize}&employeeFilter=${employeeFilter}`
     );
   }
+
+  export(pageIndex, pageSize, employeeFilter = "") {
+    return BaseAPIConfig.get(
+      `${this.controller}/Export?pageIndex=${pageIndex}&pageSize=${pageSize}&employeeFilter=${employeeFilter}`,
+      {
+        responseType: "blob",
+      }
+    );
+  }
 }
 
 export default new EmployeeAPI();

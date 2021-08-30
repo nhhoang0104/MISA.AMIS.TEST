@@ -36,6 +36,11 @@
   float: left;
 }
 
+.pop-up .pop-up__footer .center {
+  display: flex;
+  align-items: center;
+}
+
 .pop-up .pop-up__footer .right-first {
   float: right;
 }

@@ -67,6 +67,16 @@
   position: relative;
 }
 
+@media screen and (min-height: 380px) {
+  .dialog {
+    height: 350px;
+  }
+
+  .dialog .dialog__content .body {
+    max-height: 175px;
+  }
+}
+
 @media screen and (min-height: 450px) {
   .dialog {
     height: 400px;

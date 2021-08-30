@@ -4,7 +4,7 @@
       <div class="label">{{ label }}</div>
       <div class="label-required" v-show="required">&nbsp;*</div>
     </div>
-    <div class="ms-input">
+    <div class="container-input">
       <input
         :class="className"
         :required="required"
@@ -13,6 +13,7 @@
         :title="title"
         :placeholder="placeholder"
         :max="`${type === 'date' ? currentDate : null}`"
+        :validated="isValidated"
         @mouseover="mouseOver"
         @mouseout="mouseOut"
         @focus="focus"
@@ -20,7 +21,7 @@
         @input="onChangeInput"
       />
       <div
-        class="ms-input__icon icon icon--16"
+        class="container-input__icon icon icon--16"
         :class="iconName"
         v-show="hasIcon"
       ></div>
@@ -30,14 +31,19 @@
 
 <script>
 import FormatData from "@/utils/FormatData";
+import Validation from "@/utils/Validation";
+import ErrorMessage from "@/constants/EnumErrorMsg";
 
 export default {
   name: "base-input",
 
   props: {
     id: { type: String, required: false },
-
     type: {
+      type: String,
+      default: "text",
+    },
+    format: {
       type: String,
       default: "text",
     },
@@ -62,10 +68,6 @@ export default {
       type: String,
       default: "",
     },
-    title: {
-      type: String,
-      default: "",
-    },
     placeholder: {
       type: String,
       default: "",
@@ -75,19 +77,21 @@ export default {
   emits: ["onchangeinput"],
 
   data() {
-    let tmp = "ms-input__input";
+    let tmp = "container-input__input";
 
     if (this.hasIcon) {
-      tmp = "ms-input__input input--icon";
+      tmp = "container-input__input input--icon";
     }
 
     return {
       currentDate: FormatData.formatDateInput(new Date()),
       className: tmp,
       classNameDefault: tmp,
-      classNameHover: tmp + " ms-input__input__hover",
-      classNameFocus: tmp + " ms-input__input__focus",
+      classNameHover: tmp + " container-input__input__hover",
+      classNameFocus: tmp + " container-input__input__focus",
       isFocus: false,
+      isValidated: true,
+      title: "",
     };
   },
 
@@ -137,7 +141,52 @@ export default {
     onChangeInput(event) {
       let tmp = event.target.value;
 
+      this.validate(tmp);
+
       this.$emit("onchangeinput", { id: this.id, value: tmp });
+    },
+
+    /**
+     * Validate các trường bắt buộc và đặc biệt (email)
+     * CreatedBy: NHHoang (28/08/2021)
+     * Modified: NHHoang (28/08/2021)
+     */
+
+    validate(value) {
+      if (this.required) {
+        if (!Validation.validate(this.format, value)) {
+          this.isValidated = false;
+          this.title = ErrorMessage[this.id];
+        } else {
+          this.isValidated = true;
+          this.title = "";
+        }
+      } else {
+        if (value === null || value.trim() === "") {
+          this.isValidated = true;
+          this.title = "";
+        } else {
+          if (this.format === "email") {
+            if (!Validation.validateEmail(value)) {
+              this.isValidated = false;
+              this.title = ErrorMessage[this.id];
+            } else {
+              this.isValidated = true;
+              this.title = "";
+            }
+          }
+
+          if (this.format === "number") {
+            if (!Validation.validateNumber(value)) {
+              this.isValidated = false;
+              this.title = ErrorMessage[this.id];
+            } else {
+              this.isValidated = true;
+              this.title = "";
+            }
+          }
+        }
+      }
     },
   },
 };

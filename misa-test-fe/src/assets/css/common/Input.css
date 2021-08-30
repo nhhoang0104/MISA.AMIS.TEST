@@ -8,7 +8,7 @@ input::placeholder {
   color: #a7a1a1;
 }
 
-.ms-input {
+.container-input {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -17,7 +17,7 @@ input::placeholder {
   justify-content: center;
 }
 
-.ms-input .ms-input__input {
+.container-input .container-input__input {
   width: 100%;
   padding: 6px 10px;
   font-size: 13px;
@@ -27,20 +27,20 @@ input::placeholder {
   box-sizing: border-box;
 }
 
-.ms-input .ms-input__input__hover {
+.container-input .container-input__input__hover {
   outline: 1px solid #e2e2e2;
 }
 
-.ms-input .ms-input__input__focus {
+.container-input .container-input__input__focus {
   border-color: #2ca01c;
 }
 
-.ms-input .ms-input__input.input--icon {
+.container-input .container-input__input.input--icon {
   padding-left: 0.85rem;
   padding-right: 1.75rem;
 }
 
-.ms-input .ms-input__icon {
+.container-input .container-input__icon {
   position: absolute;
   padding-right: 3px;
   color: rgb(0, 0, 0, 0.4);
@@ -48,6 +48,10 @@ input::placeholder {
   left: auto;
   right: 5px;
   cursor: pointer;
+}
+
+.container-input input.container-input__input[validated="false"] {
+  border-color: red;
 }
 
 input[type="radio"] {

@@ -8,10 +8,7 @@
         </div>
         <div class="dialog__header__close">
           <div class="icon icon--24 icon-help m-r-6"></div>
-          <div
-            class="icon icon--24 icon-close"
-            @click="closeForm"
-          ></div>
+          <div class="icon icon--24 icon-close" @click="closeForm"></div>
         </div>
       </div>
       <div class="dialog__content">
@@ -76,14 +73,15 @@
             <div class="w-50">
               <div class="flex row-input">
                 <div class="w-40 p-r--6">
-                  <base-input
+                  <!-- <base-input
                     :hasLabel="true"
                     type="date"
                     label="Ngày sinh"
                     :value="formData.DateOfBirth"
                     @onchangeinput="onChangeInput"
                     id="DateOfBirth"
-                  ></base-input>
+                  ></base-input> -->
+                  <base-date-picker></base-date-picker>
                 </div>
                 <div class="w-60">
                   <div class="flex flex-column">
@@ -145,6 +143,7 @@
                     label="Số CMND"
                     @onchangeinput="onChangeInput"
                     :value="formData.IdentityNumber"
+                    format="number"
                     id="IdentityNumber"
                   ></base-input>
                 </div>
@@ -209,6 +208,7 @@
                   label="Email"
                   @onchangeinput="onChangeInput"
                   id="Email"
+                  format="email"
                   :value="formData.Email"
                 ></base-input>
               </div>
@@ -269,6 +269,7 @@
         </div>
       </div>
     </div>
+    <base-popup :info="popupInfo" @close="closePopup"></base-popup>
   </div>
 </template>
 
@@ -339,7 +340,17 @@ export default {
       ],
       department: "1",
       departmentCbb: [],
-      gender: null,
+      popupInfo: {
+        btnLeft: null,
+        btnRightFirst: null,
+        btnRightSec: null,
+        btnCenter: null,
+        isShowed: false,
+        icon: null,
+        message: "",
+        action: null,
+        cancel: null,
+      },
     };
   },
 
@@ -366,6 +377,7 @@ export default {
 
     /**
      * xử lý onchangeinput
+     * CreateBy: NHHoang(29/08/2021)
      */
     onChangeInput({ value, id }) {
       this.formData[id] = value;
@@ -375,6 +387,63 @@ export default {
       console.log(this.formData);
     },
 
+    /**
+     * thiết lập popup
+     * @param msg: tin nhắn
+     * @param icon: tên icon
+     * @param btnLeft: tên của nút bấm bên trái -> Đóng form, với giá trị null : ko có.
+     * @param btnRightFrist: tên của nút bấm bên phải thứ 2 -> đóng form và thực hiện hành động cancel, với giá trị  null : ko có
+     * @param btnRightSec: tên của nút bấm bên phải thứ 2 -> đóng form và thực hiện hành đọng action, với giá trị  null : ko có
+     * @param center: tên của nút bấm ở giữa  -> Đóng form ~ thường là message cảnh báo, với giá trị null : ko có
+     * @param action: action sẽ thực hiện nếu bấm nút btnRightSec, với giá trị null : ko có
+     * @param cancel: thực hiện hành động nếu bấm nút btnRightFirst, với giá trị null : ko có
+     * CreatedBy: NHHoang (29/08/2021)
+     */
+    setPopup(
+      message,
+      icon,
+      btnLef = null,
+      btnRightFirst = null,
+      btnRightSec = null,
+      btnCenter = null,
+      action = null,
+      cancel = null
+    ) {
+      this.popupInfo = {
+        btnLeft: btnLef,
+        btnRightFirst,
+        btnRightSec,
+        btnCenter,
+        isShowed: true,
+        icon: icon,
+        message,
+        action,
+        cancel,
+      };
+    },
+
+    /**
+     * đóng popup
+     * CreatedBy: NHHoang (29/08/2021)
+     */
+    closePopup() {
+      this.popupInfo = {
+        btnLeft: null,
+        btnRightFirst: null,
+        btnRightSec: null,
+        btnCenter: null,
+        isShowed: false,
+        icon: null,
+        message: "",
+        action: null,
+        cancel: null,
+      };
+    },
+
+    /**
+     * đóng form
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     closeForm() {
       this.formData = _.cloneDeep(EmployeeModel);
       this.$emit("close-form");

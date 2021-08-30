@@ -2,18 +2,23 @@
   <DxDateBox
     v-model="cloneModel"
     displayFormat="dd/MM/yyyy"
-    :height="200"
+    :height="32"
     placeholder="DD/MM/YYYY"
     :useMaskBehavior="true"
     :width="200"
-    :showClearButton="true"
+    :showClearButton="false"
     class="dxDateBox"
+    :max="new Date()"
   />
 </template>
 
 <script>
 import DxDateBox from "devextreme-vue/date-box";
+import { locale } from "devextreme/localization";
+locale("vi-VN");
+
 export default {
+  name: "base-date-picker",
   components: {
     DxDateBox,
   },
@@ -25,4 +30,6 @@ export default {
 };
 </script>
 
-<style lang=""></style>
+<style lang="css">
+@import url("../../assets/css/common/DateBox.css");
+</style>

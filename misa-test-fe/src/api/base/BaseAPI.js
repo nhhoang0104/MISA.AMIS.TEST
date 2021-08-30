@@ -17,7 +17,7 @@ export default class BaseAPI {
    * @param {*} body
    */
   add(body) {
-    return BaseAPIConfig.post(`${this.controller}`, body);
+    return BaseAPIConfig.post(`${this.controller}`, { employees: body });
   }
 
   /**

@@ -3,8 +3,13 @@
     <div class="label">{{ label }}</div>
     <div class="label-required" v-show="required">&nbsp;*</div>
   </div>
-  <div :class="classNameComboBox">
-    <input type="text" @focus="onFocusInput" v-model="textSearch" />
+  <div :class="classNameComboBox" @blur="outFocusInput">
+    <input
+      type="text"
+      @focus="onFocusInput"
+      v-model="textSearch"
+      @blur="outFocusInput"
+    />
     <div class="combo-box__toggle" @click="show">
       <div class="icon icon--16 icon-arrow-dropdown"></div>
     </div>
@@ -41,7 +46,6 @@ export default {
     },
     value: {
       type: String,
-      required: true,
     },
 
     id: {
@@ -72,9 +76,10 @@ export default {
   },
 
   watch: {
-    /*
-      Xử lý style combobox khi đóng(hoặc mở) combobox
-    */
+    /**
+     * Xử lý style combobox khi đóng(hoặc mở) combobox
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     isShowed(value) {
       if (!value) {
         this.classNameComboBox = "combo-box";
@@ -97,9 +102,10 @@ export default {
       },
     },
 
-    /*
-      Lấy label theo props.value từ dataClone
-    */
+    /**
+     * Lấy label theo props.value từ dataClone
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     value: {
       immediate: true,
       handler(newVal) {
@@ -108,10 +114,10 @@ export default {
       },
     },
 
-    /*
-      search 
-    */
-
+    /**
+     * search
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     textSearch(newVal) {
       const text = _.trim(newVal);
 
@@ -145,23 +151,26 @@ export default {
   },
 
   methods: {
-    /*
-      xử lý sự kiện đóng hoặc mở combo-box.
-    */
+    /**
+     * xử lý sự kiện đóng hoặc mở combo-box
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     show() {
       this.isShowed = !this.isShowed;
     },
-    /*
-      xử lý outfocus vào combobox
-    */
+    /**
+     * xử lý outfocus vào combobox
+     * CreatedBy: NHHoang (29/08/2021)
+     */
 
     outFocus() {
       this.isShowed = false;
     },
 
-    /*
-      xử lý outfocus vào input 
-    */
+    /**
+     * xử lý outfocus vào input
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     outFocusInput() {
       let tmp = this.dataClone.find((item) => item.id === this.value);
       this.textSearch = tmp.label;
@@ -171,9 +180,10 @@ export default {
       }, 100);
     },
 
-    /*
-      xử lý focus vào input
-    */
+    /**
+     * xử lý focus vào input
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     onFocusInput() {
       this.isShowed = true;
     },
