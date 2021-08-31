@@ -10,8 +10,10 @@ import {
 
 import { BaseComboBox, BaseComboBoxOption } from "@/components/base/comboBox";
 import BasePagination from "@/components/base/BasePagination.vue";
-import BasePopup from "./components/base/BasePopup.vue";
-import BaseDatePicker from "./components/base/BaseDatePicker.vue";
+import BasePopup from "@/components/base/BasePopup.vue";
+import BaseDatePicker from "@/components/base/BaseDatePicker.vue";
+import BaseLoader from "@/components/base/BaseLoader.vue";
+import BaseToastMessage from "@/components/base/BaseToastMessage.vue";
 
 import "devextreme/dist/css/dx.light.css";
 
@@ -31,5 +33,7 @@ app.component(BasePagination.name, BasePagination);
 app.component(BasePopup.name, BasePopup);
 
 app.component(BaseDatePicker.name, BaseDatePicker);
+app.component(BaseLoader.name, BaseLoader);
+app.component(BaseToastMessage.name, BaseToastMessage);
 
 app.mount("#app");

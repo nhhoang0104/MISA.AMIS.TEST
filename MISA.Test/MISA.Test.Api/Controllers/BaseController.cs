@@ -115,13 +115,7 @@ namespace MISA.Test.Api.Controllers
                     }
                     else
                     {
-                        var errObj = new
-                        {
-                            devMsg = MISA.Test.Core.Resources.ErrorMsg.SQLCommand_ErrorMsg,
-                            userMsg = "Có lỗi xảy ra! vui lòng liên hệ với MISA.",
-                        };
-
-                        return StatusCode(500, errObj);
+                        return StatusCode(204);
                     }
 
                 }

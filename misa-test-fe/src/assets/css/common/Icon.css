@@ -178,3 +178,15 @@
 .icon.icon-error {
   background-position: -24px -954px;
 }
+
+.icon.icon-toast-success {
+  background-position: -480px -143px;
+}
+
+.icon.icon-toast-error {
+  background-position: -536px -143px;
+}
+
+.icon.icon-toast-warning {
+  background-position: -592px -143px;
+}

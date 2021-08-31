@@ -1,0 +1,35 @@
+.toast {
+  background-color: #fff;
+  position: fixed;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  border: 1px solid red;
+  border-radius: 4px;
+  padding: 0 16px;
+  z-index: 1000;
+  height: 48px;
+}
+
+.toast.toast--error {
+  border-color: red;
+}
+
+.toast.toast--success {
+  border-color: #2ca01c;
+}
+
+.toast.toast--warning {
+  border-color: yellow;
+}
+
+.toast .toast__icon {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast .toast__message {
+  min-width: 170px;
+}

@@ -61,6 +61,15 @@ namespace MISA.Test.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mã  đã tồn tại trong hệ thống.
+        /// </summary>
+        public static string CodeExists_ErrMsg {
+            get {
+                return ResourceManager.GetString("CodeExists_ErrMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email không đúng định dạng.
         /// </summary>
         public static string Email_ErrorMsg {

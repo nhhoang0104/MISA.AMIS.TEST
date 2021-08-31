@@ -81,13 +81,22 @@
     @close-form="closeForm"
     :employeeId="employeeIdSelected"
   />
+  <base-toast-message
+    v-for="(item, index) in toastList"
+    :toast="item"
+    :key="index"
+    :index="index"
+  ></base-toast-message>
   <base-popup :info="popupInfo" @close="closePopup"></base-popup>
+  <base-loader :isLoading="isLoading"></base-loader>
 </template>
 
 <script>
 import { columns } from "@/views/employee/Column.js";
 import EmployeeAPI from "@/api/components/EmployeeAPI";
 import EmployeeDetail from "./EmployeeDetail.vue";
+import Resource from "@/constants/Resource";
+import _ from "lodash";
 
 export default {
   components: { EmployeeDetail },
@@ -123,6 +132,9 @@ export default {
         action: null,
         cancel: null,
       },
+      isLoading: false,
+      toastList: [],
+      Resource: Resource,
     };
   },
 
@@ -157,15 +169,34 @@ export default {
      * CreatedBy: NHHoang (29/08/2021)
      */
     loadData() {
+      this.isLoading = true;
+
       EmployeeAPI.getByFilterPaging(
         this.currentPage,
         this.pageSize,
         this.employeeFilter
-      ).then((res) => {
-        this.employeeList = res.data.employees;
-        this.totalRecord = res.data.totalRecord;
-        this.totalPage = res.data.totalPage;
-      });
+      )
+        .then((res) => {
+          if (res.status != 204) {
+            this.toastList.push({
+              type: Resource.ToastType.Success,
+              message: Resource.ToastMessage.LoadSuccess,
+            });
+
+            this.employeeList = res.data.employees;
+            this.totalRecord = res.data.totalRecord;
+            this.totalPage = res.data.totalPage;
+            this.isLoading = false;
+          }
+        })
+        .catch((err) => {
+          if (err.response.status >= 500) {
+            this.toastList.push({
+              type: Resource.ToastType.Error,
+              message: Resource.ToastMesssage.ServerError,
+            });
+          }
+        });
     },
 
     /**
@@ -270,9 +301,23 @@ export default {
      */
     deleteById() {
       if (this.boxFunc.id) {
-        EmployeeAPI.delete(this.boxFunc.id).then(() => {
-          this.loadData();
-        });
+        EmployeeAPI.delete(this.boxFunc.id)
+          .then((res) => {
+            if (res.status != 204) {
+              this.toastList.push({
+                type: Resource.ToastType.Success,
+                message: Resource.ToastMessage.DeleteSuccess,
+              });
+
+              this.loadData();
+            }
+          })
+          .catch(() => {
+            this.toastList.push({
+              type: Resource.ToastType.ERROR,
+              message: Resource.ToastMessage.ServerError,
+            });
+          });
 
         this.closeBoxFunc();
       }
@@ -397,6 +442,16 @@ export default {
           link.click();
           URL.revokeObjectURL(link.href);
         }
+      });
+    },
+
+    /**
+     * Xóa toast mesage
+     * CreatedBy: NHHoang(31/08/2021)
+     */
+    removeToast(id) {
+      this.toastList = _.remove(this.toastList, {
+        id,
       });
     },
   },

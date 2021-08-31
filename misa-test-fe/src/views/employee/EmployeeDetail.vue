@@ -288,6 +288,12 @@
         </div>
       </div>
     </div>
+    <base-toast-message
+      v-for="(item, index) in toastList"
+      :toast="item"
+      :key="index"
+      :index="index"
+    ></base-toast-message>
     <base-popup :info="popupInfo" @close="closePopup"></base-popup>
   </div>
 </template>
@@ -299,6 +305,7 @@ import DepartmentAPI from "@/api/components/DepartmentAPI";
 import EmployeeAPI from "@/api/components/EmployeeAPI";
 import FormatData from "@/utils/FormatData.js";
 import ErrorMessage from "@/constants/EnumErrorMsg";
+import Resource from "@/constants/Resource";
 
 export default {
   props: {
@@ -321,10 +328,15 @@ export default {
   emits: ["close-form"],
 
   watch: {
+    /**
+     * Xử lý khi mở form, xét lại formData=null
+     * CreateBy: NHHoang(28/08/2021)
+     */
     isShowed(newVal) {
       let tmp = "";
       if (newVal) {
-        this.$refs["EmployeeCode"].focus();
+        console.log(this.$refs["EmployeeCode"]);
+
         if (this.formMode === 1 || this.formMode === 3) {
           EmployeeAPI.getNewEmployeeCode().then((res) => {
             this.formData.EmployeeCode = res.data;
@@ -359,6 +371,7 @@ export default {
         { id: "1", code: 1, label: "Nam" },
         { id: "2", code: 2, label: "Khác" },
       ],
+      Resource: Resource,
       department: "1",
       departmentCbb: [],
       popupInfo: {
@@ -373,6 +386,8 @@ export default {
         cancel: null,
       },
       isFormDataChange: false,
+      isLoading: false,
+      toastList: [],
     };
   },
 
@@ -427,10 +442,12 @@ export default {
      */
     action() {
       let action = null;
+      // thêm mới
       if ((this.formMode === 1) | (this.formMode === 3)) {
         action = EmployeeAPI.add(_.cloneDeep(this.formData));
       }
 
+      // sửa
       if (this.formMode === 2)
         action = EmployeeAPI.update(
           this.employeeId,
@@ -444,17 +461,38 @@ export default {
      * thực hiện action đã trả về ở hầm action
      */
     onSubmit(type) {
-
       if (this.validateForm()) {
-        if (type === 1) {
-          this.action().then(() => {
-            this.newForm();
+        this.action()
+          .then((res) => {
+            if (res.status != 204) {
+              this.toastList.push({
+                type: Resource.ToastType.Success,
+                message: Resource.ToastMessage.AddSuccess,
+              });
+
+              if (type === 1) {
+                this.newForm();
+              } else {
+                this.closeForm();
+              }
+            }
+          })
+          .catch((err) => {
+            if (err.response.status < 500 && err.response.status >= 400) {
+              let msg = err.response.data.userMsg;
+              this.toastList.push({
+                type: Resource.ToastType.Error,
+                message: msg,
+              });
+            }
+
+            if (err.response.status >= 500) {
+              this.toastList.push({
+                type: Resource.ToastType.Error,
+                message: Resource.ToastMesssage.ServerError,
+              });
+            }
           });
-        } else {
-          this.action().then(() => {
-            this.closeForm();
-          });
-        }
       }
     },
 
@@ -549,6 +587,11 @@ export default {
      */
     closeForm() {
       this.formData = _.cloneDeep(EmployeeModel);
+
+      Object.keys(this.$refs).forEach(
+        (el) => (this.$refs[el].isValidated = true)
+      );
+
       this.isFormDataChange = false;
       this.$emit("close-form");
     },

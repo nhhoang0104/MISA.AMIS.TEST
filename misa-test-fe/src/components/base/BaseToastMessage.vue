@@ -1,31 +1,38 @@
 <template>
-  <div class="container__toast" :style="`top:${24 + index * 49}px`">
-    <div class="toast" :class="style.color">
+  <transition name="slide">
+    <div
+      class="toast"
+      :class="{
+        'toast--success': toast.type == Resource.ToastType.Success,
+        'toast--warning': toast.type == Resource.ToastType.Warning,
+        'toast--error': toast.type == Resource.ToastType.Error,
+      }"
+      :style="{ top: `${10 + ((index * 48 + 5 * index) % 540)}px` }"
+      v-show="isShowed"
+    >
       <div class="toast__icon">
-        <i class="icon icon--24 icon--circle fas" :class="style.icon"></i>
+        <div
+          class="icon icon--24"
+          :class="{
+            'icon-toast-success': toast.type == Resource.ToastType.Success,
+            'icon-toast-warning': toast.type == Resource.ToastType.Warning,
+            'icon-toast-error': toast.type == Resource.ToastType.Error,
+          }"
+        ></div>
       </div>
-      <div class="toast__message">{{ message }}</div>
-      <div class="toast__close" @click="this.$emit('close')">
-        <i class="icon icon--24 fas fa-times"></i>
-      </div>
+      <div class="toast__message">{{ toast.message }}</div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
+import Resource from "@/constants/Resource";
 export default {
   name: "base-toast-message",
+
   props: {
-    type: {
-      type: String,
-      required: true,
-    },
-    message: {
-      type: String,
-      required: true,
-    },
-    isShowed: {
-      type: Boolean,
+    toast: {
+      type: Object,
       required: true,
     },
     index: {
@@ -34,51 +41,39 @@ export default {
     },
   },
 
-  emits: ["close"],
-
-  watch: {
-    // set css cho loại type toast
-    type: {
-      immediate: true,
-      handler(newVal) {
-        if (newVal === "done") {
-          this.style.icon = "fa-check-circle";
-          this.style.color = "toast--done";
-        }
-
-        if (newVal === "danger") {
-          this.style.icon = "fa-exclamation-triangle";
-          this.style.color = "toast--danger";
-        }
-
-        if (newVal === "warning") {
-          this.style.icon = "fa-exclamation-circle";
-          this.style.color = "toast--warning";
-        }
-      },
-    },
-  },
-
-  mounted() {
-    setTimeout(() => {
-      this.$emit("close");
-    }, 3000);
-  },
-
   data() {
     return {
-      style: {
-        icon: "fa-check-circle",
-        color: "toast--done",
-      },
-      distanceToasts: {
-        "margin-bottom": `${this.index * 48}px`,
-      },
+      isShowed: false,
+      Resource: Resource,
     };
+  },
+
+  created() {
+    this.showToast();
+  },
+
+  methods: {
+    showToast() {
+      this.isShowed = true;
+      setTimeout(() => {
+        this.isShowed = false;
+      }, 3000);
+    },
   },
 };
 </script>
 
 <style lang="css">
-@import url("../../css/common/Toast.css");
+@import url("../../assets/css/common/Toast.css");
+
+.slide-leave-active,
+.slide-enter-active {
+  transition: all 0.3s;
+}
+
+.slide-enter,
+.slide-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
+}
 </style>

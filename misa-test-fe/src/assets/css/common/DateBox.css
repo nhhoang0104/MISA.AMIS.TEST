@@ -46,3 +46,8 @@
   color: #08bf1e;
   font-weight: 600;
 }
+
+td.dx-calendar-cell.dx-calendar-other-view.dx-calendar-other-month.dx-calendar-selected-date {
+  background-color: #2ca01c;
+  box-shadow: none !important;
+}

@@ -36,6 +36,13 @@ namespace MISA.Test.Core.Services
                 return serviceResult;
             }
 
+            if (!this.ValidateEntityCode(entity))
+            {
+                serviceResult.IsValid = false;
+                serviceResult.Messager = Resources.ErrorMsg.CodeExists_ErrMsg;
+                return serviceResult;
+            }
+
             serviceResult.Data = this._baseRepository.Add(entity);
 
             return serviceResult;
@@ -209,6 +216,15 @@ namespace MISA.Test.Core.Services
             }
 
             return isValid;
+        }
+          
+        /// <summary>
+        /// kiêm tra trùng mã
+        /// </summary>
+        /// <returns></returns>
+        protected virtual bool ValidateEntityCode(MISAEntity entity)
+        {
+            return true;
         }
     }
 }

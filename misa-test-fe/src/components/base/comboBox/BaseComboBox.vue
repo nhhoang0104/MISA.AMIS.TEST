@@ -110,9 +110,9 @@ export default {
     value: {
       immediate: true,
       handler(newVal) {
-        this.validate();
         let tmp = this.dataClone.find((item) => item.id === newVal);
         if (tmp) this.textSearch = tmp?.label;
+        else this.textSearch = null;
       },
     },
 

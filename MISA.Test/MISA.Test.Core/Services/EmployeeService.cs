@@ -95,5 +95,11 @@ namespace MISA.Test.Core.Services
 
             return serviceResult;
         }
+
+        protected override bool ValidateEntityCode(Employee entity)
+        {
+            return !this._employeeRepository.CheckEmployeeCodeExists(entity.EmployeeCode);
+           
+        }
     }
 }
