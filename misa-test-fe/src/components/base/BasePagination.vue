@@ -43,13 +43,13 @@
         >
           {{ page }}
         </button>
-        <div v-show="totalPage > currentPage + maxVisibleButtons" class="dots">
+        <div v-show="totalPage >= currentPage + maxVisibleButtons" class="dots">
           ...
         </div>
         <button
           :class="isPageSelected(totalPage)"
           @click="onClickPage(totalPage)"
-          v-show="totalPage > currentPage + maxVisibleButtons"
+          v-show="totalPage >= currentPage + maxVisibleButtons - 1"
         >
           {{ totalPage }}
         </button>

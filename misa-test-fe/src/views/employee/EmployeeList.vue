@@ -13,7 +13,8 @@
       <div class="left">
         <base-button
           label="Xóa nhiều"
-          @click="showForm(1)"
+          @click="preDeleteList"
+          :second="true"
           v-show="employeeIdDeleteList.length > 1"
         ></base-button>
       </div>
@@ -121,7 +122,6 @@ export default {
       pageSize: 10,
       totalPage: 10,
       totalRecord: 100,
-      timeoutItem: null,
       boxFunc: {
         id: null,
         left: 960,
@@ -145,6 +145,8 @@ export default {
       isLoading: false,
       toastList: [],
       Resource: Resource,
+      timeoutSearch: null,
+      timeoutRemoveToastList: null,
     };
   },
 
@@ -154,6 +156,25 @@ export default {
      * CreatedBy: NHHoang (31/08/2021)
      */
     this.loadData();
+  },
+
+  watch: {
+    /**
+     * Xóa danh sách toastList sau 3 đối với phần tử cuối cùng.
+     * CreatedBy: NHHoang(01/09/2021)
+     */
+    
+    toastList: {
+      deep: true,
+      immediate: true,
+      handler: function() {
+        clearTimeout(this.timeoutRemoveToastList);
+
+        this.timeoutRemoveToastList = setTimeout(() => {
+          if (this.toastList.length > 0) this.toastList = [];
+        }, 3000);
+      },
+    },
   },
 
   computed: {
@@ -257,9 +278,9 @@ export default {
      * CreatedBy: NHHoang (29/08/2021)
      */
     onChangeEmployeeFiler({ value }) {
-      clearTimeout(this.timeoutItem);
+      clearTimeout(this.timeoutSearch);
 
-      this.timeoutItem = setTimeout(() => {
+      this.timeoutSearch = setTimeout(() => {
         this.currentPage = 1;
         this.employeeFilter = value;
         this.loadData();
@@ -535,7 +556,7 @@ export default {
               type: Resource.ToastType.Success,
               message: Resource.ToastMessage.DeleteSuccess,
             });
-
+            this.employeeIdDeleteList = [];
             this.loadData();
           }
         })

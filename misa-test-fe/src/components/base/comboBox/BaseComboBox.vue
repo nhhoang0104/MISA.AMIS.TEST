@@ -1,27 +1,34 @@
 <template>
-  <div class="flex" v-show="hasLabel">
-    <div class="label">{{ label }}</div>
-    <div class="label-required" v-show="required">&nbsp;*</div>
-  </div>
-  <div :class="classNameComboBox" :validate="isValidated">
-    <input
-      type="text"
-      @focus="onFocusInput"
-      v-model="textSearch"
-      @blur="outFocusInput"
-      :tabIndex="tabIndex"
-    />
-    <div class="combo-box__toggle" @click="show">
-      <div class="icon icon--16 icon-arrow-dropdown"></div>
+  <div>
+    <div class="flex" v-show="hasLabel">
+      <div class="label">{{ label }}</div>
+      <div class="label-required" v-show="required">&nbsp;*</div>
     </div>
-    <div :class="classNameComboBoxMenu" @click="show">
-      <div class="flex title">
-        <div class="w-30 p-l--10 p-r--10">Mã đơn vị</div>
-        <div class="w-70 p-l--10 p-r--10">Tên đơn vị</div>
+    <div
+      class="combo-box"
+      :class="isShowed ? 'combo-box--active' : ''"
+      :validate="isValidated"
+      @blur="outFocusInput"
+    >
+      <input
+        type="text"
+        @focus="onFocusInput"
+        v-model="textSearch"
+        @blur="outFocusInput"
+        :tabIndex="tabIndex"
+      />
+      <div class="combo-box__toggle" @click="show">
+        <div class="icon icon--16 icon-arrow-dropdown"></div>
       </div>
-      <slot name="combo-box-options" :options="dataClone"></slot>
-      <div v-show="dataClone.length === 0 ? true : false" class="no-content">
-        Không có dữ liệu
+      <div class="combo-box__select" v-show="isShowed">
+        <div class="flex title">
+          <div class="w-30 p-l--10 p-r--10">Mã đơn vị</div>
+          <div class="w-70 p-l--10 p-r--10">Tên đơn vị</div>
+        </div>
+        <slot name="combo-box-options" :options="dataClone"></slot>
+        <div v-show="dataClone.length === 0 ? true : false" class="no-content">
+          Không có dữ liệu
+        </div>
       </div>
     </div>
   </div>
@@ -29,6 +36,7 @@
 
 <script>
 import _ from "lodash";
+
 export default {
   name: "combo-box",
 
@@ -71,13 +79,23 @@ export default {
   data() {
     return {
       isShowed: false,
-      classNameComboBox: "combo-box",
-      classNameComboBoxMenu: "combo-box__select combo-box__select--hide",
       dataClone: _.cloneDeep(this.data),
       textSearch: "",
       valueSelected: "",
       isValidated: true,
     };
+  },
+
+  created() {
+    /**
+     * click ouside
+     * CreateBy: NHHoang (01/09/2021)
+     * */
+    window.addEventListener("click", (e) => {
+      if (!this.$el.contains(e.target)) {
+        this.isShowed = false;
+      }
+    });
   },
 
   watch: {
@@ -86,14 +104,8 @@ export default {
      * CreatedBy: NHHoang (29/08/2021)
      */
     isShowed(value) {
-      if (!value) {
-        this.classNameComboBox = "combo-box";
-        this.classNameComboBoxMenu =
-          "combo-box__select combo-box__select--hide";
-      } else {
+      if (value) {
         this.dataClone = _.cloneDeep(this.data);
-        this.classNameComboBox = "combo-box combo-box--active";
-        this.classNameComboBoxMenu = "combo-box__select";
       }
     },
 
@@ -118,6 +130,8 @@ export default {
         let tmp = this.dataClone.find((item) => item.id === newVal);
         if (tmp) this.textSearch = tmp?.label;
         else this.textSearch = null;
+
+        if (this.isShowed === true) this.isShowed = false;
       },
     },
 

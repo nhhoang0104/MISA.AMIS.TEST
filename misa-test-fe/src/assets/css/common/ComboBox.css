@@ -53,10 +53,6 @@
   background-color: #e0e0e0;
 }
 
-.combo-box:active {
-  border-color: #2ca01c;
-}
-
 .combo-box.combo-box--active {
   border-color: #2ca01c;
 }
@@ -72,10 +68,6 @@
   top: 35px;
   z-index: 99;
   overflow: hidden;
-}
-
-.combo-box .combo-box__select.combo-box__select--hide {
-  display: none;
 }
 
 .combo-box .combo-box__select .combo-box__option {

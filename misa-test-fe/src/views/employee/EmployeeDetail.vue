@@ -5,9 +5,13 @@
       <div class="dialog__header">
         <div class="dialog__header__title flex">
           <div class="title">Thông tin nhân viên</div>
-          <div class="flex flex-center">
+          <div class="flex flex-center p-l--20 p-r--20">
             <div><input type="checkbox" /></div>
-            <div>Là khách hàng</div>
+            <div class="p-l--10">Là khách hàng</div>
+          </div>
+          <div class="flex flex-center p-l--20 p-r--20">
+            <div><input type="checkbox" /></div>
+            <div class="p-l--10">Là nhà cung cấp</div>
           </div>
         </div>
         <div class="dialog__header__close">
@@ -376,7 +380,7 @@ export default {
             this.formData.EmployeeCode = res.data;
             tmp = res.data;
 
-            this.isFormDataChange=false;
+            this.isFormDataChange = false;
           });
         }
 
@@ -393,7 +397,8 @@ export default {
             this.formData.IdentityDate = FormatData.formatDateInput(
               res.data.IdentityDate
             );
-            this.isFormDataChange=false;
+
+            this.isFormDataChange = false;
           });
         }
 
