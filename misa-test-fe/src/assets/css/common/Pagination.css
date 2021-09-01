@@ -60,6 +60,13 @@
   padding-right: 0.5rem;
 }
 
+.pagination .pagination__right .page-index .dots {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  color: #111;
+  cursor: default;
+}
+
 .pagination .pagination__right .page-index .index button.selected {
   border: 1px solid #e0e0e0;
   font-weight: 700;

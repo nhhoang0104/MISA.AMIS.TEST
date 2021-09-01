@@ -6,6 +6,10 @@
       :key="item.EmployeeId"
       :columns="columns"
       :data="item"
+      :checked="
+        employeeDeleteList.indexOf(item.EmployeeId) === -1 ? false : true
+      "
+      @check="$emit('check-box', item.EmployeeId)"
       @dblclick="doubleClick(item.EmployeeId)"
       @show-func="$emit('show-func', item.EmployeeId)"
       @update="doubleClick(item.EmployeeId)"
@@ -30,12 +34,10 @@ export default {
       type: Array,
       required: true,
     },
-
     columns: {
       type: Array,
       required: true,
     },
-
     employeeDeleteList: {
       type: Array,
       required: true,

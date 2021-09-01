@@ -1,7 +1,7 @@
 export const EmployeeModel = {
   EmployeeCode: null,
   FirstName: null,
-  Gender: null,
+  Gender: 0,
   DateOfBirth: null,
   Email: null,
   Address: null,

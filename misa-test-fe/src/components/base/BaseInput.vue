@@ -14,12 +14,15 @@
         :useMaskBehavior="true"
         :showClearButton="false"
         class="dxDateBox"
+        dateOutOfRangeMessage="Ngày chọn không được quá ngày hiện tại"
         :max="new Date()"
+        :tabIndex="tabIndex"
       />
       <input
         v-else
-        ref="fouceMe"
-        :class="className"
+        ref="focusMe"
+        class="container-input__input"
+        :class="{ 'input--icon': hasIcon }"
         :required="required"
         :type="type"
         :value="value"
@@ -27,9 +30,8 @@
         :placeholder="placeholder"
         :max="`${type === 'date' ? currentDate : null}`"
         :validated="isValidated"
-        @mouseover="mouseOver"
-        @mouseout="mouseOut"
-        @focus="focus"
+        :tabIndex="tabIndex"
+        :maxlength="maxLength"
         @blur="blur"
         @input="onChangeInput"
       />
@@ -92,24 +94,22 @@ export default {
       type: String,
       default: "",
     },
+    tabIndex: {
+      type: Number,
+      required: false,
+    },
+    maxLength: {
+      type: Number,
+      required: false,
+      default: 255,
+    },
   },
 
   emits: ["onchangeinput"],
 
   data() {
-    let tmp = "container-input__input";
-
-    if (this.hasIcon) {
-      tmp = "container-input__input input--icon";
-    }
-
     return {
       currentDate: FormatData.formatDateInput(new Date()),
-      className: tmp,
-      classNameDefault: tmp,
-      classNameHover: tmp + " container-input__input__hover",
-      classNameFocus: tmp + " container-input__input__focus",
-      isFocus: false,
       isValidated: true,
       title: "",
       valueClone: "",
@@ -118,42 +118,12 @@ export default {
 
   methods: {
     /**
-     * Thay đổi style khi mouse hover
-     * CreatedBy: NHHoang (27/08/2021)
-     */
-    mouseOver() {
-      if (!this.isFocus) {
-        this.className = this.classNameHover;
-      }
-    },
-
-    /**
-     * Thay đổi style khi mouse out
-     * CreatedBy: NHHoang (27/08/2021)
-     */
-    mouseOut() {
-      if (!this.isFocus) {
-        this.className = this.classNameDefault;
-      }
-    },
-
-    /**
      * Thay đổi style khi focus
      * CreatedBy: NHHoang (27/08/2021)
+     * Modified: NHHoang (01/09/2021)
      */
     focus() {
-      //this.$nextTick(() => this.$refs.focusMe.focus());
-      this.className = this.classNameFocus;
-      this.isFocus = true;
-    },
-
-    /**
-     * Thay đổi style khi blur
-     * CreatedBy: NHHoang (27/08/2021)
-     */
-    blur() {
-      this.isFocus = false;
-      this.className = this.classNameDefault;
+      this.$nextTick(() => this.$refs.focusMe.focus());
     },
 
     /**

@@ -10,26 +10,35 @@
   </div>
   <div class="content__body">
     <div class="content__body__toolbar">
-      <div class="input-list">
-        <base-input
-          :hasIcon="true"
-          iconName="icon-search"
-          placeholder="Tìm kiếm theo mã, tên"
-          @onchangeinput="onChangeEmployeeFiler"
-        ></base-input>
+      <div class="left">
+        <base-button
+          label="Xóa nhiều"
+          @click="showForm(1)"
+          v-show="employeeIdDeleteList.length > 1"
+        ></base-button>
       </div>
-      <div class="utils-btn">
-        <div class="p-l--6 p-r--6">
-          <div
-            class="icon icon--24 icon-refresh refresh"
-            @click="refresh"
-          ></div>
+      <div class="right flex">
+        <div class="input-list">
+          <base-input
+            :hasIcon="true"
+            iconName="icon-search"
+            placeholder="Tìm kiếm theo mã, tên"
+            @onchangeinput="onChangeEmployeeFiler"
+          ></base-input>
         </div>
-        <div class="p-l--6">
-          <div
-            class="icon icon--24 icon-export export"
-            @click="exportdData"
-          ></div>
+        <div class="utils-btn">
+          <div class="p-l--6 p-r--6">
+            <div
+              class="icon icon--24 icon-refresh refresh"
+              @click="refresh"
+            ></div>
+          </div>
+          <div class="p-l--6">
+            <div
+              class="icon icon--24 icon-export export"
+              @click="exportdData"
+            ></div>
+          </div>
         </div>
       </div>
     </div>
@@ -38,7 +47,8 @@
         <template v-slot:thead>
           <base-table-head
             :columns="columns"
-            :checked="false"
+            :checked="isSelectedAll"
+            @select-all="selectAll"
           ></base-table-head>
         </template>
         <template v-slot:tbody>
@@ -47,7 +57,7 @@
             :columns="columns"
             :data="employeeList"
             :employeeDeleteList="employeeIdDeleteList"
-            @check-box="null"
+            @check-box="checkBox"
             @show-func="showBoxFunc"
             @update="update"
           ></base-table-body>
@@ -141,16 +151,39 @@ export default {
   created() {
     /**
      * Lấy dữ liệu
+     * CreatedBy: NHHoang (31/08/2021)
      */
     this.loadData();
   },
 
   computed: {
+    /**
+     * Xét vị trí của box func
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     positionFuc() {
       return {
         left: `${this.boxFunc.left}px`,
         top: `${this.boxFunc.top}px`,
       };
+    },
+
+    /*
+     * xét checkbox chọn tất cả. true- chọn. false - không
+     * CreatedBy: NHHoang (31/08/2021)
+     */
+    isSelectedAll() {
+      if (this.employeeIdDeleteList.length === 0) return false;
+
+      var isSelectedAll = true;
+
+      this.employeeList.forEach((employee) => {
+        if (this.employeeIdDeleteList.indexOf(employee.EmployeeId) === -1) {
+          isSelectedAll = false;
+        }
+      });
+
+      return isSelectedAll;
     },
   },
 
@@ -183,14 +216,14 @@ export default {
               message: Resource.ToastMessage.LoadSuccess,
             });
 
-            this.employeeList = res.data.employees;
-            this.totalRecord = res.data.totalRecord;
-            this.totalPage = res.data.totalPage;
+            this.employeeList = res.data.Employees;
+            this.totalRecord = res.data.TotalRecord;
+            this.totalPage = res.data.TotalPage;
             this.isLoading = false;
           }
         })
         .catch((err) => {
-          if (err.response.status >= 500) {
+          if (err.response?.status >= 500) {
             this.toastList.push({
               type: Resource.ToastType.Error,
               message: Resource.ToastMesssage.ServerError,
@@ -298,9 +331,15 @@ export default {
     /**
      * Xóa theo id
      * CreatedBy: NHHoang (29/08/2021)
+     * CreatedBy: NHHoang (31/08/2021)
      */
     deleteById() {
       if (this.boxFunc.id) {
+        //loại bỏ khỏi danh sách xóa nhiều
+        let index = this.employeeIdDeleteList.indexOf(this.boxFunc.id);
+
+        if (index !== -1) this.employeeIdDeleteList.splice(index, 1);
+
         EmployeeAPI.delete(this.boxFunc.id)
           .then((res) => {
             if (res.status != 204) {
@@ -314,7 +353,7 @@ export default {
           })
           .catch(() => {
             this.toastList.push({
-              type: Resource.ToastType.ERROR,
+              type: Resource.ToastType.Error,
               message: Resource.ToastMessage.ServerError,
             });
           });
@@ -352,7 +391,6 @@ export default {
      * đóng form
      * CreatedBy: NHHoang (29/08/2021)
      */
-
     closeForm() {
       this.isShowedForm = false;
     },
@@ -453,6 +491,79 @@ export default {
       this.toastList = _.remove(this.toastList, {
         id,
       });
+    },
+
+    /**
+     * Check box
+     * CreatedBy: NHHoang(31/08/2021)
+     */
+    checkBox(id) {
+      let index = this.employeeIdDeleteList.indexOf(id);
+
+      if (index === -1) this.employeeIdDeleteList.push(id);
+      else this.employeeIdDeleteList.splice(index, 1);
+    },
+
+    /**
+     * Chọn tất cả
+     * CreatedBy: NHHoang(31/08/2021)
+     */
+    selectAll(isCheckedAll = false) {
+      if (isCheckedAll) {
+        this.employeeList.forEach((employee) => {
+          if (this.employeeIdDeleteList.indexOf(employee.EmployeeId) === -1) {
+            this.employeeIdDeleteList.push(employee.EmployeeId);
+          }
+        });
+      } else {
+        let tmp = _.map(this.employeeList, "EmployeeId");
+        this.employeeIdDeleteList = this.employeeIdDeleteList.filter((id) => {
+          return !tmp.includes(id);
+        });
+      }
+    },
+
+    /**
+     * Xóa nhiều
+     * CreatedBy: NHHoang(31/08/2021)
+     */
+    deleteList() {
+      EmployeeAPI.deleteList(this.employeeIdDeleteList)
+        .then((res) => {
+          if (res.status != 204) {
+            this.toastList.push({
+              type: Resource.ToastType.Success,
+              message: Resource.ToastMessage.DeleteSuccess,
+            });
+
+            this.loadData();
+          }
+        })
+        .catch(() => {
+          this.toastList.push({
+            type: Resource.ToastType.Error,
+            message: Resource.ToastMessage.ServerError,
+          });
+        });
+    },
+
+    /**
+     * hiển thị popup hỏi xem muốn xóa nhiều hay không
+     * CreatedBy: NHHoang(31/08/2021)
+     */
+    preDeleteList() {
+      let message = `Bạn có thực sự muốn xóa các nhân viên không?`;
+
+      this.setPopup(
+        message,
+        "icon-warning",
+        "Không",
+        null,
+        "Có",
+        null,
+        this.deleteList,
+        null
+      );
     },
   },
 };

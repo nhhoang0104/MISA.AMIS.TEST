@@ -15,10 +15,13 @@ import BaseDatePicker from "@/components/base/BaseDatePicker.vue";
 import BaseLoader from "@/components/base/BaseLoader.vue";
 import BaseToastMessage from "@/components/base/BaseToastMessage.vue";
 
+import router from "./router";
+
 import "devextreme/dist/css/dx.light.css";
 
 const app = createApp(App);
 
+app.use(router);
 app.component(BaseButton.name, BaseButton);
 app.component(BaseInput.name, BaseInput);
 

@@ -41,14 +41,19 @@
   width: 100%;
   box-sizing: border-box;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.content .content__body .content__body__toolbar .input-list {
+.content .content__body .content__body__toolbar .left {
+  margin-left: 10px;
+}
+
+.content .content__body .content__body__toolbar .right .input-list {
   padding: 7px 6px 0 6px;
 }
 
-.content .content__body .content__body__toolbar .utils-btn {
+.content .content__body .content__body__toolbar .right .utils-btn {
   display: flex;
   padding: 19px 0 0 6px;
 }

@@ -3,8 +3,12 @@
     <div class="modal"></div>
     <div class="dialog">
       <div class="dialog__header">
-        <div class="dialog__header__title">
+        <div class="dialog__header__title flex">
           <div class="title">Thông tin nhân viên</div>
+          <div class="flex flex-center">
+            <div><input type="checkbox" /></div>
+            <div>Là khách hàng</div>
+          </div>
         </div>
         <div class="dialog__header__close">
           <div class="icon icon--24 icon-help m-r-6"></div>
@@ -25,6 +29,8 @@
                     :hasLabel="true"
                     label="Mã"
                     :required="true"
+                    :tabIndex="1"
+                    :maxLength="20"
                   ></base-input>
                 </div>
                 <div class="w-60">
@@ -36,6 +42,8 @@
                     :hasLabel="true"
                     label="Tên"
                     :required="true"
+                    :tabIndex="2"
+                    :maxLength="100"
                   ></base-input>
                 </div>
               </div>
@@ -48,6 +56,7 @@
                     :data="departmentCbb"
                     :value="formData.DepartmentId"
                     id="DepartmentId"
+                    :tabIndex="3"
                   >
                     <template #combo-box-options="{options}">
                       <combo-box-option
@@ -70,6 +79,8 @@
                     label="Chức danh"
                     @onchangeinput="onChangeInput"
                     id="PositionName"
+                    :tabIndex="4"
+                    :maxLength="100"
                   ></base-input>
                 </div>
               </div>
@@ -78,6 +89,7 @@
               <div class="flex row-input">
                 <div class="w-40 p-r--6">
                   <base-input
+                    :tabIndex="5"
                     :hasLabel="true"
                     ref="DateOfBirth"
                     type="date"
@@ -112,7 +124,12 @@
                         for="1"
                         @click="onChangeInput({ value: 1, id: 'Gender' })"
                       >
-                        <input type="radio" label="1" :value="1" />
+                        <input
+                          type="radio"
+                          label="1"
+                          :value="1"
+                          :tabIndex="16"
+                        />
                         <span class="radio">
                           <span class="radio-border"></span>
                           <span
@@ -151,6 +168,8 @@
                     :value="formData.IdentityNumber"
                     format="number"
                     id="IdentityNumber"
+                    :tabIndex="6"
+                    :maxLength="12"
                   ></base-input>
                 </div>
                 <div class="w-40">
@@ -163,6 +182,7 @@
                     @onchangeinput="onChangeInput"
                     :value="formData.IdentityDate"
                     id="IdentityDate"
+                    :tabIndex="7"
                   ></base-input>
                 </div>
               </div>
@@ -175,6 +195,8 @@
                     @onchangeinput="onChangeInput"
                     :value="formData.IdentityPlace"
                     id="IdentityPlace"
+                    :tabIndex="8"
+                    :maxLength="255"
                   ></base-input>
                 </div>
               </div>
@@ -190,6 +212,8 @@
                   @onchangeinput="onChangeInput"
                   id="Address"
                   :value="formData.Address"
+                  :tabIndex="9"
+                  :maxLength="255"
                 ></base-input>
               </div>
             </div>
@@ -202,6 +226,8 @@
                   @onchangeinput="onChangeInput"
                   id="MobilePhoneNumber"
                   :value="formData.MobilePhoneNumber"
+                  :tabIndex="10"
+                  :maxLength="50"
                 ></base-input>
               </div>
               <div class="w-25 p-r--6">
@@ -212,6 +238,8 @@
                   @onchangeinput="onChangeInput"
                   id="TelephoneNumber"
                   :value="formData.TelephoneNumber"
+                  :tabIndex="11"
+                  :maxLength="50"
                 ></base-input>
               </div>
               <div class="w-25">
@@ -223,6 +251,8 @@
                   id="Email"
                   format="email"
                   :value="formData.Email"
+                  :tabIndex="12"
+                  :maxLength="50"
                 ></base-input>
               </div>
             </div>
@@ -235,6 +265,8 @@
                   @onchangeinput="onChangeInput"
                   id="BankAccount"
                   :value="formData.BankAccount"
+                  :tabIndex="13"
+                  :maxLength="25"
                 ></base-input>
               </div>
               <div class="w-25 p-r--6">
@@ -245,6 +277,8 @@
                   @onchangeinput="onChangeInput"
                   id="BankName"
                   :value="formData.BankName"
+                  :tabIndex="14"
+                  :maxLength="100"
                 ></base-input>
               </div>
               <div class="w-25">
@@ -255,6 +289,8 @@
                   @onchangeinput="onChangeInput"
                   id="BankBranch"
                   :value="formData.BankBranch"
+                  :maxLength="100"
+                  :tabIndex="15"
                 ></base-input>
               </div>
             </div>
@@ -335,12 +371,12 @@ export default {
     isShowed(newVal) {
       let tmp = "";
       if (newVal) {
-        console.log(this.$refs["EmployeeCode"]);
-
         if (this.formMode === 1 || this.formMode === 3) {
           EmployeeAPI.getNewEmployeeCode().then((res) => {
             this.formData.EmployeeCode = res.data;
             tmp = res.data;
+
+            this.isFormDataChange=false;
           });
         }
 
@@ -357,8 +393,11 @@ export default {
             this.formData.IdentityDate = FormatData.formatDateInput(
               res.data.IdentityDate
             );
+            this.isFormDataChange=false;
           });
         }
+
+        this.$refs["EmployeeCode"].focus();
       }
     },
   },
@@ -410,6 +449,11 @@ export default {
      */
     newForm() {
       this.formData = _.cloneDeep(EmployeeModel);
+
+      Object.keys(this.$refs).forEach(
+        (el) => (this.$refs[el].isValidated = true)
+      );
+
       this.isFormDataChange = false;
 
       EmployeeAPI.getNewEmployeeCode().then((res) => {
@@ -593,6 +637,7 @@ export default {
       );
 
       this.isFormDataChange = false;
+
       this.$emit("close-form");
     },
 

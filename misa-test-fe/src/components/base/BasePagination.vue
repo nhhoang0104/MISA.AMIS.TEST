@@ -26,12 +26,32 @@
       </button>
       <div class="flex index">
         <button
+          :class="isPageSelected(1)"
+          @click="onClickPage(1)"
+          v-show="currentPage >= maxVisibleButtons"
+        >
+          1
+        </button>
+        <div v-show="currentPage >= maxVisibleButtons + 1" class="dots">
+          ...
+        </div>
+        <button
           v-for="page in pages"
           :key="page"
           :class="isPageSelected(page)"
           @click="onClickPage(page)"
         >
           {{ page }}
+        </button>
+        <div v-show="totalPage > currentPage + maxVisibleButtons" class="dots">
+          ...
+        </div>
+        <button
+          :class="isPageSelected(totalPage)"
+          @click="onClickPage(totalPage)"
+          v-show="totalPage > currentPage + maxVisibleButtons"
+        >
+          {{ totalPage }}
         </button>
       </div>
       <button

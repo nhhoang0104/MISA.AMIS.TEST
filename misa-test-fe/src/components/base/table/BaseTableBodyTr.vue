@@ -1,7 +1,9 @@
 <template>
   <tr :id="data.id">
     <td></td>
-    <td><input type="checkbox" /></td>
+    <td>
+      <input type="checkbox" :checked="checked" @input="$emit('check')" />
+    </td>
     <td v-for="col in columns" :key="col.id" :class="col.className">
       {{ formatText(col, data[col.id]) }}
     </td>
@@ -23,8 +25,8 @@
 import FormatData from "@/utils/FormatData.js";
 
 export default {
-  name: "base-tr",
-  emits: ["show-func"],
+  name: "tr-cus",
+  emits: ["show-func", "check"],
   props: {
     columns: {
       type: Array,
@@ -32,6 +34,10 @@ export default {
     },
     data: {
       type: Object,
+      required: true,
+    },
+    checked: {
+      type: Boolean,
       required: true,
     },
   },

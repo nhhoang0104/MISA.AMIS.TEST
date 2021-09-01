@@ -1,10 +1,10 @@
 <template lang="html">
-  <div class="menu-item">
+  <router-link :to="item.link" class="menu-item">
     <div class="menu-item__icon">
       <div class="icon icon--24" :class="item.iconName"></div>
     </div>
     <div class="menu-item__label">{{ item.label }}</div>
-  </div>
+  </router-link>
 </template>
 
 <script>

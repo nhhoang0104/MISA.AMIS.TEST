@@ -27,14 +27,6 @@ input::placeholder {
   box-sizing: border-box;
 }
 
-.container-input .container-input__input__hover {
-  outline: 1px solid #e2e2e2;
-}
-
-.container-input .container-input__input__focus {
-  border-color: #2ca01c;
-}
-
 .container-input .container-input__input.input--icon {
   padding-left: 0.85rem;
   padding-right: 1.75rem;
@@ -48,6 +40,15 @@ input::placeholder {
   left: auto;
   right: 5px;
   cursor: pointer;
+}
+
+.container-input input:hover {
+  outline: 1px solid #e2e2e2;
+}
+
+.container-input input:focus {
+  border-color: #2ca01c;
+  outline: none;
 }
 
 .container-input input.container-input__input[validated="false"] {

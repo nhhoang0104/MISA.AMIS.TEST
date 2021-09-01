@@ -3,12 +3,13 @@
     <div class="label">{{ label }}</div>
     <div class="label-required" v-show="required">&nbsp;*</div>
   </div>
-  <div :class="classNameComboBox" @blur="outFocusInput" :validate="isValidated">
+  <div :class="classNameComboBox" :validate="isValidated">
     <input
       type="text"
       @focus="onFocusInput"
       v-model="textSearch"
       @blur="outFocusInput"
+      :tabIndex="tabIndex"
     />
     <div class="combo-box__toggle" @click="show">
       <div class="icon icon--16 icon-arrow-dropdown"></div>
@@ -47,7 +48,6 @@ export default {
     value: {
       type: String,
     },
-
     id: {
       type: String,
       required: true,
@@ -55,6 +55,10 @@ export default {
     data: {
       type: Array,
       required: true,
+    },
+    tabIndex: {
+      type: Number,
+      required: false,
     },
   },
 
@@ -110,6 +114,7 @@ export default {
     value: {
       immediate: true,
       handler(newVal) {
+        this.validate(newVal);
         let tmp = this.dataClone.find((item) => item.id === newVal);
         if (tmp) this.textSearch = tmp?.label;
         else this.textSearch = null;
@@ -160,11 +165,11 @@ export default {
     show() {
       this.isShowed = !this.isShowed;
     },
+
     /**
      * xử lý outfocus vào combobox
      * CreatedBy: NHHoang (29/08/2021)
      */
-
     outFocus() {
       this.isShowed = false;
     },
@@ -194,9 +199,10 @@ export default {
      * validate du lieu
      * CreatedBy: NHHoang (29/08/2021)
      */
-    validate() {
+    validate(value = null) {
+      let tmp = value === null ? this.value : value;
       if (this.required) {
-        if (this.value === null) this.isValidated = false;
+        if (tmp === null) this.isValidated = false;
         else this.isValidated = true;
       }
     },

@@ -8,6 +8,7 @@
 @import url("../common/Radio.css");
 @import url("../common/Modal.css");
 @import url("../common/Checkbox.css");
+@import url("../common/Link.css");
 
 * {
   font-family: "Notosans";
@@ -29,6 +30,11 @@ body {
 
 .flex {
   display: flex !important;
+}
+
+.flex.flex-center {
+  align-items: center;
+  justify-content: center;
 }
 
 .flex.flex-column {

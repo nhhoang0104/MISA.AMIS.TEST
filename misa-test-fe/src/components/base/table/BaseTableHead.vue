@@ -2,7 +2,13 @@
   <thead>
     <tr>
       <th></th>
-      <th></th>
+      <th>
+        <input
+          type="checkbox"
+          :checked="checked"
+          @input="$emit('select-all', !checked)"
+        />
+      </th>
       <th v-for="col in columns" :key="col.id" :class="col.className">
         {{ col.label }}
       </th>
