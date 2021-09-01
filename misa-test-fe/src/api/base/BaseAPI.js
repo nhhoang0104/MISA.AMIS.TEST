@@ -55,7 +55,9 @@ export default class BaseAPI {
   }
 
   /**
-   * Hàm xóa nhieu bản ghi
+   * xóa nhiều
+   * @param {*} idList danh sách id
+   * @returns
    */
   deleteList(idList) {
     let tmp = "";

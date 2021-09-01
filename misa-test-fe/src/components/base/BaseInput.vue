@@ -162,10 +162,10 @@ export default {
           this.title = "";
         }
       } else {
-        if (value === null || value?.trim() === "") {
+        if (value === null || value === "") {
           this.isValidated = true;
           this.title = "";
-        } else if ((value !== null) | (value?.trim() !== "")) {
+        } else {
           if (this.format === "email") {
             if (!Validation.validateEmail(value)) {
               this.isValidated = false;

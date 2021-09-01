@@ -91,6 +91,7 @@
     :formMode="formMode"
     @close-form="closeForm"
     :employeeId="employeeIdSelected"
+    @load-data="loadData"
   />
   <base-toast-message
     v-for="(item, index) in toastList"
@@ -163,7 +164,7 @@ export default {
      * Xóa danh sách toastList sau 3 đối với phần tử cuối cùng.
      * CreatedBy: NHHoang(01/09/2021)
      */
-    
+
     toastList: {
       deep: true,
       immediate: true,
@@ -214,7 +215,6 @@ export default {
      * CreatedBy: NHHoang (29/08/2021)
      */
     refresh() {
-      this.currentPage = 1;
       this.loadData();
     },
 

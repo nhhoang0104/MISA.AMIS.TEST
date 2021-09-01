@@ -365,7 +365,7 @@ export default {
     },
   },
 
-  emits: ["close-form"],
+  emits: ["close-form", "load-data"],
 
   watch: {
     /**
@@ -405,6 +405,23 @@ export default {
         this.$refs["EmployeeCode"].focus();
       }
     },
+
+    /**
+     * Xóa danh sách toastList sau 3 đối với phần tử cuối cùng.
+     * CreatedBy: NHHoang(01/09/2021)
+     */
+
+    toastList: {
+      deep: true,
+      immediate: true,
+      handler: function() {
+        clearTimeout(this.timeoutRemoveToastList);
+
+        this.timeoutRemoveToastList = setTimeout(() => {
+          if (this.toastList.length > 0) this.toastList = [];
+        }, 3000);
+      },
+    },
   },
 
   data() {
@@ -432,6 +449,7 @@ export default {
       isFormDataChange: false,
       isLoading: false,
       toastList: [],
+      timeoutRemoveToastList: null,
     };
   },
 
@@ -492,7 +510,7 @@ export default {
     action() {
       let action = null;
       // thêm mới
-      if ((this.formMode === 1) | (this.formMode === 3)) {
+      if (this.formMode === 1 || this.formMode === 3) {
         action = EmployeeAPI.add(_.cloneDeep(this.formData));
       }
 
@@ -509,8 +527,9 @@ export default {
     /**
      * thực hiện action đã trả về ở hầm action
      */
-    onSubmit(type) {
-      if (this.validateForm()) {
+    async onSubmit(type) {
+      let isValid = await this.validateForm();
+      if (isValid) {
         this.action()
           .then((res) => {
             if (res.status != 204) {
@@ -523,6 +542,7 @@ export default {
                 this.newForm();
               } else {
                 this.closeForm();
+                this.$emit("load-data");
               }
             }
           })
@@ -546,17 +566,19 @@ export default {
     },
 
     /**
-     * validate form
+     * validate form data
      * CreatedBy: NHHoang (28/08/2021)
+     * ModifiedBy: NHHoang (01/09/2021)
      */
-    validateForm() {
+    async validateForm() {
       let isValidated = true;
 
+      // validate các trường bắt buộc
       Object.keys(this.$refs).forEach((el) => {
         this.$refs[el].validate();
 
         if (!this.$refs[el].isValidated) {
-          if (isValidated === true) {
+          if (isValidated) {
             let msg = ErrorMessage[this.$refs[el].id];
             this.setPopup(
               msg,
@@ -573,6 +595,29 @@ export default {
           isValidated = this.$refs[el].isValidated;
         }
       });
+
+      // kiểm tra trùng mã nhân viên
+      if (this.formMode === 1 || this.formMode === 3) {
+        let {
+          data: isCheckEmployeeExists,
+        } = await EmployeeAPI.checkEmployeeExists(this.formData.EmployeeCode);
+
+        if (isValidated && isCheckEmployeeExists) {
+          isValidated = false;
+          let msg = `Mã nhân viên < ${this.formData.EmployeeCode} > đã tồn tại trong hệ thống. Xin vui lòng kiểm ta lại!`;
+
+          this.setPopup(
+            msg,
+            "icon-warning",
+            null,
+            null,
+            null,
+            "Đóng",
+            null,
+            null
+          );
+        }
+      }
 
       return isValidated;
     },
