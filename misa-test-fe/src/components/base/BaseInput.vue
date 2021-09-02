@@ -69,7 +69,7 @@ export default {
       type: String,
       default: "text",
     },
-    value: { type: String, default: "" },
+    value: { type: [String, Date], default: "" },
     required: {
       type: Boolean,
       default: false,

@@ -43,7 +43,10 @@
         </div>
       </div>
     </div>
-    <div class="content__body__grid">
+    <div
+      class="content__body__grid"
+      :class="employeeList.length === 0 ? 'no-data' : ''"
+    >
       <base-table>
         <template v-slot:thead>
           <base-table-head
@@ -64,7 +67,7 @@
           ></base-table-body>
         </template>
       </base-table>
-      <div class="pagination">
+      <div class="pagination" v-show="employeeList.length !== 0">
         <base-pagination
           :currentPage="currentPage"
           :pageSize="pageSize"
@@ -74,6 +77,13 @@
           @select-size="selectPageSize"
         ></base-pagination>
       </div>
+    </div>
+    <div
+      class="no-data flex flex-column flex-center"
+      :class="{ hidden: employeeList.length !== 0 }"
+    >
+      <img src="../../assets/img/bg_nodata.svg" />
+      <div>Không có dữ liệu</div>
     </div>
     <div
       ref="box-func"

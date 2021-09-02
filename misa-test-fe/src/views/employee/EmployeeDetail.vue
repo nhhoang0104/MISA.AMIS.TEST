@@ -60,14 +60,16 @@
                     :data="departmentCbb"
                     :value="formData.DepartmentId"
                     id="DepartmentId"
+                    @select-item="selectItem"
                     :tabIndex="3"
                   >
-                    <template #combo-box-options="{options}">
+                    <template #combo-box-options="{options,indexItem}">
                       <combo-box-option
-                        v-for="item in options"
+                        v-for="(item, index) in options"
                         :key="item.id"
+                        :hover="index === indexItem"
                         :dataSrc="item"
-                        :checked="item.id === department"
+                        :checked="item.id === formData.DepartmentId"
                         @select-item="selectItem"
                       ></combo-box-option>
                     </template>
@@ -450,6 +452,7 @@ export default {
       isLoading: false,
       toastList: [],
       timeoutRemoveToastList: null,
+      typeSubmit: 0,
     };
   },
 
@@ -507,7 +510,7 @@ export default {
      * action sẽ được thục hiện khi ấn cất hoặc cất thêm
      * CreateBy: NHHoang(29/08/2021)
      */
-    action() {
+    async action() {
       let action = null;
       // thêm mới
       if (this.formMode === 1 || this.formMode === 3) {
@@ -515,22 +518,17 @@ export default {
       }
 
       // sửa
-      if (this.formMode === 2)
+      if (this.formMode === 2) {
         action = EmployeeAPI.update(
           this.employeeId,
           _.cloneDeep(this.formData)
         );
+      }
 
-      return action;
-    },
-
-    /**
-     * thực hiện action đã trả về ở hầm action
-     */
-    async onSubmit(type) {
       let isValid = await this.validateForm();
       if (isValid) {
-        this.action()
+        // thực hiện action
+        action
           .then((res) => {
             if (res.status != 204) {
               this.toastList.push({
@@ -538,7 +536,7 @@ export default {
                 message: Resource.ToastMessage.AddSuccess,
               });
 
-              if (type === 1) {
+              if (this.typeSubmit === 1) {
                 this.newForm();
               } else {
                 this.closeForm();
@@ -562,6 +560,27 @@ export default {
               });
             }
           });
+      }
+    },
+
+    /**
+     * thực hiện action đã trả về ở hầm action
+     */
+    async onSubmit(type) {
+      if (this.formMode === 2 && !this.isFormDataChange) {
+        this.setPopup(
+          "Bạn chưa thay đổi gì",
+          "icon-warning",
+          null,
+          null,
+          null,
+          "Đóng",
+          null,
+          null
+        );
+      } else {
+        this.typeSubmit = type;
+        this.action();
       }
     },
 
@@ -696,6 +715,7 @@ export default {
      * CreatedBy: NHHoang (29/08/2021)
      */
     preCloseForm() {
+      this.typeSubmit = 0;
       if (this.isFormDataChange) {
         let msg = "Dữ liệu đã bị thay đổi. Bạn có muốn cất không";
 
@@ -706,7 +726,7 @@ export default {
           "Không",
           "Có",
           null,
-          this.action(),
+          this.action,
           this.closeForm
         );
       } else {

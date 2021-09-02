@@ -70,17 +70,16 @@ export default {
      * CreatedBy: NHHoang (29/08/2021)
      */
     handleAction() {
-      if (this.info.action !== null) this.info.action();
-
       this.$emit("close");
+      if (this.info.action !== null) this.info.action();
     },
 
     /*
       Khi ấn nút cancel sẽ không thực hành động đẫ được truyền vào
     */
     handleCancel() {
-      if (this.info.cancel !== null) this.info.cancel();
       this.$emit("close");
+      if (this.info.cancel !== null) this.info.cancel();
     },
   },
 };

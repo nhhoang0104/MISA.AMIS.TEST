@@ -3,6 +3,7 @@
     class="combo-box__option"
     :value="dataSrc.id"
     :checked="checked"
+    :class="{ 'option--hover': hover }"
     @click="selectItem(dataSrc.id)"
   >
     <div class="w-30 p-l--10 p-r--10">{{ dataSrc.code }}</div>
@@ -22,8 +23,11 @@ export default {
     },
     checked: {
       type: Boolean,
-      requied: false,
-      default: true,
+      default: false,
+    },
+    hover: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {

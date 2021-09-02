@@ -9,6 +9,7 @@
       :class="isShowed ? 'combo-box--active' : ''"
       :validate="isValidated"
       @blur="outFocusInput"
+      @keydown="keydown"
     >
       <input
         type="text"
@@ -25,7 +26,11 @@
           <div class="w-30 p-l--10 p-r--10">Mã đơn vị</div>
           <div class="w-70 p-l--10 p-r--10">Tên đơn vị</div>
         </div>
-        <slot name="combo-box-options" :options="dataClone"></slot>
+        <slot
+          name="combo-box-options"
+          :options="dataClone"
+          :indexItem="indexItem"
+        ></slot>
         <div v-show="dataClone.length === 0 ? true : false" class="no-content">
           Không có dữ liệu
         </div>
@@ -70,6 +75,8 @@ export default {
     },
   },
 
+  emits: ["select-item"],
+
   provide() {
     return {
       pkey: this.$props.id,
@@ -80,6 +87,7 @@ export default {
     return {
       isShowed: false,
       dataClone: _.cloneDeep(this.data),
+      indexItem: -1,
       textSearch: "",
       valueSelected: "",
       isValidated: true,
@@ -194,7 +202,8 @@ export default {
      */
     outFocusInput() {
       let tmp = this.dataClone.find((item) => item.id === this.value);
-      this.textSearch = tmp.label;
+      if (tmp) this.textSearch = tmp?.label;
+      else this.textSearch = null;
 
       setTimeout(() => {
         this.isShowed = false;
@@ -218,6 +227,36 @@ export default {
       if (this.required) {
         if (tmp === null) this.isValidated = false;
         else this.isValidated = true;
+      }
+    },
+
+    /**
+     * xử lý keydown.
+     * CreatedBy: NHHoang (30/08/2021)
+     */
+    keydown(event) {
+      let len = this.dataClone.length;
+      if (len > 0) {
+        if (event.key === "ArrowDown") {
+          let tmp = this.indexItem + 1;
+          this.indexItem = tmp % len;
+        }
+
+        if (event.key === "ArrowUp") {
+          let tmp = this.indexItem - 1;
+          if (tmp < 0) tmp = len - 1;
+          this.indexItem = tmp % len;
+        }
+
+        if (event.key === "Enter") {
+          if (this.indexItem >= 0 && this.indexItem < len) {
+            this.$emit("select-item", {
+              id: this.id,
+              value: this.dataClone[this.indexItem].id,
+            });
+          }
+          this.isShowed = false;
+        }
       }
     },
   },

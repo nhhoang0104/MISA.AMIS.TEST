@@ -100,6 +100,15 @@
   background-color: #ebedf0;
 }
 
+.combo-box .combo-box__select .combo-box__option[checked="true"] div {
+  font-family: "Notosans-Bold";
+}
+
+.combo-box .combo-box__select .combo-box__option.option--hover {
+  color: #35bf22;
+  background-color: #ebedf0;
+}
+
 .combo-box .combo-box__select .combo-box__option .highlight {
   color: #35bf22;
   background-color: #ebedf0;
