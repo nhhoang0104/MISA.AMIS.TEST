@@ -18,7 +18,7 @@
           v-show="employeeIdDeleteList.length > 1"
         ></base-button>
       </div>
-      <div class="right flex">
+      <div class="right flex p-r--16">
         <div class="input-list">
           <base-input
             :hasIcon="true"

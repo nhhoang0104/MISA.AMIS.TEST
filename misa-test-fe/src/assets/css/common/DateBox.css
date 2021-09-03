@@ -81,3 +81,7 @@ td.dx-calendar-cell.dx-calendar-other-view.dx-calendar-other-month.dx-calendar-s
 .dx-dropdowneditor-button {
   border-radius: 0 !important;
 }
+
+.dx-overlay-content.dx-popup-normal.dx-resizable.dx-popup-inherit-height {
+  top: 5px !important;
+}
