@@ -84,7 +84,8 @@ namespace MISA.Test.Infrastructure.Repositories
         /// danh sách nhân viên
         /// </returns>
         /// CreatedBy: NHHoang (27/8/2021)
-        public object GetByFilterPaging(string employeeFilter, int pageSize, int pageIndex)
+        /// ModifiedBy: NHHoang (01/09/2021) - Tạo các class để lấy danh dách nhân viên, tổng số trang, tổng số bản ghi
+        public EmployeeFilterPaging GetByFilterPaging(string employeeFilter, int pageSize, int pageIndex)
         {
             var parameters = new DynamicParameters();
 
@@ -98,13 +99,10 @@ namespace MISA.Test.Infrastructure.Repositories
             {
                 var employees = dbConnection.Query<Employee>("Proc_GetEmployeeFilterPaging", param: parameters, commandType: CommandType.StoredProcedure);
 
-                var data = new
-                {
-                    employees = (List<Employee>)employees,
-                    totalPage = parameters.Get<Int32>("@TotalPage"),
-                    totalRecord = parameters.Get<Int32>("@TotalRecord")
-                };
-
+                var data = new EmployeeFilterPaging();
+                data.Employees = (List<Employee>)employees;
+                data.TotalPage = parameters.Get<Int32>("@TotalPage");
+                data.TotalRecord = parameters.Get<Int32>("@TotalRecord");
                 return data;
             }
         }

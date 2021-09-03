@@ -48,7 +48,6 @@
 }
 
 .dialog .dialog__content .body {
-  max-height: 465px;
   overflow: auto;
 }
 
@@ -89,7 +88,7 @@
 
 @media screen and (min-height: 650px) {
   .dialog {
-    height: 625px;
+    height: 600px;
   }
 
   .dialog .dialog__content .body {

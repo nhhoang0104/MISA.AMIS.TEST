@@ -117,6 +117,10 @@ export default {
       }
     },
 
+    /**
+     * Laays label trong data
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     data: {
       deep: true,
       handler(newVal) {
@@ -249,13 +253,17 @@ export default {
         }
 
         if (event.key === "Enter") {
-          if (this.indexItem >= 0 && this.indexItem < len) {
-            this.$emit("select-item", {
-              id: this.id,
-              value: this.dataClone[this.indexItem].id,
-            });
+          if (this.isShowed) {
+            if (this.indexItem >= 0 && this.indexItem < len) {
+              this.$emit("select-item", {
+                id: this.id,
+                value: this.dataClone[this.indexItem].id,
+              });
+            }
+            this.isShowed = false;
+          } else {
+            this.isShowed = true;
           }
-          this.isShowed = false;
         }
       }
     },

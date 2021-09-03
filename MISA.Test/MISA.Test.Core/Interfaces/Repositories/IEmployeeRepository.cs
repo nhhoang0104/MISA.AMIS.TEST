@@ -16,10 +16,10 @@ namespace MISA.Test.Core.Interfaces.Repositories
         /// <param name="pageSize">vị trí trang</param>
         /// <param name="pageIndex">kích cỡ của trang</param>
         /// <returns>
-        /// danh sách nhân viên
+        /// danh sách nhân viên, tổng số trang, tổng số bản ghi
         /// </returns>
         /// CreatedBy: NHHoang (27/8/2021)
-        Object GetByFilterPaging(string employeeFilter, Int32 pageSize, Int32 pageIndex);
+        EmployeeFilterPaging GetByFilterPaging(string employeeFilter, Int32 pageSize, Int32 pageIndex);
 
         /// <summary>
         /// Kiểm tra mã nhiên viên đã có trong hệ thống chưa 

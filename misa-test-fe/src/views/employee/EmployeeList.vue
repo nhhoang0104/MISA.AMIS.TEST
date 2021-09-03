@@ -14,7 +14,7 @@
         <base-button
           label="Xóa nhiều"
           @click="preDeleteList"
-          :second="true"
+          :secondary="true"
           v-show="employeeIdDeleteList.length > 1"
         ></base-button>
       </div>
@@ -99,6 +99,7 @@
   <EmployeeDetail
     :isShowed="isShowedForm"
     :formMode="formMode"
+    @change-mode="changeMode"
     @close-form="closeForm"
     :employeeId="employeeIdSelected"
     @load-data="loadData"
@@ -595,6 +596,14 @@ export default {
         this.deleteList,
         null
       );
+    },
+
+    /**
+     * Thay đổi formMode
+     * CreatedBy: NHHoang(02/09/2021)
+     */
+    changeMode(mode) {
+      this.formMode = mode;
     },
   },
 };

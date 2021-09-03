@@ -95,6 +95,11 @@
   font-family: "Notosans-Bold";
 }
 
+.combo-box .combo-box__select .title div {
+  font-size: 13px;
+  font-family: "Notosans-Bold";
+}
+
 .combo-box .combo-box__select .combo-box__option:hover {
   color: #35bf22;
   background-color: #ebedf0;

@@ -18,16 +18,14 @@ namespace MISA.Test.Core.Entities
         /// CreatedBy: NHHoang (27/8/2021)
         public Guid EmployeeId { get; set; }
 
-        [MISAPropExport]
-        [Description("Mã nhân viên")]
+        [MISAPropExport(("Mã nhân viên"))]
         /// <summary>
         /// Mã nhân viên
         /// </summary>
         /// CreatedBy: NHHoang (27/8/2021)
         public string EmployeeCode { get; set; }
 
-        [MISAPropExport]
-        [Description("Họ và tên")]
+        [MISAPropExport("Họ và tên")]
         /// <summary>
         /// Ho ten day du
         /// </summary>
@@ -46,8 +44,7 @@ namespace MISA.Test.Core.Entities
         /// CreatedBy: NHHoang (27/8/2021)
         public int? Gender { get; set; }
 
-        [MISAPropExport]
-        [Description("Giới tính")]
+        [MISAPropExport("Giới tính")]
         /// <summary>
         /// Tên giới tính
         /// 0 - Nữ
@@ -57,8 +54,7 @@ namespace MISA.Test.Core.Entities
         /// CreatedBy: NHHoang (27/8/2021)
         public string GenderName { get; set; }
 
-        [MISAPropExport]
-        [Description("Ngày sinh")]
+        [MISAPropExport("Ngày sinh")]
         /// <summary>
         /// Ngày sinh
         /// </summary>
@@ -101,8 +97,7 @@ namespace MISA.Test.Core.Entities
         /// CreatedBy: NHHoang (27/8/2021)
         public string IdentityPlace { get; set; }
 
-        [MISAPropExport]
-        [Description("Chức danh")]
+        [MISAPropExport("Chức danh")]
         /// <summary>
         /// Tên vị tri
         /// </summary>
@@ -115,8 +110,7 @@ namespace MISA.Test.Core.Entities
         /// CreatedBy: NHHoang (27/8/2021)
         public Guid? DepartmentId { get; set; }
 
-        [MISAPropExport]
-        [Description("Tên đơn vị")]
+        [MISAPropExport("Tên đơn vị")]
         /// <summary>
         /// Tên phòng ban, đơn vị
         /// </summary>
@@ -129,16 +123,14 @@ namespace MISA.Test.Core.Entities
         /// CreatedBy: NHHoang (27/8/2021)
         public string DepartmentCode { get; set; }
 
-        [MISAPropExport]
-        [Description("Số tài khoản")]
+        [MISAPropExport("Số tài khoản")]
         /// <summary>
         /// Số tài khoản ngân hàng
         /// </summary>
         /// CreatedBy: NHHoang (27/8/2021)
         public string BankAccount { get; set; }
 
-        [MISAPropExport]
-        [Description("Tên ngân hàng")]
+        [MISAPropExport("Tên ngân hàng")]
         /// <summary>
         /// Tên ngân hàng
         /// </summary>

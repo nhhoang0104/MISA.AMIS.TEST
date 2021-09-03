@@ -22,6 +22,7 @@ namespace MISA.Test.Api.Controllers
         /// Lấy danh sách tất cả bản ghi
         /// </summary>
         /// <returns>danh sách barn </returns>
+        /// CreatedBy: NHHoang (27/8/2021)
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -61,6 +62,7 @@ namespace MISA.Test.Api.Controllers
         /// </summary>
         /// <param name="id">id thực thể</param>
         /// <returns>thông tin thực thể</returns>
+        /// CreatedBy: NHHoang (27/8/2021)
         [HttpGet("{id}")]
         public IActionResult GetById(string id)
         {
@@ -100,6 +102,7 @@ namespace MISA.Test.Api.Controllers
         /// </summary>
         /// <param name="entity">thông tin thực thể</param>
         /// <returns></returns>
+        /// CreatedBy: NHHoang (27/8/2021)
         [HttpPost]
         public virtual IActionResult Add(MISAEntity entity)
         {
@@ -148,6 +151,7 @@ namespace MISA.Test.Api.Controllers
         /// <param name="id">id thực thể</param>
         /// <param name="entity">thông tin thực thể</param>
         /// <returns></returns>
+        /// CreatedBy: NHHoang (27/8/2021)
         [HttpPut("{id}")]
         public IActionResult Update(string id, MISAEntity entity)
         {
@@ -187,6 +191,7 @@ namespace MISA.Test.Api.Controllers
         /// </summary>
         /// <param name="entitiesId">danh sách id của entites</param>
         /// <returns></returns>
+        /// CreatedBy: NHHoang (27/8/2021)
         [HttpDelete]
         public IActionResult DeleteEntities([FromQuery] List<string> entitiesId)
         {
@@ -234,6 +239,7 @@ namespace MISA.Test.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// CreatedBy: NHHoang (27/8/2021)
         [HttpDelete("{id}")]
         public IActionResult DeleteById(string id)
         {

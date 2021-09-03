@@ -30,6 +30,7 @@ namespace MISA.Test.Api.Controllers
         /// <param name="pageSize">kích cỡ trang</param>
         /// <param name="pageIndex">index trang</param>
         /// <returns>danh sách nhân viên</returns>
+        /// CreatedBy: NHHoang (27/8/2021)
         [HttpGet("Filter")]
         public IActionResult GetByFilterPaging([FromQuery] string employeeFilter, [FromQuery] int pageSize, [FromQuery] int pageIndex)
         {
@@ -69,6 +70,7 @@ namespace MISA.Test.Api.Controllers
         /// </summary>
         /// <param name="employeeCode">mã nhân viên</param>
         /// <returns></returns>
+        /// CreatedBy: NHHoang (27/8/2021)
         [HttpGet("CheckEmployeeExists/{employeeCode}")]
         public IActionResult CheckEmployeeExists(string employeeCode)
         {
@@ -104,6 +106,7 @@ namespace MISA.Test.Api.Controllers
         /// Lấy mã nhân viên mới
         /// </summary>
         /// <returns>mã nhân viên mới</returns>
+        /// CreatedBy: NHHoang (27/8/2021)
         [HttpGet("NewEmployeeCode")]
         public IActionResult GetNewEmployeeCode()
         {
@@ -126,56 +129,19 @@ namespace MISA.Test.Api.Controllers
         }
 
         /// <summary>
-        /// emport du lieu
+        /// xuất dữ liệu file excel
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpPost("Export")]
-        public async Task<IActionResult> Export(CancellationToken cancellationToken, [FromQuery] string employeeFilter, [FromQuery] int pageSize, [FromQuery] int pageIndex)
+        /// CreatedBy: NHHoang (27/8/2021)
+        /// CreatedBy: NHHoang (02/09/2021)
+        [HttpGet("Export")]
+        public IActionResult Export(CancellationToken cancellationToken, [FromQuery] string employeeFilter, [FromQuery] int pageSize, [FromQuery] int pageIndex)
         {
-            // query data from database  
-            await Task.Yield();
 
-            var stream = new MemoryStream();
-            var employees = new List<Employee>();
-                
-            var properties = typeof(Employee).GetProperties();
-
-            using (var package = new ExcelPackage(stream))
-            {
-
-                var workSheet = package.Workbook.Worksheets.Add("Sheet1");
-                workSheet.Cells.LoadFromCollection(employees, true);
-                var column = 1;
-
-                foreach (var prop in properties)
-                {
-                    var propMISAExport = prop.GetCustomAttributes(typeof(MISAPropExport), true);
-
-                    workSheet.Cells.AutoFitColumns();
-
-                    // xet cac truong export hay ko?
-                    if (!(propMISAExport.Length == 1))
-                    {
-                        workSheet.Column(column).Hidden = true;
-                    }
-
-                    // dinh dang ngay thang nam
-                    if (prop.PropertyType.Name.Contains(typeof(Nullable).Name) && prop.PropertyType.GetGenericArguments()[0] == typeof(DateTime))
-                    {
-                        workSheet.Column(column).Style.Numberformat.Format = "mm/dd/yyyy";
-                    }
-
-                    column++;
-                }
-
-                package.Save();
-            }
-
-            stream.Position = 0;
+            var stream = this._employeeService.Export(cancellationToken, employeeFilter, pageSize, pageIndex);
             string excelName = $"DanhSachNhanVien.xlsx";
 
-            //return File(stream, "application/octet-stream", excelName);  
             return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
         }
     }

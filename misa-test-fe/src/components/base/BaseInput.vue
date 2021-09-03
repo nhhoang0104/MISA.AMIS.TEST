@@ -196,4 +196,5 @@ export default {
 
 <style lang="css">
 @import url("../../assets/css/common/Input.css");
+@import url("../../assets/css/common/DateBox.css");
 </style>

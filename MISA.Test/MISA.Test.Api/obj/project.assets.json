@@ -1285,6 +1285,9 @@
       "MISA.Test.Core/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "EPPlus": "5.7.4"
+        },
         "compile": {
           "bin/placeholder/MISA.Test.Core.dll": {}
         },

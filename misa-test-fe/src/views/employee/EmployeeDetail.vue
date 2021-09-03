@@ -208,7 +208,7 @@
               </div>
             </div>
           </div>
-          <div class="p-b--27">
+          <div class="flex flex-column">
             <div class="row-input">
               <div class="w-100">
                 <base-input
@@ -367,7 +367,7 @@ export default {
     },
   },
 
-  emits: ["close-form", "load-data"],
+  emits: ["close-form", "load-data", "change-mode"],
 
   watch: {
     /**
@@ -480,11 +480,12 @@ export default {
         (el) => (this.$refs[el].isValidated = true)
       );
 
+      this.$emit("change-mode", 1);
       this.isFormDataChange = false;
 
       EmployeeAPI.getNewEmployeeCode().then((res) => {
         this.formData.EmployeeCode = res.data;
-        this.$refs["EmployeeCode"].focusInput();
+        this.$refs["EmployeeCode"].focus();
       });
     },
 
@@ -502,8 +503,10 @@ export default {
      * CreateBy: NHHoang(29/08/2021)
      */
     onChangeInput({ value, id }) {
-      this.formData[id] = value;
-      this.isFormDataChange = true;
+      if (this.formData[id] !== value) {
+        this.formData[id] = value;
+        this.isFormDataChange = true;
+      }
     },
 
     /**
@@ -512,74 +515,73 @@ export default {
      */
     async action() {
       let action = null;
-      // thêm mới
-      if (this.formMode === 1 || this.formMode === 3) {
-        action = EmployeeAPI.add(_.cloneDeep(this.formData));
-      }
-
-      // sửa
-      if (this.formMode === 2) {
-        action = EmployeeAPI.update(
-          this.employeeId,
-          _.cloneDeep(this.formData)
-        );
-      }
-
+      // validate
       let isValid = await this.validateForm();
+
       if (isValid) {
-        // thực hiện action
-        action
-          .then((res) => {
-            if (res.status != 204) {
-              this.toastList.push({
-                type: Resource.ToastType.Success,
-                message: Resource.ToastMessage.AddSuccess,
-              });
+        // thêm mới
+        if (this.formMode === 1 || this.formMode === 3) {
+          action = EmployeeAPI.add(_.cloneDeep(this.formData));
+        }
 
-              if (this.typeSubmit === 1) {
-                this.newForm();
-              } else {
-                this.closeForm();
-                this.$emit("load-data");
+        // sửa
+        if (this.formMode === 2) {
+          action = EmployeeAPI.update(
+            this.employeeId,
+            _.cloneDeep(this.formData)
+          );
+        }
+
+        //thực hiện action đã trả về ở hầm action
+        if (action !== null) {
+          action
+            .then((res) => {
+              if (res.status != 204) {
+                this.toastList.push({
+                  type: Resource.ToastType.Success,
+                  message: Resource.ToastMessage.AddSuccess,
+                });
+
+                if (this.typeSubmit === 1) {
+                  this.newForm();
+                } else {
+                  this.closeForm();
+                  this.$emit("load-data");
+                }
               }
-            }
-          })
-          .catch((err) => {
-            if (err.response.status < 500 && err.response.status >= 400) {
-              let msg = err.response.data.userMsg;
-              this.toastList.push({
-                type: Resource.ToastType.Error,
-                message: msg,
-              });
-            }
+            })
+            .catch((err) => {
+              if (err.response.status < 500 && err.response.status >= 400) {
+                let msg = err.response.data.userMsg;
+                this.toastList.push({
+                  type: Resource.ToastType.Error,
+                  message: msg,
+                });
+              }
 
-            if (err.response.status >= 500) {
-              this.toastList.push({
-                type: Resource.ToastType.Error,
-                message: Resource.ToastMesssage.ServerError,
-              });
-            }
-          });
+              if (err.response.status >= 500) {
+                this.toastList.push({
+                  type: Resource.ToastType.Error,
+                  message: Resource.ToastMesssage.ServerError,
+                });
+              }
+            });
+        }
       }
     },
 
     /**
-     * thực hiện action đã trả về ở hầm action
+     * submit form
      */
-    async onSubmit(type) {
+    onSubmit(type) {
+      this.typeSubmit = type;
       if (this.formMode === 2 && !this.isFormDataChange) {
-        this.setPopup(
-          "Bạn chưa thay đổi gì",
-          "icon-warning",
-          null,
-          null,
-          null,
-          "Đóng",
-          null,
-          null
-        );
+        if (this.typeSubmit === 1) {
+          this.newForm();
+        } else {
+          this.closeForm();
+        }
       } else {
-        this.typeSubmit = type;
         this.action();
       }
     },

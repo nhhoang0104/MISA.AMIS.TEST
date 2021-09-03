@@ -178,6 +178,7 @@ namespace MISA.Test.Core.Services
         /// true - id hợp lệ
         /// false - id không hợp lệ
         /// </returns>
+        /// CreatedBy: NHHoang (27/8/2021)
         private bool ValidateId(string id)
         {
             Guid tmp;
@@ -193,6 +194,7 @@ namespace MISA.Test.Core.Services
         /// true - các trường đã được điền đầy đủ
         /// false - các trường bắt buộc chưa điền đầy đủ
         /// </returns>
+        /// CreatedBy: NHHoang (27/8/2021)
         private bool ValidatePropRequired(MISAEntity entity)
         {
             var isValid = true;
@@ -217,11 +219,12 @@ namespace MISA.Test.Core.Services
 
             return isValid;
         }
-          
+
         /// <summary>
         /// kiêm tra trùng mã
         /// </summary>
         /// <returns></returns>
+        /// CreatedBy: NHHoang (27/8/2021)
         protected virtual bool ValidateEntityCode(MISAEntity entity)
         {
             return true;
