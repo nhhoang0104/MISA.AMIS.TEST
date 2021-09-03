@@ -17,6 +17,7 @@
         v-model="textSearch"
         @blur="outFocusInput"
         :tabIndex="tabIndex"
+        :title="title"
       />
       <div class="combo-box__toggle" @click="show">
         <div class="icon icon--16 icon-arrow-dropdown"></div>
@@ -41,6 +42,7 @@
 
 <script>
 import _ from "lodash";
+import ErrorMessage from "@/constants/EnumErrorMsg";
 
 export default {
   name: "combo-box",
@@ -91,6 +93,7 @@ export default {
       textSearch: "",
       valueSelected: "",
       isValidated: true,
+      title: "",
     };
   },
 
@@ -138,11 +141,11 @@ export default {
     value: {
       immediate: true,
       handler(newVal) {
-        this.validate(newVal);
         let tmp = this.dataClone.find((item) => item.id === newVal);
         if (tmp) this.textSearch = tmp?.label;
         else this.textSearch = null;
 
+        if (newVal !== null) this.validate(newVal);
         if (this.isShowed === true) this.isShowed = false;
       },
     },
@@ -229,8 +232,13 @@ export default {
     validate(value = null) {
       let tmp = value === null ? this.value : value;
       if (this.required) {
-        if (tmp === null) this.isValidated = false;
-        else this.isValidated = true;
+        if (tmp === null) {
+          this.isValidated = false;
+          this.title = ErrorMessage[this.id];
+        } else {
+          this.isValidated = true;
+          this.title = "";
+        }
       }
     },
 

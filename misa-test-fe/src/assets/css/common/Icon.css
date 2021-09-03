@@ -72,63 +72,124 @@
 }
 
 .icon.icon-dashboard {
-  background-position: -30px -1628px;
+  /*background-position: -30px -1628px;*/
+  background-position: -30px -1585px;
+}
+
+.icon.icon-dashboard.active {
+  background-position: -30px -1585px;
 }
 
 .icon.icon-cash {
   background-position: -73px -1628px;
 }
 
+.icon.icon-cash.active {
+  background-position: -73px -1588px;
+}
+
 .icon.icon-bank {
   background-position: -117px -1628px;
+}
+
+.icon.icon-bank.active {
+  background-position: -117px -1585px;
 }
 
 .icon.icon-purchase {
   background-position: -161px -1628px;
 }
 
+.icon.icon-purchase.active {
+  background-position: -161px -1585px;
+}
+
 .icon.icon-sale {
   background-position: -204px -1628px;
 }
 
+.icon.icon-sale.active {
+  background-position: -204px -1585px;
+}
+
 .icon.icon-invoice {
-  background-position: -249px -1628px;
+  background-position: -249px -1585px;
+}
+
+.icon.icon-invoice.active {
+  background-position: -254px -1589px;
 }
 
 .icon.icon-stock {
   background-position: -291px -1628px;
 }
 
+.icon.icon-stock.active {
+  background-position: -291px -1585px;
+}
+
 .icon.icon-tools {
   background-position: -336px -1628px;
+}
+
+.icon.icon-tools.active {
+  background-position: -336px -1585px;
 }
 
 .icon.icon-fixed-assets {
   background-position: -378px -1630px;
 }
 
+.icon.icon-fixed-assets.active {
+  background-position: -378px -1587px;
+}
+
 .icon.icon-tax {
   background-position: -423px -1630px;
+}
+
+.icon.icon-tax.active {
+  background-position: -423px -1587px;
 }
 
 .icon.icon-price {
   background-position: -467px -1628px;
 }
 
+.icon.icon-price.active {
+  background-position: -467px -1585px;
+}
+
 .icon.icon-general {
   background-position: -510px -1628px;
+}
+
+.icon.icon-general.active {
+  background-position: -510px -1585px;
 }
 
 .icon.icon-budget {
   background-position: -378px -1659px;
 }
 
+.icon.icon-budget.active {
+  background-position: -422px -1659px;
+}
+
 .icon.icon-report {
   background-position: -547px -1628px;
 }
 
+.icon.icon-report.active {
+  background-position: -547px -1585px;
+}
+
 .icon.icon-finance {
   background-position: -204px -1664px;
+}
+
+.icon.icon-finance.active {
+  background-position: -251px -1667px;
 }
 
 .icon.icon-refresh {

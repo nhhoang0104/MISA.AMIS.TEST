@@ -53,6 +53,7 @@ input::placeholder {
 
 .container-input input.container-input__input[validated="false"] {
   border-color: red;
+  outline: none;
 }
 
 input[type="radio"] {
