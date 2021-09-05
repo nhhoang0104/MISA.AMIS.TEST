@@ -17,6 +17,7 @@
         v-model="textSearch"
         @blur="outFocusInput"
         :tabIndex="tabIndex"
+        :placeholder="placeholder"
         :title="title"
       />
       <div class="combo-box__toggle" @click="show">
@@ -74,6 +75,10 @@ export default {
     tabIndex: {
       type: Number,
       required: false,
+    },
+    placeholder: {
+      type: String,
+      default: "",
     },
   },
 
@@ -204,7 +209,7 @@ export default {
       if (items.length === 0) {
         items = this.data;
       }
-      
+
       this.textSearch = items[0].label;
       this.$emit("select-item", { id: this.id, value: items[0].id });
 
