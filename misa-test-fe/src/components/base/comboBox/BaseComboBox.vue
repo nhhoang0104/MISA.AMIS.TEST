@@ -155,16 +155,7 @@ export default {
      * CreatedBy: NHHoang (29/08/2021)
      */
     textSearch(newVal) {
-      const text = _.trim(newVal);
-
-      if (text === "" || text === undefined || text === null) {
-        this.dataClone = _.cloneDeep(this.data);
-      } else {
-        this.dataClone = _.filter(
-          this.data,
-          (item) => item.label.toLowerCase().indexOf(text.toLowerCase()) > -1
-        );
-      }
+      this.dataClone = this.search(newVal);
     },
   },
 
@@ -208,9 +199,14 @@ export default {
      * CreatedBy: NHHoang (29/08/2021)
      */
     outFocusInput() {
-      let tmp = this.dataClone.find((item) => item.id === this.value);
-      if (tmp) this.textSearch = tmp?.label;
-      else this.textSearch = null;
+      let items = this.search(this.textSearch);
+
+      if (items.length === 0) {
+        items = this.data;
+      }
+      
+      this.textSearch = items[0].label;
+      this.$emit("select-item", { id: this.id, value: items[0].id });
 
       setTimeout(() => {
         this.isShowed = false;
@@ -273,6 +269,26 @@ export default {
             this.isShowed = true;
           }
         }
+      }
+    },
+
+    /**
+     * tìm kiếm các item phù hợp với @val
+     * @param val text tìm kiếm
+     * CreatedBy: NHHoang (30/08/2021)
+     */
+    search(val) {
+      const text = _.trim(val);
+
+      if (text === "" || text === undefined || text === null) {
+        return _.cloneDeep(this.data);
+      } else {
+        return _.filter(
+          this.data,
+          (item) =>
+            item.label.toLowerCase().indexOf(text.toLowerCase()) > -1 ||
+            item.code.toLowerCase().indexOf(text.toLowerCase()) > -1
+        );
       }
     },
   },
