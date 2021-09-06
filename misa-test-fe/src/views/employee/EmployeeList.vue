@@ -80,7 +80,7 @@
     </div>
     <div
       class="no-data flex flex-column flex-center"
-      :class="{ hidden: employeeList.length !== 0 }"
+      :class="{ hidden: isLoading || employeeList.length !== 0 }"
     >
       <img src="../../assets/img/bg_nodata.svg" />
       <div>Không có dữ liệu</div>
@@ -376,13 +376,26 @@ export default {
         this.isLoading = true;
         EmployeeAPI.delete(this.boxFunc.id)
           .then((res) => {
-            if (res.status != 204) {
+            if (res.status !== 204) {
               this.toastList.push({
                 type: Resource.ToastType.Success,
                 message: Resource.ToastMessage.DeleteSuccess,
               });
 
               this.loadData();
+            }
+
+            if (res.status === 204) {
+              this.setPopup(
+                Resource.ToastMessage.DeleteError,
+                "icon-error",
+                null,
+                null,
+                null,
+                "Đóng",
+                null,
+                null
+              );
             }
           })
           .catch(() => {
