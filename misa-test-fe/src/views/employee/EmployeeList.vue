@@ -373,6 +373,7 @@ export default {
 
         if (index !== -1) this.employeeIdDeleteList.splice(index, 1);
 
+        this.isLoading = true;
         EmployeeAPI.delete(this.boxFunc.id)
           .then((res) => {
             if (res.status != 204) {
@@ -572,6 +573,7 @@ export default {
      * CreatedBy: NHHoang(31/08/2021)
      */
     deleteList() {
+      this.isLoading = true;
       EmployeeAPI.deleteList(this.employeeIdDeleteList)
         .then((res) => {
           if (res.status != 204) {
