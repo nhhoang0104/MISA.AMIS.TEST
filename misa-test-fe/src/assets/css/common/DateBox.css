@@ -34,7 +34,7 @@
 
 .dx-datebox-wrapper .dx-calendar-navigator .dx-button-text,
 .dx-datebox-wrapper .dx-calendar-navigator .dx-icon {
-  color: #2ca01c;
+  color: #2ca01c !important;
 }
 
 .dx-calendar-cell.dx-calendar-selected-date.dx-calendar-contoured-date,

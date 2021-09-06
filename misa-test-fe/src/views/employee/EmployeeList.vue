@@ -376,6 +376,7 @@ export default {
         this.isLoading = true;
         EmployeeAPI.delete(this.boxFunc.id)
           .then((res) => {
+            this.isLoading = false;
             if (res.status !== 204) {
               this.toastList.push({
                 type: Resource.ToastType.Success,
@@ -399,6 +400,7 @@ export default {
             }
           })
           .catch(() => {
+            this.isLoading = false;
             this.toastList.push({
               type: Resource.ToastType.Error,
               message: Resource.ToastMessage.ServerError,
@@ -589,6 +591,7 @@ export default {
       this.isLoading = true;
       EmployeeAPI.deleteList(this.employeeIdDeleteList)
         .then((res) => {
+          this.isLoading = false;
           if (res.status != 204) {
             this.toastList.push({
               type: Resource.ToastType.Success,
@@ -599,6 +602,7 @@ export default {
           }
         })
         .catch(() => {
+          this.isLoading = false;
           this.toastList.push({
             type: Resource.ToastType.Error,
             message: Resource.ToastMessage.ServerError,

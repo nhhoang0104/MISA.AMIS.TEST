@@ -6,7 +6,8 @@ Resource.ToastMessage = {
   AddSuccess: "Thêm dữ liệu thành công",
   EditSuccess: "Cập nhật dữ liệu thành công",
   DeleteSuccess: "Xoá dữ liệu thành công",
-  DeleteError: "Nhân viên không tồn tại trong hệ thống",
+  DeleteError:
+    "Nhân viên không tồn tại trong hệ thống. Vui lòng tải lại trang!",
   ServerError: "Có lỗi xảy ra, vui lòng liên hệ MISA",
 };
 

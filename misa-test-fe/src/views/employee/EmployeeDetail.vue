@@ -344,6 +344,7 @@
       </div>
     </div>
     <base-popup :info="popupInfo" @close="closePopup"></base-popup>
+    <base-loader :isLoading="isLoading"></base-loader>
   </div>
 </template>
 
@@ -519,11 +520,13 @@ export default {
             _.cloneDeep(this.formData)
           );
         }
-        
+
         //thực hiện action đã trả về ở hầm action
         if (action !== null) {
+          this.isLoading = true;
           action
             .then((res) => {
+              this.isLoading = false;
               if (res.status != 204) {
                 if (this.formMode === 2) {
                   this.$emit("add-toast", {
@@ -547,6 +550,7 @@ export default {
               }
             })
             .catch((err) => {
+              this.isLoading = false;
               if (err.response.status < 500 && err.response.status >= 400) {
                 let msg = err.response.data.userMsg;
                 this.$emit("add-toast", {
