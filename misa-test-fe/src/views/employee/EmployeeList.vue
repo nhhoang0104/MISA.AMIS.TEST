@@ -21,6 +21,7 @@
       <div class="right flex p-r--16">
         <div class="input-list">
           <base-input
+            ref="searchBox"
             :hasIcon="true"
             iconName="icon-search"
             placeholder="Tìm kiếm theo mã, tên"
@@ -169,6 +170,13 @@ export default {
      * CreatedBy: NHHoang (31/08/2021)
      */
     this.loadData();
+  },
+
+  mounted() {
+    /**
+     * Khi vào trang sẽ tự động foucs vào searchBox.
+     */
+    this.$refs["searchBox"].focus();
   },
 
   watch: {
