@@ -31,12 +31,14 @@
         <div class="utils-btn">
           <div class="p-l--6 p-r--6">
             <div
+              title="Lấy lại dữ liệu"
               class="icon icon--24 icon-refresh refresh"
               @click="refresh"
             ></div>
           </div>
           <div class="p-l--6">
             <div
+              title="Xuất ra excel"
               class="icon icon--24 icon-export export"
               @click="exportdData"
             ></div>

@@ -13,7 +13,8 @@
     >
       <input
         type="text"
-        @focus="onFocusInput"
+        ref="focusMe"
+        @focus="focus"
         v-model="textSearch"
         @blur="outFocusInput"
         :tabIndex="tabIndex"
@@ -222,7 +223,7 @@ export default {
      * xử lý focus vào input
      * CreatedBy: NHHoang (29/08/2021)
      */
-    onFocusInput() {
+    focus() {
       this.isShowed = true;
     },
 
