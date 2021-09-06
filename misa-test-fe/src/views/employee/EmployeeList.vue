@@ -103,6 +103,7 @@
     @close-form="closeForm"
     :employeeId="employeeIdSelected"
     @load-data="loadData"
+    @add-toast="addToast"
   />
   <base-toast-message
     v-for="(item, index) in toastList"
@@ -512,6 +513,17 @@ export default {
           link.click();
           URL.revokeObjectURL(link.href);
         }
+      });
+    },
+
+    /**
+     * Thêm mới toastmessage
+     * CreatedBy: NHHoang(31/08/2021)
+     */
+    addToast({ type, message }) {
+      this.toastList.push({
+        type,
+        message,
       });
     },
 

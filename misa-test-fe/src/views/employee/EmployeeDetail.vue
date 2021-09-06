@@ -343,12 +343,6 @@
         </div>
       </div>
     </div>
-    <base-toast-message
-      v-for="(item, index) in toastList"
-      :toast="item"
-      :key="index"
-      :index="index"
-    ></base-toast-message>
     <base-popup :info="popupInfo" @close="closePopup"></base-popup>
   </div>
 </template>
@@ -380,7 +374,7 @@ export default {
     },
   },
 
-  emits: ["close-form", "load-data", "change-mode"],
+  emits: ["close-form", "load-data", "change-mode", "add-toast"],
 
   watch: {
     /**
@@ -420,23 +414,6 @@ export default {
         this.$refs["EmployeeCode"].focus();
       }
     },
-
-    /**
-     * Xóa danh sách toastList sau 3 đối với phần tử cuối cùng.
-     * CreatedBy: NHHoang(01/09/2021)
-     */
-
-    toastList: {
-      deep: true,
-      immediate: true,
-      handler: function() {
-        clearTimeout(this.timeoutRemoveToastList);
-
-        this.timeoutRemoveToastList = setTimeout(() => {
-          if (this.toastList.length > 0) this.toastList = [];
-        }, 3000);
-      },
-    },
   },
 
   data() {
@@ -463,8 +440,6 @@ export default {
       },
       isFormDataChange: false,
       isLoading: false,
-      toastList: [],
-      timeoutRemoveToastList: null,
       typeSubmit: 0,
     };
   },
@@ -544,19 +519,27 @@ export default {
             _.cloneDeep(this.formData)
           );
         }
-
+        
         //thực hiện action đã trả về ở hầm action
         if (action !== null) {
           action
             .then((res) => {
               if (res.status != 204) {
-                this.toastList.push({
-                  type: Resource.ToastType.Success,
-                  message: Resource.ToastMessage.AddSuccess,
-                });
+                if (this.formMode === 2) {
+                  this.$emit("add-toast", {
+                    type: Resource.ToastType.Success,
+                    message: Resource.ToastMessage.EditSuccess,
+                  });
+                } else {
+                  this.$emit("add-toast", {
+                    type: Resource.ToastType.Success,
+                    message: Resource.ToastMessage.AddSuccess,
+                  });
+                }
 
                 if (this.typeSubmit === 1) {
                   this.newForm();
+                  this.$emit("load-data");
                 } else {
                   this.closeForm();
                   this.$emit("load-data");
@@ -566,14 +549,14 @@ export default {
             .catch((err) => {
               if (err.response.status < 500 && err.response.status >= 400) {
                 let msg = err.response.data.userMsg;
-                this.toastList.push({
+                this.$emit("add-toast", {
                   type: Resource.ToastType.Error,
                   message: msg,
                 });
               }
 
               if (err.response.status >= 500) {
-                this.toastList.push({
+                this.$emit("add-toast", {
                   type: Resource.ToastType.Error,
                   message: Resource.ToastMesssage.ServerError,
                 });
