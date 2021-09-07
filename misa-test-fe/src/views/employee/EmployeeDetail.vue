@@ -32,7 +32,6 @@
                     :value="formData.EmployeeCode"
                     :hasLabel="true"
                     label="Mã"
-                    placeholder="MF-999"
                     :required="true"
                     :tabIndex="1"
                     :maxLength="20"
@@ -46,7 +45,6 @@
                     :value="formData.FullName"
                     :hasLabel="true"
                     label="Tên"
-                    placeholder="Nguyễn Huy Hoàng"
                     :required="true"
                     :tabIndex="2"
                     :maxLength="100"
@@ -59,7 +57,6 @@
                     label="Đơn vị"
                     ref="DepartmentId"
                     :required="true"
-                    placeholder="Chọn đơn vị"
                     :data="departmentCbb"
                     :value="formData.DepartmentId"
                     id="DepartmentId"
@@ -85,7 +82,6 @@
                     ref="PositionName"
                     :value="formData.PositionName"
                     :hasLabel="true"
-                    placeholder="Nhân viên"
                     label="Chức danh"
                     @onchangeinput="onChangeInput"
                     id="PositionName"
@@ -128,6 +124,7 @@
                           label="0"
                           type="radio"
                           :value="Resource.Gender.Female"
+                          :tabindex="3"
                         />
                         <span class="radio">
                           <span class="radio-border"></span>
@@ -152,7 +149,6 @@
                           type="radio"
                           label="1"
                           :value="Resource.Gender.Male"
-                          :tabIndex="16"
                         />
                         <span class="radio">
                           <span class="radio-border"></span>
@@ -196,7 +192,6 @@
                   <base-input
                     :hasLabel="true"
                     label="Số CMND"
-                    placeholder="001200012316"
                     ref="IdentityNumber"
                     @onchangeinput="onChangeInput"
                     :value="formData.IdentityNumber"
@@ -229,7 +224,6 @@
                     @onchangeinput="onChangeInput"
                     :value="formData.IdentityPlace"
                     id="IdentityPlace"
-                    placeholder="Hà Nội"
                     :tabIndex="8"
                     :maxLength="255"
                   ></base-input>
@@ -246,7 +240,6 @@
                   label="Địa chỉ"
                   @onchangeinput="onChangeInput"
                   id="Address"
-                  placeholder="Hà Nội"
                   :value="formData.Address"
                   :tabIndex="9"
                   :maxLength="255"
@@ -259,7 +252,6 @@
                   ref="MobilePhoneNumber"
                   :hasLabel="true"
                   label="ĐT di động"
-                  placeholder="0349398126"
                   @onchangeinput="onChangeInput"
                   id="MobilePhoneNumber"
                   :value="formData.MobilePhoneNumber"
@@ -272,7 +264,6 @@
                   ref="TelephoneNumber"
                   :hasLabel="true"
                   label="ĐT cố định"
-                  placeholder="(821) 707-0104"
                   @onchangeinput="onChangeInput"
                   id="TelephoneNumber"
                   :value="formData.TelephoneNumber"
@@ -285,7 +276,6 @@
                   ref="Email"
                   :hasLabel="true"
                   label="Email"
-                  placeholder="nhhoanguet@gmail.com"
                   @onchangeinput="onChangeInput"
                   id="Email"
                   format="email"
@@ -300,7 +290,6 @@
                 <base-input
                   ref="BankAccount"
                   :hasLabel="true"
-                  placeholder="774701"
                   label="Tài khoản ngân hàng"
                   @onchangeinput="onChangeInput"
                   id="BankAccount"
@@ -314,7 +303,6 @@
                   ref="BankName"
                   :hasLabel="true"
                   label="Tên ngân hàng"
-                  placeholder="ACB"
                   @onchangeinput="onChangeInput"
                   id="BankName"
                   :value="formData.BankName"
@@ -325,7 +313,6 @@
               <div class="w-25">
                 <base-input
                   ref="BankBranch"
-                  placeholder="Hà Thành"
                   :hasLabel="true"
                   label="Chi nhánh"
                   @onchangeinput="onChangeInput"
@@ -569,7 +556,10 @@ export default {
           action
             .then((res) => {
               this.isLoading = false;
-              if (res.status === Resource.StatusCode.Success) {
+              if (
+                res.status === Resource.StatusCode.Success ||
+                res.status === Resource.StatusCode.ChangeSuccess
+              ) {
                 if (this.formMode === Resource.FormMode.Update) {
                   this.$emit("add-toast", {
                     type: Resource.ToastType.Success,
@@ -591,7 +581,7 @@ export default {
                 }
               }
 
-              if(res.status === Resource.StatusCode.NoContent){
+              if (res.status === Resource.StatusCode.NoContent) {
                 if (this.formMode === Resource.FormMode.Update) {
                   this.$emit("add-toast", {
                     type: Resource.ToastType.Error,
@@ -695,8 +685,7 @@ export default {
 
           if (isValidated && isCheckEmployeeExists) {
             isValidated = false;
-            let msg = Resource.ErrorMessage.EmployeeCodeExist.replace(
-              "{EmployeeCode}",
+            let msg = Resource.ErrorMessage.EmployeeCodeExist.format(
               this.formData.EmployeeCode
             );
 

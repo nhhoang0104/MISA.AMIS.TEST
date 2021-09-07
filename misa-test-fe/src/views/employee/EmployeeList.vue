@@ -12,7 +12,7 @@
     <div class="content__body__toolbar">
       <div class="left">
         <base-button
-          label="Xóa nhiều"
+          label="Xóa hàng loạt"
           @click="preDeleteList"
           :secondary="true"
           v-show="employeeIdDeleteList.length > 1"
@@ -361,8 +361,7 @@ export default {
       let employee = this.employeeList.find(
         (item) => item.EmployeeId === this.boxFunc.id
       );
-      let message = Resource.PopupMessage.DeleteById.replace(
-        "{EmployeeCode}",
+      let message = Resource.PopupMessage.DeleteById.format(
         employee ? employee.EmployeeCode : ""
       );
 

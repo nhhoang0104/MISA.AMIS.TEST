@@ -13,6 +13,8 @@ import BasePopup from "@/components/base/BasePopup.vue";
 import BaseLoader from "@/components/base/BaseLoader.vue";
 import BaseToastMessage from "@/components/base/BaseToastMessage.vue";
 
+import "@/utils/formatString";
+
 import router from "./router";
 
 import "devextreme/dist/css/dx.light.css";

@@ -2,7 +2,7 @@ var Resource = Resource || {};
 
 Resource.PopupMessage = {
   DeleteList: `Bạn có thực sự muốn xóa các nhân viên không?`,
-  DeleteById: `Bạn có thực sự muốn xóa Nhân viên < {EmployeeCode} > không?`,
+  DeleteById: `Bạn có thực sự muốn xóa Nhân viên < {0} > không?`,
 };
 
 Resource.StatusCode = {
@@ -16,7 +16,7 @@ Resource.StatusCode = {
 Resource.ErrorMessage = {
   EmployeeCode: "Mã không được để trống",
   EmployeeCodeExist:
-    "Mã nhân viên < {EmployeeCode} > đã tồn tại trong hệ thống. Xin vui lòng kiểm ta lại",
+    "Mã nhân viên < {0} > đã tồn tại trong hệ thống. Xin vui lòng kiểm ta lại",
   IdentityNumber: "Giá trị của CMND không đúng giá trị",
   DepartmentId: "Đơn vị không được để trống",
   Email: "Email không đúng định dạng",
