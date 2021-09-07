@@ -45,9 +45,9 @@
 </template>
 
 <script>
-import FormatData from "@/utils/FormatData";
-import Validation from "@/utils/Validation";
-import ErrorMessage from "@/constants/EnumErrorMsg";
+import FormatData from "@/utils/formatData";
+import Validation from "@/utils/validation";
+import Resource from "@/constants/resource";
 import DxDateBox from "devextreme-vue/date-box";
 import { locale } from "devextreme/localization";
 locale("vi-VN");
@@ -112,6 +112,7 @@ export default {
       currentDate: FormatData.formatDateInput(new Date()),
       isValidated: true,
       title: "",
+      ErrorMessage: Resource.ErrorMessage,
       valueClone: "",
     };
   },
@@ -151,50 +152,62 @@ export default {
 
     validate(tmp = null) {
       let value = tmp;
+
       if (value === null) value = this.value;
+      try {
+        if (this.required) {
+          if (!Validation.validate(this.format, value)) {
+            this.isValidated = false;
+            this.title = this.ErrorMessage[this.id];
+          } else {
+            this.isValidated = true;
+            this.title = "";
+          }
+        } else {
+          if (value === null || value === "") {
+            this.isValidated = true;
+            this.title = "";
+          } else {
+            if (this.format === "email") {
+              if (!Validation.validateEmail(value)) {
+                this.isValidated = false;
+                this.title = this.ErrorMessage[this.id];
+              } else {
+                this.isValidated = true;
+                this.title = "";
+              }
+            }
 
-      if (this.required) {
-        if (!Validation.validate(this.format, value)) {
-          this.isValidated = false;
-          this.title = ErrorMessage[this.id];
-        } else {
-          this.isValidated = true;
-          this.title = "";
-        }
-      } else {
-        if (value === null || value === "") {
-          this.isValidated = true;
-          this.title = "";
-        } else {
-          if (this.format === "email") {
-            if (!Validation.validateEmail(value)) {
-              this.isValidated = false;
-              this.title = ErrorMessage[this.id];
-            } else {
-              this.isValidated = true;
-              this.title = "";
+            if (this.format === "number") {
+              if (!Validation.validateNumber(value)) {
+                this.isValidated = false;
+                this.title = this.ErrorMessage[this.id];
+              } else {
+                this.isValidated = true;
+                this.title = "";
+              }
+            }
+
+            if (this.format === "date") {
+              if (!Validation.validateDate(value)) {
+                this.isValidated = false;
+              } else {
+                this.isValidated = true;
+              }
             }
           }
-
-          if (this.format === "number") {
-            if (!Validation.validateNumber(value)) {
-              this.isValidated = false;
-              this.title = ErrorMessage[this.id];
-            } else {
-              this.isValidated = true;
-              this.title = "";
-            }
-          }
         }
+
+        return this.isValidated;
+      } catch (error) {
+        console.log(error);
       }
-
-      return this.isValidated;
     },
   },
 };
 </script>
 
 <style lang="css">
-@import url("../../assets/css/common/Input.css");
-@import url("../../assets/css/common/DateBox.css");
+@import url("../../assets/css/common/input.css");
+@import url("../../assets/css/common/dateBox.css");
 </style>

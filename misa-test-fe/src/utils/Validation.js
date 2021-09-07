@@ -45,4 +45,13 @@ export default class Validation {
     const re = /^\d*$/;
     return re.test(String(value).toLowerCase());
   }
+
+  /**
+   * so sánh ngày có lớn hơn ngày hiện tạo không
+   * @param {*} value ngày chọn
+   * @returns true: nhỏ hoặc bằng hơn, false: lớn hơn
+   */
+  static validateDate(value) {
+    return new Date(value) - new Date() >= 0 ? false : true;
+  }
 }

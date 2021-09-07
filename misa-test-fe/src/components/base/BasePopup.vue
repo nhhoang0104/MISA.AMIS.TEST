@@ -86,5 +86,5 @@ export default {
 </script>
 
 <style lang="css">
-@import url("../../assets/css/common/Popup.css");
+@import url("../../assets/css/common/popup.css");
 </style>

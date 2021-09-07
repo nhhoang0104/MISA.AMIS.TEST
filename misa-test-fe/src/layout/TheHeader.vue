@@ -57,7 +57,7 @@ export default {
 </script>
 
 <style lang="css">
-@import url("../assets/css/layout/Header.css");
+@import url("../assets/css/layout/header.css");
 .bg-color {
   background-color: var(--color-bg-logo) !important;
   width: 52px !important;

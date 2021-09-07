@@ -33,7 +33,7 @@
             <div
               title="Lấy lại dữ liệu"
               class="icon icon--24 icon-refresh refresh"
-              @click="refresh"
+              @click="loadData"
             ></div>
           </div>
           <div class="p-l--6">
@@ -96,7 +96,7 @@
       @focusout="clickOutSide"
     >
       <div class="item__func" @click="replica">Nhân bản</div>
-      <div class="item__func" @click="preDeleleteById">Xóa</div>
+      <div class="item__func" @click="preDeleteById">Xóa</div>
     </div>
   </div>
   <EmployeeDetail
@@ -119,10 +119,10 @@
 </template>
 
 <script>
-import { columns } from "@/views/employee/Column.js";
+import { columns } from "@/views/employee/column.js";
 import EmployeeAPI from "@/api/components/EmployeeAPI";
 import EmployeeDetail from "./EmployeeDetail.vue";
-import Resource from "@/constants/Resource";
+import Resource from "@/constants/resource";
 import _ from "lodash";
 
 export default {
@@ -160,9 +160,9 @@ export default {
       },
       isLoading: false,
       toastList: [],
-      Resource: Resource,
       timeoutSearch: null,
       timeoutRemoveToastList: null,
+      Resource: Resource,
     };
   },
 
@@ -233,14 +233,6 @@ export default {
 
   methods: {
     /**
-     * refresh data
-     * CreatedBy: NHHoang (29/08/2021)
-     */
-    refresh() {
-      this.loadData();
-    },
-
-    /**
      * Lấy dữ liệu
      * CreatedBy: NHHoang (29/08/2021)
      */
@@ -300,13 +292,17 @@ export default {
      * CreatedBy: NHHoang (29/08/2021)
      */
     onChangeEmployeeFiler({ value }) {
-      clearTimeout(this.timeoutSearch);
+      try {
+        clearTimeout(this.timeoutSearch);
 
-      this.timeoutSearch = setTimeout(() => {
-        this.currentPage = 1;
-        this.employeeFilter = value;
-        this.loadData();
-      }, 300);
+        this.timeoutSearch = setTimeout(() => {
+          this.currentPage = 1;
+          this.employeeFilter = value;
+          this.loadData();
+        }, 300);
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     /**
@@ -331,7 +327,6 @@ export default {
      * đóng box func
      * CreatedBy: NHHoang (29/08/2021)
      */
-
     closeBoxFunc() {
       this.boxFunc.isShowed = false;
       this.boxFunc.id = null;
@@ -349,15 +344,15 @@ export default {
      * Hiện popup xác nhận muốn xóa không?
      * CreatedBy: NHHoang (29/08/2021)
      */
-
-    preDeleleteById() {
+    preDeleteById() {
       this.boxFunc.isShowed = false;
       let employee = this.employeeList.find(
         (item) => item.EmployeeId === this.boxFunc.id
       );
-      let message = `Bạn có thực sự muốn xóa Nhân viên < ${
+      let message = Resource.PopupMessage.DeleteById.replace(
+        "{EmployeeCode}",
         employee ? employee.EmployeeCode : ""
-      } > không?`;
+      );
 
       this.setPopup(
         message,
@@ -379,9 +374,13 @@ export default {
     deleteById() {
       if (this.boxFunc.id) {
         //loại bỏ khỏi danh sách xóa nhiều
-        let index = this.employeeIdDeleteList.indexOf(this.boxFunc.id);
+        try {
+          let index = this.employeeIdDeleteList.indexOf(this.boxFunc.id);
 
-        if (index !== -1) this.employeeIdDeleteList.splice(index, 1);
+          if (index !== -1) this.employeeIdDeleteList.splice(index, 1);
+        } catch (error) {
+          console.log(error);
+        }
 
         this.isLoading = true;
         EmployeeAPI.delete(this.boxFunc.id)
@@ -625,10 +624,8 @@ export default {
      * CreatedBy: NHHoang(31/08/2021)
      */
     preDeleteList() {
-      let message = `Bạn có thực sự muốn xóa các nhân viên không?`;
-
       this.setPopup(
-        message,
+        Resource.PopupMessage.DeleteList,
         "icon-warning",
         "Không",
         null,

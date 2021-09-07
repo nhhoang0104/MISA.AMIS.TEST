@@ -15,7 +15,14 @@ namespace MISA.Test.Api.Controllers
 {
     public class EmployeeController : BaseController<Employee>
     {
+
+        #region Field
+
         IEmployeeService _employeeService;
+
+        #endregion
+
+        #region Methods
         public EmployeeController(IEmployeeService employeeService) : base(employeeService)
         {
             this._employeeService = employeeService;
@@ -144,5 +151,7 @@ namespace MISA.Test.Api.Controllers
 
             return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
         }
+
+        #endregion
     }
 }

@@ -117,14 +117,23 @@
                       <label
                         class="container-radio"
                         for="0"
-                        @click="onChangeInput({ value: 0, id: 'Gender' })"
+                        @click="
+                          onChangeInput({
+                            value: Resource.Gender.Female,
+                            id: 'Gender',
+                          })
+                        "
                       >
-                        <input label="0" type="radio" value="0" />
+                        <input
+                          label="0"
+                          type="radio"
+                          :value="Resource.Gender.Female"
+                        />
                         <span class="radio">
                           <span class="radio-border"></span>
                           <span
                             class="radio-circle"
-                            v-show="formData.Gender === 0"
+                            v-show="formData.Gender === Resource.Gender.Female"
                           ></span>
                         </span>
                         <span class="label-radio">Nữ</span>
@@ -132,19 +141,24 @@
                       <label
                         class="container-radio"
                         for="1"
-                        @click="onChangeInput({ value: 1, id: 'Gender' })"
+                        @click="
+                          onChangeInput({
+                            value: Resource.Gender.Male,
+                            id: 'Gender',
+                          })
+                        "
                       >
                         <input
                           type="radio"
                           label="1"
-                          :value="1"
+                          :value="Resource.Gender.Male"
                           :tabIndex="16"
                         />
                         <span class="radio">
                           <span class="radio-border"></span>
                           <span
                             class="radio-circle"
-                            v-show="formData.Gender === 1"
+                            v-show="formData.Gender === Resource.Gender.Male"
                           ></span>
                         </span>
                         <span class="label-radio">Nam</span>
@@ -152,14 +166,23 @@
                       <label
                         class="container-radio"
                         for="2"
-                        @click="onChangeInput({ value: 2, id: 'Gender' })"
+                        @click="
+                          onChangeInput({
+                            value: Resource.Gender.Other,
+                            id: 'Gender',
+                          })
+                        "
                       >
-                        <input type="radio" label="2" :value="2" />
+                        <input
+                          type="radio"
+                          label="2"
+                          :value="Resource.Gender.Other"
+                        />
                         <span class="radio">
                           <span class="radio-border"></span>
                           <span
                             class="radio-circle"
-                            v-show="formData.Gender === 2"
+                            v-show="formData.Gender === Resource.Gender.Other"
                           ></span>
                         </span>
                         <span class="label-radio">Khác</span>
@@ -331,12 +354,12 @@
                 <base-button
                   label="Cất"
                   :secondary="true"
-                  @onclick="onSubmit(0)"
+                  @onclick="onSubmit(Resource.TypeSubmit.NoForm)"
                 ></base-button>
               </div>
               <base-button
                 label="Cất và Thêm"
-                @onclick="onSubmit(1)"
+                @onclick="onSubmit(Resource.TypeSubmit.NewForm)"
               ></base-button>
             </div>
           </div>
@@ -353,9 +376,8 @@ import { EmployeeModel } from "@/models/EmployeeModel";
 import _ from "lodash";
 import DepartmentAPI from "@/api/components/DepartmentAPI";
 import EmployeeAPI from "@/api/components/EmployeeAPI";
-import FormatData from "@/utils/FormatData.js";
-import ErrorMessage from "@/constants/EnumErrorMsg";
-import Resource from "@/constants/Resource";
+import FormatData from "@/utils/formatData.js";
+import Resource from "@/constants/resource";
 
 export default {
   props: {
@@ -385,7 +407,10 @@ export default {
     isShowed(newVal) {
       let tmp = "";
       if (newVal) {
-        if (this.formMode === 1 || this.formMode === 3) {
+        if (
+          this.formMode === Resource.FormMode.Replica ||
+          this.formMode === Resource.FormMode.Add
+        ) {
           EmployeeAPI.getNewEmployeeCode().then((res) => {
             this.formData.EmployeeCode = res.data;
             tmp = res.data;
@@ -394,11 +419,15 @@ export default {
           });
         }
 
-        if (this.formMode === 2 || this.formMode === 3) {
+        if (
+          this.formMode === Resource.FormMode.Update ||
+          this.formMode === Resource.FormMode.Replica
+        ) {
           EmployeeAPI.getById(this.employeeId).then((res) => {
             this.formData = res.data;
 
-            if (this.formMode === 3) this.formData.EmployeeCode = tmp;
+            if (this.formMode === Resource.FormMode.Replica)
+              this.formData.EmployeeCode = tmp;
 
             this.formData.DateOfBirth = FormatData.formatDateInput(
               res.data.DateOfBirth
@@ -420,13 +449,7 @@ export default {
   data() {
     return {
       formData: _.cloneDeep(EmployeeModel),
-      test: [
-        { id: "0", code: 0, label: "Nữ" },
-        { id: "1", code: 1, label: "Nam" },
-        { id: "2", code: 2, label: "Khác" },
-      ],
       Resource: Resource,
-      department: "1",
       departmentCbb: [],
       popupInfo: {
         btnLeft: null,
@@ -463,19 +486,23 @@ export default {
      * CreateBy: NHHoang(28/08/2021)
      */
     newForm() {
-      this.formData = _.cloneDeep(EmployeeModel);
+      try {
+        this.formData = _.cloneDeep(EmployeeModel);
 
-      Object.keys(this.$refs).forEach(
-        (el) => (this.$refs[el].isValidated = true)
-      );
+        Object.keys(this.$refs).forEach(
+          (el) => (this.$refs[el].isValidated = true)
+        );
 
-      this.$emit("change-mode", 1);
-      this.isFormDataChange = false;
+        this.$emit("change-mode", Resource.FormMode.Add);
+        this.isFormDataChange = false;
 
-      EmployeeAPI.getNewEmployeeCode().then((res) => {
-        this.formData.EmployeeCode = res.data;
-        this.$refs["EmployeeCode"].focus();
-      });
+        EmployeeAPI.getNewEmployeeCode().then((res) => {
+          this.formData.EmployeeCode = res.data;
+          this.$refs["EmployeeCode"].focus();
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     /**
@@ -483,8 +510,12 @@ export default {
      * CreateBy: NHHoang(28/08/2021)
      */
     selectItem({ id, value }) {
-      this.formData[id] = value;
-      this.isFormDataChange = true;
+      try {
+        this.formData[id] = value;
+        this.isFormDataChange = true;
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     /**
@@ -492,9 +523,13 @@ export default {
      * CreateBy: NHHoang(29/08/2021)
      */
     onChangeInput({ value, id }) {
-      if (this.formData[id] !== value) {
-        this.formData[id] = value;
-        this.isFormDataChange = true;
+      try {
+        if (this.formData[id] !== value) {
+          this.formData[id] = value;
+          this.isFormDataChange = true;
+        }
+      } catch (error) {
+        console.log(error);
       }
     },
 
@@ -508,17 +543,24 @@ export default {
       let isValid = await this.validateForm();
 
       if (isValid) {
-        // thêm mới
-        if (this.formMode === 1 || this.formMode === 3) {
-          action = EmployeeAPI.add(_.cloneDeep(this.formData));
-        }
+        try {
+          // thêm mới
+          if (
+            this.formMode === Resource.FormMode.Add ||
+            this.formMode === Resource.FormMode.Replica
+          ) {
+            action = EmployeeAPI.add(_.cloneDeep(this.formData));
+          }
 
-        // sửa
-        if (this.formMode === 2) {
-          action = EmployeeAPI.update(
-            this.employeeId,
-            _.cloneDeep(this.formData)
-          );
+          // sửa
+          if (this.formMode === Resource.FormMode.Update) {
+            action = EmployeeAPI.update(
+              this.employeeId,
+              _.cloneDeep(this.formData)
+            );
+          }
+        } catch (error) {
+          console.log(error);
         }
 
         //thực hiện action đã trả về ở hầm action
@@ -528,7 +570,7 @@ export default {
             .then((res) => {
               this.isLoading = false;
               if (res.status != 204) {
-                if (this.formMode === 2) {
+                if (this.formMode === Resource.FormMode.Update) {
                   this.$emit("add-toast", {
                     type: Resource.ToastType.Success,
                     message: Resource.ToastMessage.EditSuccess,
@@ -540,7 +582,7 @@ export default {
                   });
                 }
 
-                if (this.typeSubmit === 1) {
+                if (this.typeSubmit === Resource.TypeSubmit.NewForm) {
                   this.newForm();
                   this.$emit("load-data");
                 } else {
@@ -575,8 +617,11 @@ export default {
      */
     onSubmit(type) {
       this.typeSubmit = type;
-      if (this.formMode === 2 && !this.isFormDataChange) {
-        if (this.typeSubmit === 1) {
+      if (
+        this.formMode === Resource.FormMode.Update &&
+        !this.isFormDataChange
+      ) {
+        if (this.typeSubmit === Resource.TypeSubmit.NewForm) {
           this.newForm();
         } else {
           this.closeForm();
@@ -593,17 +638,54 @@ export default {
      */
     async validateForm() {
       let isValidated = true;
+      try {
+        // validate các trường bắt buộc
+        Object.keys(this.$refs).forEach((el) => {
+          this.$refs[el].validate();
 
-      // validate các trường bắt buộc
-      Object.keys(this.$refs).forEach((el) => {
-        this.$refs[el].validate();
+          if (!this.$refs[el].isValidated) {
+            if (isValidated) {
+              let msg = Resource.ErrorMessage[this.$refs[el].id];
 
-        if (!this.$refs[el].isValidated) {
-          if (isValidated) {
-            let msg = ErrorMessage[this.$refs[el].id];
+              if (this.$refs[el].format === "date") {
+                msg = Resource.ErrorMessage["Date"];
+              }
+
+              this.setPopup(
+                msg,
+                "icon-error",
+                null,
+                null,
+                null,
+                "Đóng",
+                null,
+                null
+              );
+            }
+
+            isValidated = this.$refs[el].isValidated;
+          }
+        });
+
+        // kiểm tra trùng mã nhân viên
+        if (
+          this.formMode === Resource.FormMode.Add ||
+          this.formMode === Resource.FormMode.Replica
+        ) {
+          let {
+            data: isCheckEmployeeExists,
+          } = await EmployeeAPI.checkEmployeeExists(this.formData.EmployeeCode);
+
+          if (isValidated && isCheckEmployeeExists) {
+            isValidated = false;
+            let msg = Resource.ErrorMessage.EmployeeCodeExist.replace(
+              "{EmployeeCode}",
+              this.formData.EmployeeCode
+            );
+
             this.setPopup(
               msg,
-              "icon-error",
+              "icon-warning",
               null,
               null,
               null,
@@ -612,32 +694,9 @@ export default {
               null
             );
           }
-
-          isValidated = this.$refs[el].isValidated;
         }
-      });
-
-      // kiểm tra trùng mã nhân viên
-      if (this.formMode === 1 || this.formMode === 3) {
-        let {
-          data: isCheckEmployeeExists,
-        } = await EmployeeAPI.checkEmployeeExists(this.formData.EmployeeCode);
-
-        if (isValidated && isCheckEmployeeExists) {
-          isValidated = false;
-          let msg = `Mã nhân viên < ${this.formData.EmployeeCode} > đã tồn tại trong hệ thống. Xin vui lòng kiểm ta lại!`;
-
-          this.setPopup(
-            msg,
-            "icon-warning",
-            null,
-            null,
-            null,
-            "Đóng",
-            null,
-            null
-          );
-        }
+      } catch (error) {
+        console.log(error);
       }
 
       return isValidated;
@@ -717,7 +776,7 @@ export default {
      * CreatedBy: NHHoang (29/08/2021)
      */
     preCloseForm() {
-      this.typeSubmit = 0;
+      this.typeSubmit = Resource.TypeSubmit.NoForm;
       if (this.isFormDataChange) {
         let msg = "Dữ liệu đã bị thay đổi. Bạn có muốn cất không";
 

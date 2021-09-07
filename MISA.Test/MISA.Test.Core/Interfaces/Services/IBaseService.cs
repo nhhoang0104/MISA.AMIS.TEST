@@ -9,6 +9,8 @@ namespace MISA.Test.Core.Interfaces.Services
 {
     public interface IBaseService<MISAEntity>
     {
+        #region Interface
+
         /// <summary>
         /// Xử lý nghiệp vụ (validateId) trước khi lấy thông tin nhân viên theo id
         /// </summary>
@@ -57,5 +59,8 @@ namespace MISA.Test.Core.Interfaces.Services
         /// <returns></returns>
         /// CreatedBy: NHHoang(27/8/2021)
         ServiceResult DeleteById(string id);
+
+        #endregion
+
     }
 }

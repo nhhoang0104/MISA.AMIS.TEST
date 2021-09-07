@@ -44,7 +44,7 @@
 
 <script>
 import _ from "lodash";
-import ErrorMessage from "@/constants/EnumErrorMsg";
+import Resource from "@/constants/resource";
 
 export default {
   name: "combo-box",
@@ -99,6 +99,7 @@ export default {
       textSearch: "",
       valueSelected: "",
       isValidated: true,
+      ErrorMessage: Resource.ErrorMessage,
       title: "",
     };
   },
@@ -236,7 +237,7 @@ export default {
       if (this.required) {
         if (tmp === null) {
           this.isValidated = false;
-          this.title = ErrorMessage[this.id];
+          this.title = this.ErrorMessage[this.id];
         } else {
           this.isValidated = true;
           this.title = "";
@@ -302,5 +303,5 @@ export default {
 </script>
 
 <style lang="css" scoped>
-@import url("../../../assets/css/common/ComboBox.css");
+@import url("../../../assets/css/common/comboBox.css");
 </style>

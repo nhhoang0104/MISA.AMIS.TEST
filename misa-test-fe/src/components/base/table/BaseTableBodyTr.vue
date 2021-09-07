@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import FormatData from "@/utils/FormatData.js";
+import FormatData from "@/utils/formatData.js";
 
 export default {
   name: "tr-cus",
@@ -55,10 +55,6 @@ export default {
       }
 
       return tmp;
-    },
-
-    test() {
-      console.log(this.data.EmployeeId);
     },
   },
 };

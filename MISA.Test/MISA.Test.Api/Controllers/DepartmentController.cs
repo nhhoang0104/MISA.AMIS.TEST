@@ -11,9 +11,13 @@ namespace MISA.Test.Api.Controllers
 {
     public class DepartmentController : BaseController<Department>
     {
+        #region Contructor
+
         public DepartmentController(IBaseService<Department> baseService) : base(baseService)
         {
           
         }
+
+        #endregion
     }
 }

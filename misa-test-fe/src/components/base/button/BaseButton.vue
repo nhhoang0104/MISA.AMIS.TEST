@@ -31,5 +31,5 @@ export default {
 </script>
 
 <style lang="css">
-@import url("../../../assets/css/common/Button.css");
+@import url("../../../assets/css/common/button.css");
 </style>

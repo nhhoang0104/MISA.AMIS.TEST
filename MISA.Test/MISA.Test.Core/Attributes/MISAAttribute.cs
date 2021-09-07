@@ -8,6 +8,10 @@ namespace MISA.Test.Core.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
 
+    /// <summary>
+    /// Thuộc tính bắt buộc
+    /// </summary>
+    /// CreatedBy: NHHoang (27/8/2021)
     public class MISARequired : Attribute
     {
         public MISARequired()

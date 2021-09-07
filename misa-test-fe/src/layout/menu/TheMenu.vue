@@ -10,7 +10,7 @@
 
 <script>
 import MenuItem from "./MenuItem.vue";
-import { ListMenuItem } from "@/constants/ListMenuItem.js";
+import { ListMenuItem } from "@/constants/listMenuItem.js";
 
 export default {
   name: "the-menu",
@@ -30,5 +30,5 @@ export default {
 </script>
 
 <style lang="css" scoped>
-@import url("../../assets/css/layout/Menu.css");
+@import url("../../assets/css/layout/menu.css");
 </style>

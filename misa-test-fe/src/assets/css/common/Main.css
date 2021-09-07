@@ -1,14 +1,14 @@
-@import url("../common/Variables.css");
-@import url("../common/Icon.css");
-@import url("../common/Padding.css");
-@import url("../common/Margin.css");
-@import url("../common/Text.css");
-@import url("../common/Width.css");
-@import url("../common/Dialog.css");
-@import url("../common/Radio.css");
-@import url("../common/Modal.css");
-@import url("../common/Checkbox.css");
-@import url("../common/Link.css");
+@import url("../common/variables.css");
+@import url("../common/icon.css");
+@import url("../common/padding.css");
+@import url("../common/margin.css");
+@import url("../common/text.css");
+@import url("../common/width.css");
+@import url("../common/dialog.css");
+@import url("../common/radio.css");
+@import url("../common/modal.css");
+@import url("../common/checkbox.css");
+@import url("../common/link.css");
 
 * {
   font-family: "Notosans";

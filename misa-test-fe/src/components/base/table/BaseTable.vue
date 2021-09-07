@@ -12,5 +12,5 @@ export default {
 </script>
 
 <style lang="css" scoped>
-@import url("../../../assets/css/common/Table.css");
+@import url("../../../assets/css/common/table.css");
 </style>

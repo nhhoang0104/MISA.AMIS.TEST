@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Resource from "@/constants/Resource";
+import Resource from "@/constants/resource";
 export default {
   name: "base-toast-message",
 
@@ -64,7 +64,7 @@ export default {
 </script>
 
 <style lang="css">
-@import url("../../assets/css/common/Toast.css");
+@import url("../../assets/css/common/toast.css");
 
 .slide-leave-active,
 .slide-enter-active {

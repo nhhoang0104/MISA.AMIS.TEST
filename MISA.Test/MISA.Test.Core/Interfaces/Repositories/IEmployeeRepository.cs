@@ -9,6 +9,8 @@ namespace MISA.Test.Core.Interfaces.Repositories
 {
     public interface IEmployeeRepository:IBaseRepository<Employee>
     {
+        #region Interface
+
         /// <summary>
         /// Lấy danh sách sách nhân viên theo bộ lọc( tên nhân viên, mã nhân viên, số điện thoại) và phân trang
         /// </summary>
@@ -47,5 +49,7 @@ namespace MISA.Test.Core.Interfaces.Repositories
         /// <returns>Mã nhân viên lớn nhất</returns>
         /// CreatedBy: NHHoang (27/8/2021)
         String GetBigEmployeeCode();
+
+        #endregion
     }
 }

@@ -12,11 +12,21 @@ namespace MISA.Test.Api.Controllers
     [ApiController]
     public class BaseController<MISAEntity> : ControllerBase
     {
+        #region Field
+
         IBaseService<MISAEntity> _baseService;
+
+        #endregion
+
+        #region Contructor
         public BaseController(IBaseService<MISAEntity> baseService)
         {
             this._baseService = baseService;
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Lấy danh sách tất cả bản ghi
@@ -207,7 +217,7 @@ namespace MISA.Test.Api.Controllers
                     }
                     else
                     {
-                      
+
                         return StatusCode(204);
                     }
                 }
@@ -280,5 +290,9 @@ namespace MISA.Test.Api.Controllers
                 return StatusCode(500, errObj);
             }
         }
+
+        #endregion
+
+
     }
 }

@@ -103,5 +103,5 @@ export default {
 </script>
 
 <style scoped>
-@import url("../../assets/css/common/Loader.css");
+@import url("../../assets/css/common/loader.css");
 </style>

@@ -8,6 +8,8 @@ namespace MISA.Test.Core.Interfaces.Repositories
 {
     public interface IBaseRepository<MISAEntity>
     {
+        #region Interface
+
         /// <summary>
         /// Lấy tất cả bản ghi từ database
         /// </summary>
@@ -65,5 +67,8 @@ namespace MISA.Test.Core.Interfaces.Repositories
         /// </returns>
         /// CreatedBy: NHHoang (27/8/2021)
         Int32 DeleteEntities(List<Guid> entitiesId);
+
+        #endregion
+
     }
 }

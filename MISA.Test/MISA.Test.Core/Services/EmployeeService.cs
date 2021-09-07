@@ -17,11 +17,21 @@ namespace MISA.Test.Core.Services
 {
     public class EmployeeService : BaseService<Employee>, IEmployeeService
     {
+        #region Field
+
         IEmployeeRepository _employeeRepository;
+
+        #endregion
+
+        #region Contructor
         public EmployeeService(IBaseRepository<Employee> baseRepository, IEmployeeRepository employeeResponsitory) : base(baseRepository)
         {
             this._employeeRepository = employeeResponsitory;
         }
+
+        #endregion
+
+        #region Method
 
         /// <summary>
         /// Kiểm tra mã nhân viên đã tồn tại chưa ?
@@ -179,7 +189,7 @@ namespace MISA.Test.Core.Services
                         column++;
                     }
                 }
-                
+
                 // Chỉnh bản ghi vào hàng, cell
                 for (int i = 0; i < employeesList.Count(); i++)
                 {
@@ -257,5 +267,9 @@ namespace MISA.Test.Core.Services
             return !this._employeeRepository.CheckEmployeeCodeExists(entity.EmployeeCode);
 
         }
+
+        #endregion
+
+
     }
 }

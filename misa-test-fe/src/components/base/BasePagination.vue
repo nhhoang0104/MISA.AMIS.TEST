@@ -219,7 +219,7 @@ export default {
 </script>
 
 <style lang="css">
-@import url("../../assets/css/common/Pagination.css");
+@import url("../../assets/css/common/pagination.css");
 
 input.dx-texteditor-input {
   padding: 6px 0px 6px 12px !important;

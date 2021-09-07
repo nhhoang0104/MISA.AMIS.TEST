@@ -11,6 +11,8 @@ namespace MISA.Test.Core.Interfaces.Services
 {
     public interface IEmployeeService:IBaseService<Employee>
     {
+        #region Interface
+
         /// <summary>
         /// Lấy danh sách nhân viên
         /// </summary>
@@ -48,5 +50,7 @@ namespace MISA.Test.Core.Interfaces.Services
         /// <returns></returns>
         /// CreatedBy: NHHoang (01/09/2021)
         MemoryStream Export(CancellationToken cancellationToken, string employeeFilter, int pageSize, int pageIndex);
+
+        #endregion
     }
 }

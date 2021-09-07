@@ -12,12 +12,23 @@ namespace MISA.Test.Core.Services
 {
     public class BaseService<MISAEntity> : IBaseService<MISAEntity>
     {
+        #region Field
+
         IBaseRepository<MISAEntity> _baseRepository;
+
+        #endregion
+
+
+        #region Contructor
         public BaseService(IBaseRepository<MISAEntity> baseRepository)
         {
             this._baseRepository = baseRepository;
         }
 
+        #endregion
+
+
+        #region Method
 
         /// <summary>
         /// Xử lý nghiệp vụ validate các dữ liệu đầu vào trước khi thêm bản ghi mới
@@ -170,6 +181,10 @@ namespace MISA.Test.Core.Services
             return serviceResult;
         }
 
+        #endregion
+
+        #region Validate
+
         /// <summary>
         /// Validate id
         /// </summary>
@@ -229,5 +244,9 @@ namespace MISA.Test.Core.Services
         {
             return true;
         }
+
+        #endregion
+
+
     }
 }

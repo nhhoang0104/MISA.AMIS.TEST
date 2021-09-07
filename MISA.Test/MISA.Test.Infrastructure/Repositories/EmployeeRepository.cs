@@ -14,10 +14,15 @@ namespace MISA.Test.Infrastructure.Repositories
 {
     public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
     {
+        #region Contructor
         public EmployeeRepository(IConfiguration configuration) : base(configuration)
         {
 
         }
+
+        #endregion
+
+        #region Method
 
         /// <summary>
         /// Kiểm tra mã nhiên viên đã có trong hệ thống chưa 
@@ -106,5 +111,8 @@ namespace MISA.Test.Infrastructure.Repositories
                 return data;
             }
         }
+
+        #endregion
+
     }
 }

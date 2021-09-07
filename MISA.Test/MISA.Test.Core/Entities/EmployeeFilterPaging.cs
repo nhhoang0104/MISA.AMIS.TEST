@@ -8,6 +8,8 @@ namespace MISA.Test.Core.Entities
 {
     public class EmployeeFilterPaging
     {
+        #region Property
+
         /// <summary>
         /// Danh sách bản ghi
         /// </summary>
@@ -25,5 +27,7 @@ namespace MISA.Test.Core.Entities
         /// </summary>
         /// CreatedBy: NHHoang (27/8/2021)
         public Int32 TotalRecord { get; set; }
+
+        #endregion
     }
 }
