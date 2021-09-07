@@ -45,7 +45,7 @@ export default {
   methods: {
     /**
      * Format dữ liệu
-     * * CreatedBy: NHHoang (29/08/2021)
+     * CreatedBy: NHHoang (29/08/2021)
      */
     formatText(col, item) {
       let tmp = item;

@@ -31,9 +31,10 @@ export default {
     },
   },
   methods: {
-    /*
-      Xử lý chọn option trong dropdown
-    */
+    /**
+     * Xử lý chọn option trong dropdown
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     selectItem(value) {
       this.$emit("select-item", { id: this.pkey, value });
     },

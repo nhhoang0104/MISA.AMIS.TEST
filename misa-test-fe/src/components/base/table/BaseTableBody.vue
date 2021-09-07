@@ -45,16 +45,18 @@ export default {
   },
 
   methods: {
-    /*
-      check box row
-    */
+    /**
+     * check box row
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     checkBox(id) {
       this.$emit("check-box", id);
     },
 
-    /*
-      xử lý double click vào row để xem thông tin chi tiết
-    */
+    /**
+     * xử lý double click vào row để xem thông tin chi tiết
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     doubleClick(id) {
       this.$emit("update", id);
     },

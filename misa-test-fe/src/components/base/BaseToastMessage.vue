@@ -53,6 +53,10 @@ export default {
   },
 
   methods: {
+    /**
+     * Đóng toast sau 3s
+     * CreatedBy: NHHoang (30/09/2021)
+     */
     showToast() {
       this.isShowed = true;
       setTimeout(() => {

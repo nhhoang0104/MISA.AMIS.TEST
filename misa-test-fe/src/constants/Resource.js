@@ -5,6 +5,14 @@ Resource.PopupMessage = {
   DeleteById: `Bạn có thực sự muốn xóa Nhân viên < {EmployeeCode} > không?`,
 };
 
+Resource.StatusCode = {
+  Success: 200,
+  ChangeSuccess: 201,
+  NoContent: 204,
+  BadRequest: 400,
+  Server: 500,
+};
+
 Resource.ErrorMessage = {
   EmployeeCode: "Mã không được để trống",
   EmployeeCodeExist:
@@ -20,8 +28,11 @@ Resource.ErrorMessage = {
 Resource.ToastMessage = {
   LoadSuccess: "Tải dữ liệu thành công",
   AddSuccess: "Thêm dữ liệu thành công",
+  EditError: "Cập nhật dữ liệu thất bại",
+  AddError: "Thêm dữ liệu thất bại",
   EditSuccess: "Cập nhật dữ liệu thành công",
   DeleteSuccess: "Xoá dữ liệu thành công",
+  DeleteListError: "Xoá dữ liệu thất bại",
   DeleteError:
     "Nhân viên không tồn tại trong hệ thống. Vui lòng tải lại trang!",
   ServerError: "Có lỗi xảy ra, vui lòng liên hệ MISA",

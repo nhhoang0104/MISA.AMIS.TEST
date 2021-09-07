@@ -245,7 +245,7 @@ export default {
         this.employeeFilter
       )
         .then((res) => {
-          if (res.status != 204) {
+          if (res.status === Resource.StatusCode.Success) {
             this.toastList.push({
               type: Resource.ToastType.Success,
               message: Resource.ToastMessage.LoadSuccess,
@@ -258,10 +258,22 @@ export default {
           }
         })
         .catch((err) => {
-          if (err.response?.status >= 500) {
+          this.isLoading = false;
+
+          if (
+            err.response.status >= Resource.StatusCode.BadRequest &&
+            err.response.status < Resource.StatusCode.Server
+          ) {
             this.toastList.push({
               type: Resource.ToastType.Error,
-              message: Resource.ToastMesssage.ServerError,
+              message: err.response.data.userMsg,
+            });
+          }
+
+          if (err.response.status >= Resource.StatusCode.Server) {
+            this.toastList.push({
+              type: Resource.ToastType.Error,
+              message: Resource.ToastMessage.ServerError,
             });
           }
         });
@@ -386,7 +398,7 @@ export default {
         EmployeeAPI.delete(this.boxFunc.id)
           .then((res) => {
             this.isLoading = false;
-            if (res.status !== 204) {
+            if (res.status === Resource.StatusCode.Success) {
               this.toastList.push({
                 type: Resource.ToastType.Success,
                 message: Resource.ToastMessage.DeleteSuccess,
@@ -395,7 +407,7 @@ export default {
               this.loadData();
             }
 
-            if (res.status === 204) {
+            if (res.status === Resource.StatusCode.NoContent) {
               this.setPopup(
                 Resource.ToastMessage.DeleteError,
                 "icon-error",
@@ -408,12 +420,25 @@ export default {
               );
             }
           })
-          .catch(() => {
+          .catch((err) => {
             this.isLoading = false;
-            this.toastList.push({
-              type: Resource.ToastType.Error,
-              message: Resource.ToastMessage.ServerError,
-            });
+
+            if (
+              err.response.status >= Resource.StatusCode.BadRequest &&
+              err.response.status < Resource.StatusCode.Server
+            ) {
+              this.toastList.push({
+                type: Resource.ToastType.Error,
+                message: err.response.data.userMsg,
+              });
+            }
+
+            if (err.response.status >= Resource.StatusCode.Server) {
+              this.toastList.push({
+                type: Resource.ToastType.Error,
+                message: Resource.ToastMessage.ServerError,
+              });
+            }
           });
 
         this.closeBoxFunc();
@@ -601,21 +626,48 @@ export default {
       EmployeeAPI.deleteList(this.employeeIdDeleteList)
         .then((res) => {
           this.isLoading = false;
-          if (res.status != 204) {
+          if (res.status === Resource.StatusCode.Success) {
             this.toastList.push({
               type: Resource.ToastType.Success,
               message: Resource.ToastMessage.DeleteSuccess,
             });
+
             this.employeeIdDeleteList = [];
             this.loadData();
           }
+
+          if (res.status === Resource.StatusCode.NoContent) {
+            this.setPopup(
+              Resource.ToastMessage.DeleteListError,
+              "icon-error",
+              null,
+              null,
+              null,
+              "Đóng",
+              null,
+              null
+            );
+          }
         })
-        .catch(() => {
+        .catch((err) => {
           this.isLoading = false;
-          this.toastList.push({
-            type: Resource.ToastType.Error,
-            message: Resource.ToastMessage.ServerError,
-          });
+
+          if (
+            err.response.status >= Resource.StatusCode.BadRequest &&
+            err.response.status < Resource.StatusCode.Server
+          ) {
+            this.toastList.push({
+              type: Resource.ToastType.Error,
+              message: err.response.data.userMsg,
+            });
+          }
+
+          if (err.response.status >= Resource.StatusCode.Server) {
+            this.toastList.push({
+              type: Resource.ToastType.Error,
+              message: Resource.ToastMessage.ServerError,
+            });
+          }
         });
     },
 

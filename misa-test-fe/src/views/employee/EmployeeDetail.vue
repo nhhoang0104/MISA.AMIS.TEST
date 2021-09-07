@@ -569,7 +569,7 @@ export default {
           action
             .then((res) => {
               this.isLoading = false;
-              if (res.status != 204) {
+              if (res.status === Resource.StatusCode.Success) {
                 if (this.formMode === Resource.FormMode.Update) {
                   this.$emit("add-toast", {
                     type: Resource.ToastType.Success,
@@ -590,10 +590,27 @@ export default {
                   this.$emit("load-data");
                 }
               }
+
+              if(res.status === Resource.StatusCode.NoContent){
+                if (this.formMode === Resource.FormMode.Update) {
+                  this.$emit("add-toast", {
+                    type: Resource.ToastType.Error,
+                    message: Resource.ToastMessage.EditError,
+                  });
+                } else {
+                  this.$emit("add-toast", {
+                    type: Resource.ToastType.Error,
+                    message: Resource.ToastMessage.AddError,
+                  });
+                }
+              }
             })
             .catch((err) => {
               this.isLoading = false;
-              if (err.response.status < 500 && err.response.status >= 400) {
+              if (
+                err.response.status >= Resource.StatusCode.BadRequest &&
+                err.response.status < Resource.StatusCode.Server
+              ) {
                 let msg = err.response.data.userMsg;
                 this.$emit("add-toast", {
                   type: Resource.ToastType.Error,
@@ -601,10 +618,10 @@ export default {
                 });
               }
 
-              if (err.response.status >= 500) {
+              if (err.response.status >= Resource.StatusCode.Server) {
                 this.$emit("add-toast", {
                   type: Resource.ToastType.Error,
-                  message: Resource.ToastMesssage.ServerError,
+                  message: Resource.ToastMessage.ServerError,
                 });
               }
             });
