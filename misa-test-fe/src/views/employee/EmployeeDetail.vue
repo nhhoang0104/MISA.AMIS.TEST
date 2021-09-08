@@ -360,8 +360,8 @@
 <script>
 import { EmployeeModel } from "@/models/EmployeeModel";
 import _ from "lodash";
-import DepartmentAPI from "@/api/components/DepartmentAPI";
-import EmployeeAPI from "@/api/components/EmployeeAPI";
+import DepartmentAPI from "@/api/components/departmentAPI";
+import EmployeeAPI from "@/api/components/employeeAPI";
 import FormatData from "@/utils/formatData.js";
 import Resource from "@/constants/resource";
 

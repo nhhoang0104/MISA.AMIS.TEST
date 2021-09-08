@@ -74,9 +74,10 @@ export default {
       if (this.info.action !== null) this.info.action();
     },
 
-    /*
-      Khi ấn nút cancel sẽ không thực hành động đẫ được truyền vào
-    */
+    /**
+     * Khi ấn nút cancel sẽ không thực hành động đẫ được truyền vào
+     * CreatedBy: NHHoang (29/08/2021)
+     */
     handleCancel() {
       this.$emit("close");
       if (this.info.cancel !== null) this.info.cancel();

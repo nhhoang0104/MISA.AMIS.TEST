@@ -178,15 +178,15 @@ export default {
               }
             }
 
-            if (this.format === "number") {
-              if (!Validation.validateNumber(value)) {
-                this.isValidated = false;
-                this.title = this.ErrorMessage[this.id];
-              } else {
-                this.isValidated = true;
-                this.title = "";
-              }
-            }
+            // if (this.format === "number") {
+            //   if (!Validation.validateNumber(value)) {
+            //     this.isValidated = false;
+            //     this.title = this.ErrorMessage[this.id];
+            //   } else {
+            //     this.isValidated = true;
+            //     this.title = "";
+            //   }
+            // }
 
             if (this.format === "date") {
               if (!Validation.validateDate(value)) {

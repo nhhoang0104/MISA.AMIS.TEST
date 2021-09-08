@@ -1,5 +1,5 @@
-import BaseAPI from "@/api/base/BaseAPI.js";
-import BaseAPIConfig from "../base/BaseAPIConfig.js";
+import BaseAPI from "@/api/base/baseAPI.js";
+import BaseAPIConfig from "../base/baseAPIConfig.js";
 
 class EmployeeAPI extends BaseAPI {
   constructor() {

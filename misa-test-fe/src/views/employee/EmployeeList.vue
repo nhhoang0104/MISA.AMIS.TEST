@@ -121,7 +121,7 @@
 
 <script>
 import { columns } from "@/views/employee/column.js";
-import EmployeeAPI from "@/api/components/EmployeeAPI";
+import EmployeeAPI from "@/api/components/employeeAPI";
 import EmployeeDetail from "./EmployeeDetail.vue";
 import Resource from "@/constants/resource";
 import _ from "lodash";
@@ -197,7 +197,7 @@ export default {
 
         this.timeoutRemoveToastList = setTimeout(() => {
           if (this.toastList.length > 0) this.toastList = [];
-        }, 3000);
+        }, 2000);
       },
     },
   },

@@ -141,6 +141,9 @@
   <data name="PropRequired_ErrorMsg" xml:space="preserve">
     <value>Các trường bắt buộc không phép để trống</value>
   </data>
+  <data name="ServerError_ErrorMsg" xml:space="preserve">
+    <value>Có lỗi xảy ra! vui lòng liên hệ với MISA</value>
+  </data>
   <data name="SQLCommand_ErrorMsg" xml:space="preserve">
     <value>SQL command error</value>
   </data>

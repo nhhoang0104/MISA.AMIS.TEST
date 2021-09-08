@@ -54,14 +54,14 @@ export default {
 
   methods: {
     /**
-     * Đóng toast sau 3s
+     * Đóng toast sau timeout
      * CreatedBy: NHHoang (30/09/2021)
      */
     showToast() {
       this.isShowed = true;
       setTimeout(() => {
         this.isShowed = false;
-      }, 3000);
+      }, 2000);
     },
   },
 };

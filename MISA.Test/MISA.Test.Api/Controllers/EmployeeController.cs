@@ -22,11 +22,15 @@ namespace MISA.Test.Api.Controllers
 
         #endregion
 
-        #region Methods
+        #region Contructor
         public EmployeeController(IEmployeeService employeeService) : base(employeeService)
         {
             this._employeeService = employeeService;
         }
+
+        #endregion
+
+        #region Method
 
         /// <summary>
         /// Lấy dữ liệu theo bộ lộc và phân trang
@@ -65,7 +69,7 @@ namespace MISA.Test.Api.Controllers
                 var errObj = new
                 {
                     devMsg = e.Message,
-                    userMsg = "Có lỗi xảy ra! vui lòng liên hệ với MISA.",
+                    userMsg = MISA.Test.Core.Resources.ErrorMsg.ServerError_ErrorMsg,
                 };
 
                 return StatusCode(500, errObj);
@@ -102,7 +106,7 @@ namespace MISA.Test.Api.Controllers
                 var errObj = new
                 {
                     devMsg = e.Message,
-                    userMsg = "Có lỗi xảy ra! vui lòng liên hệ với MISA.",
+                    userMsg = MISA.Test.Core.Resources.ErrorMsg.ServerError_ErrorMsg,
                 };
 
                 return StatusCode(500, errObj);
@@ -139,7 +143,7 @@ namespace MISA.Test.Api.Controllers
                 var errObj = new
                 {
                     devMsg = e.Message,
-                    userMsg = "Có lỗi xảy ra! vui lòng liên hệ với MISA.",
+                    userMsg = MISA.Test.Core.Resources.ErrorMsg.ServerError_ErrorMsg,
                 };
 
                 return StatusCode(500, errObj);
@@ -165,7 +169,7 @@ namespace MISA.Test.Api.Controllers
                 var errObj = new
                 {
                     devMsg = e.Message,
-                    userMsg = "Có lỗi xảy ra! vui lòng liên hệ với MISA.",
+                    userMsg = MISA.Test.Core.Resources.ErrorMsg.ServerError_ErrorMsg,
                 };
 
                 return StatusCode(500, errObj);
@@ -182,11 +186,25 @@ namespace MISA.Test.Api.Controllers
         [HttpGet("Export")]
         public IActionResult Export(CancellationToken cancellationToken, [FromQuery] string employeeFilter, [FromQuery] int pageSize, [FromQuery] int pageIndex)
         {
-
+            try
+            {
             var stream = this._employeeService.Export(cancellationToken, employeeFilter, pageSize, pageIndex);
             string excelName = $"DanhSachNhanVien.xlsx";
 
             return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+
+            }
+            catch (Exception e)
+            {
+                var errObj = new
+                {
+                    devMsg = e.Message,
+                    userMsg = MISA.Test.Core.Resources.ErrorMsg.ServerError_ErrorMsg,
+                };
+
+                return StatusCode(500, errObj);
+            }
+
         }
 
         #endregion

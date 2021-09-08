@@ -1,4 +1,4 @@
-import BaseAPI from "@/api/base/BaseAPI.js";
+import BaseAPI from "@/api/base/baseAPI.js";
 
 class DepartmentAPI extends BaseAPI {
   constructor() {

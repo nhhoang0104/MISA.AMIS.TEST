@@ -19,6 +19,7 @@ namespace MISA.Test.Api.Controllers
         #endregion
 
         #region Contructor
+
         public BaseController(IBaseService<MISAEntity> baseService)
         {
             this._baseService = baseService;
@@ -60,7 +61,7 @@ namespace MISA.Test.Api.Controllers
                 var errObj = new
                 {
                     devMsg = e.Message,
-                    userMsg = "Có lỗi xảy ra! vui lòng liên hệ với MISA.",
+                    userMsg = MISA.Test.Core.Resources.ErrorMsg.ServerError_ErrorMsg,
                 };
 
                 return StatusCode(500, errObj);
@@ -100,7 +101,7 @@ namespace MISA.Test.Api.Controllers
                 var errObj = new
                 {
                     devMsg = e.Message,
-                    userMsg = "Có lỗi xảy ra! vui lòng liên hệ với MISA.",
+                    userMsg = MISA.Test.Core.Resources.ErrorMsg.ServerError_ErrorMsg,
                 };
 
                 return StatusCode(500, errObj);
@@ -148,7 +149,7 @@ namespace MISA.Test.Api.Controllers
                 var errObj = new
                 {
                     devMsg = e.Message,
-                    userMsg = "Có lỗi xảy ra! vui lòng liên hệ với MISA.",
+                    userMsg = MISA.Test.Core.Resources.ErrorMsg.ServerError_ErrorMsg,
                 };
 
                 return StatusCode(500, errObj);
@@ -189,7 +190,7 @@ namespace MISA.Test.Api.Controllers
                 var errObj = new
                 {
                     devMsg = e.Message,
-                    userMsg = "Có lỗi xảy ra! vui lòng liên hệ với MISA.",
+                    userMsg = MISA.Test.Core.Resources.ErrorMsg.ServerError_ErrorMsg,
                 };
 
                 return StatusCode(500, errObj);
@@ -237,7 +238,7 @@ namespace MISA.Test.Api.Controllers
                 var errObj = new
                 {
                     devMsg = e.Message,
-                    userMsg = "Có lỗi xảy ra! vui lòng liên hệ với MISA.",
+                    userMsg = MISA.Test.Core.Resources.ErrorMsg.ServerError_ErrorMsg,
                 };
 
                 return StatusCode(500, errObj);
@@ -284,7 +285,7 @@ namespace MISA.Test.Api.Controllers
                 var errObj = new
                 {
                     devMsg = e.Message,
-                    userMsg = "Có lỗi xảy ra! vui lòng liên hệ với MISA.",
+                    userMsg = MISA.Test.Core.Resources.ErrorMsg.ServerError_ErrorMsg,
                 };
 
                 return StatusCode(500, errObj);

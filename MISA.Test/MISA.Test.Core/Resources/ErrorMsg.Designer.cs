@@ -133,6 +133,15 @@ namespace MISA.Test.Core.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Có lỗi xảy ra! vui lòng liên hệ với MISA.
+        /// </summary>
+        public static string ServerError_ErrorMsg {
+            get {
+                return ResourceManager.GetString("ServerError_ErrorMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SQL command error.
         /// </summary>
         public static string SQLCommand_ErrorMsg {
