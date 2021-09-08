@@ -48,6 +48,25 @@ namespace MISA.Test.Infrastructure.Repositories
         }
 
         /// <summary>
+        /// Kiểm tra nhân viên tồn tại không ?
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool CheckEmployeeExists(Guid id)
+        {
+            DynamicParameters dynamicParameters = new DynamicParameters();
+            dynamicParameters.Add("@EmployeeId", id);
+            dynamicParameters.Add("@IsExists", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            using (IDbConnection dbConnection = new MySqlConnection(_connectionString))
+            {
+                dbConnection.Execute("Proc_CheckEmployeeExists", dynamicParameters, commandType: CommandType.StoredProcedure);
+                Int32 isExists = dynamicParameters.Get<Int32>("@IsExists");
+                return isExists == 1 ? true : false;
+            }
+        }
+
+        /// <summary>
         /// Lấy danh sach mã nhân viên
         /// </summary>
         /// <returns>

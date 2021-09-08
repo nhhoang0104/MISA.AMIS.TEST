@@ -17,7 +17,7 @@ namespace MISA.Test.Core.Services
 {
     public class EmployeeService : BaseService<Employee>, IEmployeeService
     {
-        #region Field
+        #region Declaration
 
         IEmployeeRepository _employeeRepository;
 
@@ -53,6 +53,28 @@ namespace MISA.Test.Core.Services
             };
 
             serviceResult.Data = this._employeeRepository.CheckEmployeeCodeExists(employeeCode);
+
+            return serviceResult;
+        }
+
+        /// <summary>
+        /// Kiểm tra nhân viên đã tồn tại chưa ?
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ServiceResult CheckEmployeeExists(string id)
+        {
+            var serviceResult = new ServiceResult();
+
+            // Validate id
+            if (!this.ValidateId(id))
+            {
+                serviceResult.IsValid = false;
+                serviceResult.Messager = Resources.ErrorMsg.IDInvalid_ErrorMsg;
+                return serviceResult;
+            }
+
+            serviceResult.Data = this._employeeRepository.CheckEmployeeExists(Guid.Parse(id));
 
             return serviceResult;
         }

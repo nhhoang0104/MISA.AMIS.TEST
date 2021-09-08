@@ -12,7 +12,7 @@ namespace MISA.Test.Core.Services
 {
     public class BaseService<MISAEntity> : IBaseService<MISAEntity>
     {
-        #region Field
+        #region Declaration
 
         IBaseRepository<MISAEntity> _baseRepository;
 
@@ -194,7 +194,7 @@ namespace MISA.Test.Core.Services
         /// false - id không hợp lệ
         /// </returns>
         /// CreatedBy: NHHoang (27/8/2021)
-        private bool ValidateId(string id)
+        protected bool ValidateId(string id)
         {
             Guid tmp;
 
@@ -229,7 +229,6 @@ namespace MISA.Test.Core.Services
                         isValid = false;
                     }
                 }
-
             }
 
             return isValid;

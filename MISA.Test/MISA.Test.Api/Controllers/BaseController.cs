@@ -12,7 +12,7 @@ namespace MISA.Test.Api.Controllers
     [ApiController]
     public class BaseController<MISAEntity> : ControllerBase
     {
-        #region Field
+        #region Declaration
 
         IBaseService<MISAEntity> _baseService;
 
@@ -292,7 +292,6 @@ namespace MISA.Test.Api.Controllers
         }
 
         #endregion
-
 
     }
 }

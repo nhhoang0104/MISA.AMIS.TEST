@@ -16,7 +16,7 @@ namespace MISA.Test.Api.Controllers
     public class EmployeeController : BaseController<Employee>
     {
 
-        #region Field
+        #region Declaration
 
         IEmployeeService _employeeService;
 
@@ -78,12 +78,49 @@ namespace MISA.Test.Api.Controllers
         /// <param name="employeeCode">mã nhân viên</param>
         /// <returns></returns>
         /// CreatedBy: NHHoang (27/8/2021)
-        [HttpGet("CheckEmployeeExists/{employeeCode}")]
-        public IActionResult CheckEmployeeExists(string employeeCode)
+        [HttpGet("CheckEmployeeCodeExists/{employeeCode}")]
+        public IActionResult CheckEmployeeCodeExists(string employeeCode)
         {
             try
             {
                 var serviceResult = this._employeeService.CheckEmployeeCodeExists(employeeCode);
+                if (!serviceResult.IsValid)
+                {
+                    var errObj = new
+                    {
+                        devMsg = serviceResult.Messager,
+                        userMsg = serviceResult.Messager,
+                    };
+
+                    return BadRequest(errObj);
+                }
+
+                return StatusCode(200, serviceResult.Data);
+            }
+            catch (Exception e)
+            {
+                var errObj = new
+                {
+                    devMsg = e.Message,
+                    userMsg = "Có lỗi xảy ra! vui lòng liên hệ với MISA.",
+                };
+
+                return StatusCode(500, errObj);
+            }
+        }
+
+        /// <summary>
+        /// Kiểm tra nhân viên đã tồn tại chưa.
+        /// </summary>
+        /// <param name="id">mã nhân viên</param>
+        /// <returns></returns>
+        /// CreatedBy: NHHoang (27/8/2021)
+        [HttpGet("CheckEmployeeExists/{id}")]
+        public IActionResult CheckEmployeeExists(string id)
+        {
+            try
+            {
+                var serviceResult = this._employeeService.CheckEmployeeExists(id);
                 if (!serviceResult.IsValid)
                 {
                     var errObj = new

@@ -13,7 +13,7 @@ namespace MISA.Test.Infrastructure.Repositories
 {
     public class BaseRepository<MISAEntity> : IBaseRepository<MISAEntity>
     {
-        #region Field
+        #region Declaration
         private readonly string _modelName;
 
         protected readonly string _connectionString;

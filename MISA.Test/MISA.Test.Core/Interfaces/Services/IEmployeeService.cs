@@ -38,6 +38,13 @@ namespace MISA.Test.Core.Interfaces.Services
         ServiceResult CheckEmployeeCodeExists(string EmployeeCode);
 
         /// <summary>
+        /// Kiểm tra nhân viên tồn tại không  ?
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        ServiceResult CheckEmployeeExists(string id);
+
+        /// <summary>
         /// Lấy mã nhân viên mới
         /// </summary>
         /// <returns></returns>

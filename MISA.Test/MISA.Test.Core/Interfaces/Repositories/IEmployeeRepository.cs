@@ -35,6 +35,13 @@ namespace MISA.Test.Core.Interfaces.Repositories
         bool CheckEmployeeCodeExists(string employeeCode);
 
         /// <summary>
+        /// Kiểm tra mã nhân viên tòn tại không
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        bool CheckEmployeeExists(Guid id);
+
+        /// <summary>
         /// Lấy danh sach mã nhân viên
         /// </summary>
         /// <returns>
