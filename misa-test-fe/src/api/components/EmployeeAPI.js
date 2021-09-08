@@ -8,15 +8,25 @@ class EmployeeAPI extends BaseAPI {
   }
 
   /**
-   *
+   * Kiem tra ma nhan vien co ton tai khong
    * @param {*} employeeCode : mã nhân viên
    * @returns true -  đã tồn tại; false - chưa.
    * CreatedBy: NHHoang (30/08/2021)
    */
-  checkEmployeeExists(employeeCode) {
+  checkEmployeeCodeExists(employeeCode) {
     return BaseAPIConfig.get(
-      `${this.controller}/CheckEmployeeExists/${employeeCode}`
+      `${this.controller}/CheckEmployeeCodeExists/${employeeCode}`
     );
+  }
+
+  /**
+   * Kiem tra nhan vien ton tai khong
+   * @param {*} id : id nhân viên
+   * @returns true -  đã tồn tại; false - chưa.
+   * CreatedBy: NHHoang (30/08/2021)
+   */
+  checkEmployeeExists(id) {
+    return BaseAPIConfig.get(`${this.controller}/CheckEmployeeExists/${id}`);
   }
 
   /**

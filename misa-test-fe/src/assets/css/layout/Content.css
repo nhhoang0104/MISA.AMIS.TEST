@@ -76,7 +76,7 @@
 
 .content .content__body .content__body__grid {
   background-color: var(--color-white);
-  height: calc(100vh - 211px); /* 48 84 75*/
+  max-height: calc(100vh - 211px); /*48 84 75*/
   width: 100%;
   box-sizing: border-box;
   overflow: auto;

@@ -8,6 +8,10 @@
   margin-right: 20px;
 }
 
+.container-radio input:hover ~ .radio .radio-circle {
+  background: #afafaf;
+}
+
 .container-radio .label-radio {
   margin-left: 10px;
   cursor: pointer;

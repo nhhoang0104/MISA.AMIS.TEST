@@ -5,4 +5,10 @@
   --color-bg: #f8f8f8;
   --color-btn-primary: #2ca01c;
   --color-btn-primary-hover: #35bf22;
+  --color-toast-success: #2ca01c;
+  --color-toast-error: red;
+  --color-toast-warning: yellow;
+  --color-scroll: #f1f1f1;
+  --color-dropdown: #019160;
+  --color-combobox: #35bf22;
 }

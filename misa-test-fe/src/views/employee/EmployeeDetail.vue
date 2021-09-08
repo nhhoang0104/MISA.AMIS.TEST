@@ -124,7 +124,6 @@
                           label="0"
                           type="radio"
                           :value="Resource.Gender.Female"
-                          :tabindex="3"
                         />
                         <span class="radio">
                           <span class="radio-border"></span>
@@ -382,6 +381,11 @@ export default {
       type: [String, null],
       default: null,
     },
+
+    employeeReplication: {
+      type: [Object, null],
+      default: null,
+    },
   },
 
   emits: ["close-form", "load-data", "change-mode", "add-toast"],
@@ -392,29 +396,23 @@ export default {
      * CreateBy: NHHoang(28/08/2021)
      */
     isShowed(newVal) {
-      let tmp = "";
       if (newVal) {
         if (
           this.formMode === Resource.FormMode.Replica ||
           this.formMode === Resource.FormMode.Add
         ) {
           EmployeeAPI.getNewEmployeeCode().then((res) => {
-            this.formData.EmployeeCode = res.data;
-            tmp = res.data;
+            if (this.formMode === Resource.FormMode.Replica)
+              this.formData = this.employeeReplication;
 
+            this.formData.EmployeeCode = res.data;
             this.isFormDataChange = false;
           });
         }
 
-        if (
-          this.formMode === Resource.FormMode.Update ||
-          this.formMode === Resource.FormMode.Replica
-        ) {
+        if (this.formMode === Resource.FormMode.Update) {
           EmployeeAPI.getById(this.employeeId).then((res) => {
             this.formData = res.data;
-
-            if (this.formMode === Resource.FormMode.Replica)
-              this.formData.EmployeeCode = tmp;
 
             this.formData.DateOfBirth = FormatData.formatDateInput(
               res.data.DateOfBirth
@@ -541,10 +539,15 @@ export default {
 
           // sửa
           if (this.formMode === Resource.FormMode.Update) {
-            action = EmployeeAPI.update(
-              this.employeeId,
-              _.cloneDeep(this.formData)
-            );
+            // kiêm tra nhân viên tồn tại không
+            let isExists = await this.checkEmployeeExists(this.employeeId);
+
+            if (isExists) {
+              action = EmployeeAPI.update(
+                this.employeeId,
+                _.cloneDeep(this.formData)
+              );
+            }
           }
         } catch (error) {
           console.log(error);
@@ -620,7 +623,35 @@ export default {
     },
 
     /**
+     * Kiểm tra nhân viên có tồn tại không
+     * CreatedBy: NHHoang (28/08/2021)
+     */
+    async checkEmployeeExists(id) {
+      try {
+        let { data: isExists } = await EmployeeAPI.checkEmployeeExists(id);
+
+        if (!isExists) {
+          this.setPopup(
+            Resource.ToastMessage.EmployeeExistError,
+            "icon-error",
+            null,
+            null,
+            null,
+            "Đóng",
+            null,
+            null
+          );
+        }
+
+        return isExists;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    /**
      * submit form
+     * CreatedBy: NHHoang (28/08/2021)
      */
     onSubmit(type) {
       this.typeSubmit = type;
@@ -681,7 +712,9 @@ export default {
         ) {
           let {
             data: isCheckEmployeeExists,
-          } = await EmployeeAPI.checkEmployeeExists(this.formData.EmployeeCode);
+          } = await EmployeeAPI.checkEmployeeCodeExists(
+            this.formData.EmployeeCode
+          );
 
           if (isValidated && isCheckEmployeeExists) {
             isValidated = false;

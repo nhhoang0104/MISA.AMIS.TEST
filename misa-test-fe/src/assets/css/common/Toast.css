@@ -12,15 +12,15 @@
 }
 
 .toast.toast--error {
-  border-color: red;
+  border-color: var(--color-toast-error);
 }
 
 .toast.toast--success {
-  border-color: #2ca01c;
+  border-color: var(--color-toast-success);
 }
 
 .toast.toast--warning {
-  border-color: yellow;
+  border-color: var(--color-toast-warning);
 }
 
 .toast .toast__icon {

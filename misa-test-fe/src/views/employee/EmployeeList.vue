@@ -105,6 +105,7 @@
     @change-mode="changeMode"
     @close-form="closeForm"
     :employeeId="employeeIdSelected"
+    :employeeReplication="employeeReplication"
     @load-data="loadData"
     @add-toast="addToast"
   />
@@ -147,6 +148,7 @@ export default {
       isShowedForm: false,
       formMode: 0,
       employeeIdSelected: null,
+      employeeReplication: null,
       popupInfo: {
         btnLeft: null,
         btnRightFirst: null,
@@ -408,7 +410,7 @@ export default {
 
             if (res.status === Resource.StatusCode.NoContent) {
               this.setPopup(
-                Resource.ToastMessage.DeleteError,
+                Resource.ToastMessage.EmployeeExistError,
                 "icon-error",
                 null,
                 null,
@@ -449,18 +451,17 @@ export default {
      * CreatedBy: NHHoang (29/08/2021)
      */
     replica() {
+      this.employeeReplication = _.find(this.employeeList, {
+        EmployeeId: this.boxFunc.id,
+      });
       this.boxFunc.isShowed = false;
-      this.formMode = 3;
+      this.formMode = Resource.FormMode.Replica;
       this.employeeIdSelected = this.boxFunc.id;
       this.isShowedForm = true;
     },
 
     /**
      * Xử lý show form khi thêm mới
-     * tạo mã nhân vien mới
-     * formMode = 1 thêm mới
-     * formMode = 2 sửa
-     * formMode = 3 nhân bản
      * CreatedBy: NHHoang (29/08/2021)
      */
     showForm(formMode) {
@@ -481,10 +482,14 @@ export default {
      * Chỉnh sửa thông tin bản ghi
      * CreatedBy: NHHoang (29/08/2021)
      */
-    update(id) {
-      this.boxFunc.isShowed = false;
-      this.employeeIdSelected = id;
-      this.showForm(2);
+    async update(id) {
+      let isExists = await this.checkEmployeeExists(id);
+
+      if (isExists) {
+        this.boxFunc.isShowed = false;
+        this.employeeIdSelected = id;
+        this.showForm(Resource.FormMode.Update);
+      }
     },
 
     /**
@@ -693,6 +698,29 @@ export default {
      */
     changeMode(mode) {
       this.formMode = mode;
+    },
+
+    /**
+     * Kiểm tra nhân viên có tồn tại không
+     * CreatedBy: NHHoang (28/08/2021)
+     */
+    async checkEmployeeExists(id) {
+      let { data: isExists } = await EmployeeAPI.checkEmployeeExists(id);
+
+      if (!isExists) {
+        this.setPopup(
+          Resource.ToastMessage.EmployeeExistError,
+          "icon-error",
+          null,
+          null,
+          null,
+          "Đóng",
+          null,
+          null
+        );
+      }
+
+      return isExists;
     },
   },
 };

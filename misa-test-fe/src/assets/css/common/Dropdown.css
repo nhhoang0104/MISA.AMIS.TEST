@@ -102,7 +102,7 @@
 }
 
 .dropdown .dropdown__select .dropdown__option:active {
-  background-color: #019160;
+  background-color: var(--color-dropdown);
   color: #fff;
 }
 
@@ -115,12 +115,12 @@
 }
 
 .dropdown .dropdown__select .dropdown__option[checked="true"] {
-  background-color: #019160;
+  background-color: var(--color-dropdown);
   color: #fff;
 }
 
 .dropdown .dropdown__select .dropdown__option[checked="true"]:hover {
-  background-color: #019160;
+  background-color: var(--color-dropdown);
 }
 
 .dropdown .dropdown__select .dropdown__option .dropdown__option__check i {

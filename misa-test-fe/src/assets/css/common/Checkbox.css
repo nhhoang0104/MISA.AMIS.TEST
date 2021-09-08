@@ -12,7 +12,7 @@ input[type="checkbox"] {
 
 input:checked {
   background-color: #fff;
-  border: 1px solid #2ca01c;
+  border: 1px solid var(--color-btn-primary);
 }
 
 input:checked:after {
@@ -25,5 +25,5 @@ input:checked:after {
   position: absolute;
   top: 2px;
   left: 1px;
-  color: #2ca01c;
+  color: var(--color-btn-primary);
 }

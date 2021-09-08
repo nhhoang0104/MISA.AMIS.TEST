@@ -47,12 +47,12 @@ input::placeholder {
 }
 
 .container-input input:focus {
-  border-color: #2ca01c;
+  border-color: var(--color-toast-success);
   outline: none;
 }
 
 .container-input input.container-input__input[validated="false"] {
-  border-color: red;
+  border-color: var(--color-toast-error);
   outline: none;
 }
 

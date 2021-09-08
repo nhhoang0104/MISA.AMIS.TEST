@@ -42,7 +42,7 @@ body {
 }
 
 .label-required {
-  color: red;
+  color: var(--color-toast-error);
 }
 
 .label {
@@ -68,11 +68,11 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--color-scroll);
 }
 
 ::-webkit-scrollbar-track-piece {
-  background: #f1f1f1;
+  background: var(--color-scroll);
   width: 10px;
 }
 

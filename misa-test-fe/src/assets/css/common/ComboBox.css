@@ -99,7 +99,7 @@
 }
 
 .combo-box .combo-box__select .combo-box__option:hover {
-  color: #35bf22;
+  color: var(--color-combobox);
   background-color: #ebedf0;
 }
 
@@ -108,12 +108,12 @@
 }
 
 .combo-box .combo-box__select .combo-box__option.option--hover {
-  color: #35bf22;
+  color: var(--color-combobox);
   background-color: #ebedf0;
 }
 
 .combo-box .combo-box__select .combo-box__option .highlight {
-  color: #35bf22;
+  color: var(--color-combobox);
   background-color: #ebedf0;
 }
 

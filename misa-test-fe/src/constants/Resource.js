@@ -1,10 +1,12 @@
 var Resource = Resource || {};
 
+// message popup
 Resource.PopupMessage = {
   DeleteList: `Bạn có thực sự muốn xóa các nhân viên không?`,
   DeleteById: `Bạn có thực sự muốn xóa Nhân viên < {0} > không?`,
 };
 
+// trạng thái
 Resource.StatusCode = {
   Success: 200,
   ChangeSuccess: 201,
@@ -13,6 +15,7 @@ Resource.StatusCode = {
   Server: 500,
 };
 
+// tin nhắn lỗi
 Resource.ErrorMessage = {
   EmployeeCode: "Mã không được để trống",
   EmployeeCodeExist:
@@ -33,7 +36,7 @@ Resource.ToastMessage = {
   EditSuccess: "Cập nhật dữ liệu thành công",
   DeleteSuccess: "Xoá dữ liệu thành công",
   DeleteListError: "Xoá dữ liệu thất bại",
-  DeleteError:
+  EmployeeExistError:
     "Nhân viên không tồn tại trong hệ thống. Vui lòng tải lại trang!",
   ServerError: "Có lỗi xảy ra, vui lòng liên hệ MISA",
 };
@@ -45,22 +48,20 @@ Resource.ToastType = {
   Error: "error",
 };
 
+// các chế đọ form
 Resource.FormMode = {
   Add: 1,
   Update: 2,
   Replica: 3,
 };
 
+// các loại submit
 Resource.TypeSubmit = {
   NewForm: 1,
   NoForm: 0,
 };
 
-Resource.TypeSubmit = {
-  NewForm: 1,
-  NoForm: 0,
-};
-
+// id giới tính
 Resource.Gender = {
   Female: 0,
   Male: 1,
