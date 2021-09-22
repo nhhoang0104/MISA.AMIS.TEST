@@ -68,6 +68,20 @@ class EmployeeAPI extends BaseAPI {
       }
     );
   }
+
+  /**
+   * báo cáo nhân sự
+   * @param {*} typeSelect
+   * @param {*} reportFollow
+   * @param {*} year
+   * CreatedBy: NHHoang (20/09/2021)
+   */
+  getHumanReport(reportingCriteria) {
+    return BaseAPIConfig.post(
+      `${this.controller}/HumanReport`,
+      reportingCriteria
+    );
+  }
 }
 
 export default new EmployeeAPI();

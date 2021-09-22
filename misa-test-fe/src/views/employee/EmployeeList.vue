@@ -36,6 +36,13 @@
               @click="loadData"
             ></div>
           </div>
+          <div class="p-l--6 p-r--6">
+            <div
+              title="Báo cáo nhân sự"
+              class="icon icon--24 icon-report report"
+              @click="openEmployeeReport"
+            ></div>
+          </div>
           <div class="p-l--6">
             <div
               title="Xuất ra excel"
@@ -46,59 +53,28 @@
         </div>
       </div>
     </div>
-    <div
-      class="content__body__grid"
-      :class="employeeList.length === 0 ? 'no-data' : ''"
-    >
-      <base-table>
-        <template v-slot:thead>
-          <base-table-head
-            :columns="columns"
-            :checked="isSelectedAll"
-            @select-all="selectAll"
-          ></base-table-head>
-        </template>
-        <template v-slot:tbody>
-          <base-table-body
-            ref="table"
-            :columns="columns"
-            :data="employeeList"
-            :employeeDeleteList="employeeIdDeleteList"
-            @check-box="checkBox"
-            @show-func="showBoxFunc"
-            @update="update"
-          ></base-table-body>
-        </template>
-      </base-table>
-      <div class="pagination" v-show="employeeList.length !== 0">
-        <base-pagination
-          :currentPage="currentPage"
-          :pageSize="pageSize"
-          :totalRecord="totalRecord"
-          :totalPage="totalPage"
-          @select-page="selectPage"
-          @select-size="selectPageSize"
-        ></base-pagination>
-      </div>
-    </div>
-    <div
-      class="no-data flex flex-column flex-center"
-      :class="{ hidden: isLoading || employeeList.length !== 0 }"
-    >
-      <img src="../../assets/img/bg_nodata.svg" />
-      <div>Không có dữ liệu</div>
-    </div>
-    <div
-      ref="box-func"
-      class="box__func"
-      :style="positionFuc"
-      v-show="boxFunc.isShowed"
-      @focusout="clickOutSide"
-    >
-      <div class="item__func" @click="replica">Nhân bản</div>
-      <div class="item__func" @click="preDeleteById">Xóa</div>
+    <div class="content__body__grid">
+      <misa-table
+        :dataSource="dataSrc"
+        :columns="columns"
+        :employeeDeleteList="employeeIdDeleteList"
+        :isSelectedAll="isSelectedAll"
+        :currentPage="currentPage"
+        :pageSize="pageSize"
+        :totalRecord="totalRecord"
+        :totalPage="totalPage"
+        :pagingEnabled="true"
+        @update="update"
+        @select-all="selectAll"
+        @check-box="checkBox"
+        @replica="replica"
+        @delete="preDeleteById"
+        @select-page="selectPage"
+        @select-size="selectPageSize"
+      ></misa-table>
     </div>
   </div>
+
   <EmployeeDetail
     :isShowed="isShowedForm"
     :formMode="formMode"
@@ -109,42 +85,47 @@
     @load-data="loadData"
     @add-toast="addToast"
   />
+
+  <EmployeeReport
+    :visible="isShowEmployeeReport"
+    @close-report="closeEmployeeReport"
+  />
+
   <base-toast-message
     v-for="(item, index) in toastList"
     :toast="item"
     :key="index"
     :index="index"
   ></base-toast-message>
+
   <base-popup :info="popupInfo" @close="closePopup"></base-popup>
+
   <base-loader :isLoading="isLoading"></base-loader>
 </template>
 
 <script>
 import { columns } from "@/views/employee/column.js";
 import EmployeeAPI from "@/api/components/employeeAPI";
-import EmployeeDetail from "./EmployeeDetail.vue";
+import EmployeeDetail from "./EmployeeDetailV3";
+import EmployeeReport from "./EmployeeReport";
 import Resource from "@/constants/resource";
 import _ from "lodash";
+import FormatData from "@/utils/formatData.js";
 
 export default {
-  components: { EmployeeDetail },
+  components: { EmployeeDetail, EmployeeReport },
 
   data() {
     return {
       columns: columns,
       employeeList: [],
+      dataSrc: [],
       employeeIdDeleteList: [],
       currentPage: 1,
       employeeFilter: "",
       pageSize: 10,
       totalPage: 10,
       totalRecord: 100,
-      boxFunc: {
-        id: null,
-        left: 960,
-        top: 260,
-        isShowed: false,
-      },
       isShowedForm: false,
       formMode: 0,
       employeeIdSelected: null,
@@ -164,7 +145,8 @@ export default {
       toastList: [],
       timeoutSearch: null,
       timeoutRemoveToastList: null,
-      Resource: Resource,
+      Resource,
+      isShowEmployeeReport: false,
     };
   },
 
@@ -203,17 +185,6 @@ export default {
   },
 
   computed: {
-    /**
-     * Xét vị trí của box func
-     * CreatedBy: NHHoang (29/08/2021)
-     */
-    positionFuc() {
-      return {
-        left: `${this.boxFunc.left}px`,
-        top: `${this.boxFunc.top}px`,
-      };
-    },
-
     /*
      * xét checkbox chọn tất cả. true- chọn. false - không
      * CreatedBy: NHHoang (31/08/2021)
@@ -253,7 +224,12 @@ export default {
               message: Resource.ToastMessage.LoadSuccess,
             });
 
-            this.employeeList = res.data.Employees;
+            this.employeeList = _.cloneDeep(res.data.Employees);
+            this.dataSrc = res.data.Employees.map((item) => {
+              item.DateOfBirth = FormatData.formatDate(item.DateOfBirth);
+              return item;
+            });
+
             this.totalRecord = res.data.TotalRecord;
             this.totalPage = res.data.TotalPage;
             this.isLoading = false;
@@ -320,49 +296,12 @@ export default {
     },
 
     /**
-     * Mở hộp tính năng
-     * CreatedBy: NHHoang (29/08/2021)
-     */
-    showBoxFunc(id) {
-      let position = this.$refs.table.$refs[id].$refs[
-        "func"
-      ].getBoundingClientRect();
-
-      if (this.boxFunc.id === id && this.boxFunc.isShowed === true) {
-        this.closeBoxFunc();
-      } else {
-        this.boxFunc.id = id;
-        this.boxFunc.top = position.top - 110;
-        this.boxFunc.isShowed = true;
-      }
-    },
-
-    /**
-     * đóng box func
-     * CreatedBy: NHHoang (29/08/2021)
-     */
-    closeBoxFunc() {
-      this.boxFunc.isShowed = false;
-      this.boxFunc.id = null;
-    },
-
-    /**
-     * click outside boxfunc
-     * CreatedBy: NHHoang (29/08/2021)
-     */
-    clickOutSide() {
-      this.boxFunc.isShowed = false;
-    },
-
-    /**
      * Hiện popup xác nhận muốn xóa không?
      * CreatedBy: NHHoang (29/08/2021)
      */
-    preDeleteById() {
-      this.boxFunc.isShowed = false;
-      let employee = this.employeeList.find(
-        (item) => item.EmployeeId === this.boxFunc.id
-      );
+    preDeleteById(id) {
+      let employee = this.employeeList.find((item) => item.EmployeeId === id);
+
       let message = Resource.PopupMessage.DeleteById.format(
         employee ? employee.EmployeeCode : ""
       );
@@ -374,7 +313,7 @@ export default {
         null,
         "Có",
         null,
-        this.deleteById,
+        () => this.deleteById(id),
         null
       );
     },
@@ -384,11 +323,11 @@ export default {
      * CreatedBy: NHHoang (29/08/2021)
      * CreatedBy: NHHoang (31/08/2021)
      */
-    deleteById() {
-      if (this.boxFunc.id) {
+    deleteById(id = null) {
+      if (id) {
         //loại bỏ khỏi danh sách xóa nhiều
         try {
-          let index = this.employeeIdDeleteList.indexOf(this.boxFunc.id);
+          let index = this.employeeIdDeleteList.indexOf(id);
 
           if (index !== -1) this.employeeIdDeleteList.splice(index, 1);
         } catch (error) {
@@ -396,7 +335,7 @@ export default {
         }
 
         this.isLoading = true;
-        EmployeeAPI.delete(this.boxFunc.id)
+        EmployeeAPI.delete(id)
           .then((res) => {
             this.isLoading = false;
             if (res.status === Resource.StatusCode.Success) {
@@ -441,8 +380,6 @@ export default {
               });
             }
           });
-
-        this.closeBoxFunc();
       }
     },
 
@@ -450,13 +387,12 @@ export default {
      * Nhân bản
      * CreatedBy: NHHoang (29/08/2021)
      */
-    replica() {
+    replica(id) {
       this.employeeReplication = _.find(this.employeeList, {
-        EmployeeId: this.boxFunc.id,
+        EmployeeId: id,
       });
-      this.boxFunc.isShowed = false;
+
       this.formMode = Resource.FormMode.Replica;
-      this.employeeIdSelected = this.boxFunc.id;
       this.isShowedForm = true;
     },
 
@@ -465,7 +401,6 @@ export default {
      * CreatedBy: NHHoang (29/08/2021)
      */
     showForm(formMode) {
-      this.boxFunc.isShowed = false;
       this.isShowedForm = true;
       this.formMode = formMode;
     },
@@ -483,10 +418,10 @@ export default {
      * CreatedBy: NHHoang (29/08/2021)
      */
     async update(id) {
+      this.isLoading = true;
       let isExists = await this.checkEmployeeExists(id);
-
+      this.isLoading = false;
       if (isExists) {
-        this.boxFunc.isShowed = false;
         this.employeeIdSelected = id;
         this.showForm(Resource.FormMode.Update);
       }
@@ -532,6 +467,8 @@ export default {
      * CreatedBy: NHHoang (29/08/2021)
      */
     closePopup() {
+      this.popupInfo.isShowed = false;
+
       this.popupInfo = {
         btnLeft: null,
         btnRightFirst: null,
@@ -721,6 +658,22 @@ export default {
       }
 
       return isExists;
+    },
+
+    /**
+     * Mở báo cáo nhân sự
+     * CreatedBy: NHHoang (22/09/2021)
+     */
+    openEmployeeReport() {
+      this.isShowEmployeeReport = true;
+    },
+
+    /**
+     * Đóng báo cáo nhân sự
+     * CreatedBy: NHHoang (22/09/2021)
+     */
+    closeEmployeeReport() {
+      this.isShowEmployeeReport = false;
     },
   },
 };

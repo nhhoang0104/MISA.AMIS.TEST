@@ -1,66 +1,72 @@
 <template>
-  <div class="pagination__left">
-    <div class="text">
-      Tổng số:
-      <b>{{ totalRecord }}</b> bản ghi
+  <div class="pagination">
+    <div class="pagination__left">
+      <div class="text">
+        Tổng số:
+        <b>{{ totalRecord }}</b> bản ghi
+      </div>
     </div>
-  </div>
-  <div class="pagination__right">
-    <div class="page-size">
-      <DxSelectBox
-        :value="pageSize"
-        :data-source="data"
-        value-expr="value"
-        display-expr="label"
-        @value-changed="selectSize"
-      >
-      </DxSelectBox>
-    </div>
-    <div class="page-index">
-      <button
-        class="prev"
-        :disabled="currentPage === 1"
-        @click="onClickPrevPage"
-      >
-        Trước
-      </button>
-      <div class="flex index">
-        <button
-          :class="isPageSelected(1)"
-          @click="onClickPage(1)"
-          v-show="currentPage >= maxVisibleButtons"
+    <div class="pagination__right">
+      <div class="page-size">
+        <DxSelectBox
+          :value="pageSize"
+          :data-source="data"
+          value-expr="value"
+          display-expr="label"
+          @value-changed="selectSize"
+          class="misa-select-box"
         >
-          1
+        </DxSelectBox>
+      </div>
+      <div class="page-index">
+        <button
+          class="prev"
+          :disabled="currentPage === 1"
+          @click="onClickPrevPage"
+        >
+          Trước
         </button>
-        <div v-show="currentPage >= maxVisibleButtons + 1" class="dots">
-          ...
+        <div class="flex index">
+          <button
+            :class="isPageSelected(1)"
+            @click="onClickPage(1)"
+            v-show="currentPage >= maxVisibleButtons"
+          >
+            1
+          </button>
+          <div v-show="currentPage >= maxVisibleButtons + 1" class="dots">
+            ...
+          </div>
+          <button
+            v-for="page in pages"
+            :key="page"
+            :class="isPageSelected(page)"
+            @click="onClickPage(page)"
+          >
+            {{ page }}
+          </button>
+          <div
+            v-show="totalPage >= currentPage + maxVisibleButtons"
+            class="dots"
+          >
+            ...
+          </div>
+          <button
+            :class="isPageSelected(totalPage)"
+            @click="onClickPage(totalPage)"
+            v-show="totalPage >= currentPage + maxVisibleButtons - 1"
+          >
+            {{ totalPage }}
+          </button>
         </div>
         <button
-          v-for="page in pages"
-          :key="page"
-          :class="isPageSelected(page)"
-          @click="onClickPage(page)"
+          class="next"
+          :disabled="currentPage === totalPage"
+          @click="onClickNextPage"
         >
-          {{ page }}
-        </button>
-        <div v-show="totalPage >= currentPage + maxVisibleButtons" class="dots">
-          ...
-        </div>
-        <button
-          :class="isPageSelected(totalPage)"
-          @click="onClickPage(totalPage)"
-          v-show="totalPage >= currentPage + maxVisibleButtons - 1"
-        >
-          {{ totalPage }}
+          Sau
         </button>
       </div>
-      <button
-        class="next"
-        :disabled="currentPage === totalPage"
-        @click="onClickNextPage"
-      >
-        Sau
-      </button>
     </div>
   </div>
 </template>
@@ -220,73 +226,4 @@ export default {
 
 <style lang="css">
 @import url("../../assets/css/common/pagination.css");
-
-input.dx-texteditor-input {
-  padding: 6px 0px 6px 12px !important;
-  height: 18px !important;
-  box-sizing: border-box;
-}
-
-.dx-overlay-content.dx-popup-normal.dx-resizable.dx-dropdowneditor-overlay-flipped {
-  transform: translate(0px, -162px) !important;
-}
-
-.dx-texteditor.dx-editor-outlined {
-  border-color: #babec5 !important;
-  box-sizing: border-box;
-  border-radius: 2px !important;
-}
-
-.dx-texteditor.dx-state-focused.dx-editor-outlined {
-  border-color: #2ca01c !important;
-}
-
-.dx-item.dx-list-item.dx-list-item-selected {
-  color: #fff !important;
-  background-color: #2ca01c !important;
-}
-
-.dx-list-item.dx-state-focused {
-  color: #2ca01c !important;
-  background-color: #f8f8f8 !important;
-}
-
-.dx-item.dx-list-item.dx-state-active {
-  color: #fff !important;
-  background-color: #2ca01c !important;
-}
-
-.dx-item.dx-list-item.dx-state-hover {
-  color: #2ca01c !important;
-  background-color: #f8f8f8 !important;
-}
-
-.dx-overlay-content.dx-popup-normal.dx-resizable.dx-dropdowneditor-overlay-flipped {
-  border-radius: 0px !important;
-  box-shadow: none !important;
-  border: 1px solid #babec5 !important;
-}
-
-.dx-dropdowneditor-icon {
-  border-radius: 0px !important;
-  border: none !important;
-}
-
-.dx-dropdowneditor-icon:hover {
-  background-color: #e0e0e0 !important;
-}
-
-.dx-texteditor-input {
-  min-height: 32px !important;
-  font-size: 13px !important;
-  font-family: "Notosans" !important;
-}
-
-.dx-item-content.dx-list-item-content {
-  font-family: "Notosans" !important;
-}
-
-.dx-item.dx-list-item {
-  padding: 0px 14px 0px 10px !important;
-}
 </style>

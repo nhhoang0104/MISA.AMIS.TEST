@@ -1,360 +1,373 @@
 <template>
-  <div v-show="isShowed">
-    <div class="modal"></div>
-    <div class="dialog">
-      <div class="dialog__header">
-        <div class="dialog__header__title flex">
-          <div class="title">Thông tin nhân viên</div>
-          <div class="flex flex-center p-l--20 p-r--20">
-            <div><input type="checkbox" /></div>
-            <div class="p-l--10">Là khách hàng</div>
-          </div>
-          <div class="flex flex-center p-l--20 p-r--20">
-            <div><input type="checkbox" /></div>
-            <div class="p-l--10">Là nhà cung cấp</div>
-          </div>
-        </div>
-        <div class="dialog__header__close">
-          <div class="icon icon--24 icon-help m-r-6"></div>
-          <div class="icon icon--24 icon-close" @click="preCloseForm"></div>
-        </div>
-      </div>
-      <div class="dialog__content">
-        <div class="body">
-          <div class="flex p-b--27">
-            <div class="w-50 p-r--26">
-              <div class="flex row-input">
-                <div class="w-40 p-r--6">
-                  <base-input
-                    ref="EmployeeCode"
-                    @onchangeinput="onChangeInput"
-                    id="EmployeeCode"
-                    :value="formData.EmployeeCode"
-                    :hasLabel="true"
-                    label="Mã"
-                    :required="true"
-                    :tabIndex="1"
-                    :maxLength="20"
-                  ></base-input>
-                </div>
-                <div class="w-60">
-                  <base-input
-                    ref="FullName"
-                    @onchangeinput="onChangeInput"
-                    id="FullName"
-                    :value="formData.FullName"
-                    :hasLabel="true"
-                    label="Tên"
-                    :required="true"
-                    :tabIndex="2"
-                    :maxLength="100"
-                  ></base-input>
-                </div>
-              </div>
-              <div class="row-input">
-                <div class="w-100">
-                  <combo-box
-                    label="Đơn vị"
-                    ref="DepartmentId"
-                    :required="true"
-                    :data="departmentCbb"
-                    :value="formData.DepartmentId"
-                    id="DepartmentId"
-                    @select-item="selectItem"
-                    :tabIndex="3"
-                  >
-                    <template #combo-box-options="{options,indexItem}">
-                      <combo-box-option
-                        v-for="(item, index) in options"
-                        :key="item.id"
-                        :hover="index === indexItem"
-                        :dataSrc="item"
-                        :checked="item.id === formData.DepartmentId"
-                        @select-item="selectItem"
-                      ></combo-box-option>
-                    </template>
-                  </combo-box>
-                </div>
-              </div>
-              <div class="row-input">
-                <div class="w-100">
-                  <base-input
-                    ref="PositionName"
-                    :value="formData.PositionName"
-                    :hasLabel="true"
-                    label="Chức danh"
-                    @onchangeinput="onChangeInput"
-                    id="PositionName"
-                    :tabIndex="4"
-                    :maxLength="100"
-                  ></base-input>
-                </div>
-              </div>
+  <DxPopup
+    :visible="isShowed"
+    :width="900"
+    :max-height="600"
+    :drag-enabled="true"
+    :show-title="false"
+    :show-close-button="false"
+    :close-on-outside-click="false"
+    :resize-enabled="true"
+    class="misa-popup"
+  >
+    <div>
+      <div class="dialog">
+        <div class="dialog__header">
+          <div class="dialog__header__title flex">
+            <div class="title">Thông tin nhân viên</div>
+            <div class="flex flex-center p-l--20 p-r--20">
+              <div><input type="checkbox" /></div>
+              <div class="p-l--10">Là khách hàng</div>
             </div>
-            <div class="w-50">
-              <div class="flex row-input">
-                <div class="w-40 p-r--6">
-                  <base-input
-                    :tabIndex="5"
-                    :hasLabel="true"
-                    ref="DateOfBirth"
-                    type="date"
-                    label="Ngày sinh"
-                    format="date"
-                    :value="formData.DateOfBirth"
-                    @onchangeinput="onChangeInput"
-                    id="DateOfBirth"
-                  ></base-input>
+            <div class="flex flex-center p-l--20 p-r--20">
+              <div><input type="checkbox" /></div>
+              <div class="p-l--10">Là nhà cung cấp</div>
+            </div>
+          </div>
+          <div class="dialog__header__close">
+            <div class="icon icon--24 icon-help m-r-6"></div>
+            <div class="icon icon--24 icon-close" @click="preCloseForm"></div>
+          </div>
+        </div>
+        <div class="dialog__content">
+          <div class="body">
+            <div class="flex p-b--27">
+              <div class="w-50 p-r--26">
+                <div class="flex row-input">
+                  <div class="w-40 p-r--6">
+                    <base-input
+                      ref="EmployeeCode"
+                      @onchangeinput="onChangeInput"
+                      id="EmployeeCode"
+                      :value="formData.EmployeeCode"
+                      :hasLabel="true"
+                      label="Mã"
+                      :required="true"
+                      :tabIndex="1"
+                      :maxLength="20"
+                    ></base-input>
+                  </div>
+                  <div class="w-60">
+                    <base-input
+                      ref="FullName"
+                      @onchangeinput="onChangeInput"
+                      id="FullName"
+                      :value="formData.FullName"
+                      :hasLabel="true"
+                      label="Tên"
+                      :required="true"
+                      :tabIndex="2"
+                      :maxLength="100"
+                    ></base-input>
+                  </div>
                 </div>
-                <div class="w-60">
-                  <div class="flex flex-column">
-                    <div class="label p-l--10">Giới tính</div>
-                    <div class="p-l--10 p-t--5 p-b--6">
-                      <label
-                        class="container-radio"
-                        for="0"
-                        @click="
-                          onChangeInput({
-                            value: Resource.Gender.Female,
-                            id: 'Gender',
-                          })
-                        "
-                      >
-                        <input
-                          label="0"
-                          type="radio"
-                          :value="Resource.Gender.Female"
-                        />
-                        <span class="radio">
-                          <span class="radio-border"></span>
-                          <span
-                            class="radio-circle"
-                            v-show="formData.Gender === Resource.Gender.Female"
-                          ></span>
-                        </span>
-                        <span class="label-radio">Nữ</span>
-                      </label>
-                      <label
-                        class="container-radio"
-                        for="1"
-                        @click="
-                          onChangeInput({
-                            value: Resource.Gender.Male,
-                            id: 'Gender',
-                          })
-                        "
-                      >
-                        <input
-                          type="radio"
-                          label="1"
-                          :value="Resource.Gender.Male"
-                        />
-                        <span class="radio">
-                          <span class="radio-border"></span>
-                          <span
-                            class="radio-circle"
-                            v-show="formData.Gender === Resource.Gender.Male"
-                          ></span>
-                        </span>
-                        <span class="label-radio">Nam</span>
-                      </label>
-                      <label
-                        class="container-radio"
-                        for="2"
-                        @click="
-                          onChangeInput({
-                            value: Resource.Gender.Other,
-                            id: 'Gender',
-                          })
-                        "
-                      >
-                        <input
-                          type="radio"
-                          label="2"
-                          :value="Resource.Gender.Other"
-                        />
-                        <span class="radio">
-                          <span class="radio-border"></span>
-                          <span
-                            class="radio-circle"
-                            v-show="formData.Gender === Resource.Gender.Other"
-                          ></span>
-                        </span>
-                        <span class="label-radio">Khác</span>
-                      </label>
-                    </div>
+                <div class="row-input">
+                  <div class="w-100">
+                    <combo-box
+                      label="Đơn vị"
+                      ref="DepartmentId"
+                      :required="true"
+                      :data="departmentCbb"
+                      :value="formData.DepartmentId"
+                      id="DepartmentId"
+                      @select-item="selectItem"
+                      :tabIndex="3"
+                    >
+                      <template #combo-box-options="{options,indexItem}">
+                        <combo-box-option
+                          v-for="(item, index) in options"
+                          :key="item.id"
+                          :hover="index === indexItem"
+                          :dataSrc="item"
+                          :checked="item.id === formData.DepartmentId"
+                          @select-item="selectItem"
+                        ></combo-box-option>
+                      </template>
+                    </combo-box>
+                  </div>
+                </div>
+                <div class="row-input">
+                  <div class="w-100">
+                    <base-input
+                      ref="PositionName"
+                      :value="formData.PositionName"
+                      :hasLabel="true"
+                      label="Chức danh"
+                      @onchangeinput="onChangeInput"
+                      id="PositionName"
+                      :tabIndex="4"
+                      :maxLength="100"
+                    ></base-input>
                   </div>
                 </div>
               </div>
-              <div class="flex row-input">
-                <div class="w-60 p-r--6">
-                  <base-input
-                    :hasLabel="true"
-                    label="Số CMND"
-                    ref="IdentityNumber"
-                    @onchangeinput="onChangeInput"
-                    :value="formData.IdentityNumber"
-                    format="number"
-                    id="IdentityNumber"
-                    :tabIndex="6"
-                    :maxLength="12"
-                  ></base-input>
+              <div class="w-50">
+                <div class="flex row-input">
+                  <div class="w-40 p-r--6">
+                    <base-input
+                      :tabIndex="5"
+                      :hasLabel="true"
+                      ref="DateOfBirth"
+                      type="date"
+                      label="Ngày sinh"
+                      format="date"
+                      :value="formData.DateOfBirth"
+                      @onchangeinput="onChangeInput"
+                      id="DateOfBirth"
+                    ></base-input>
+                  </div>
+                  <div class="w-60">
+                    <div class="flex flex-column">
+                      <div class="label p-l--10">Giới tính</div>
+                      <div class="p-l--10 p-t--5 p-b--6">
+                        <label
+                          class="container-radio"
+                          for="0"
+                          @click="
+                            onChangeInput({
+                              value: Resource.Gender.Female,
+                              id: 'Gender',
+                            })
+                          "
+                        >
+                          <input
+                            label="0"
+                            type="radio"
+                            :value="Resource.Gender.Female"
+                          />
+                          <span class="radio">
+                            <span class="radio-border"></span>
+                            <span
+                              class="radio-circle"
+                              v-show="
+                                formData.Gender === Resource.Gender.Female
+                              "
+                            ></span>
+                          </span>
+                          <span class="label-radio">Nữ</span>
+                        </label>
+                        <label
+                          class="container-radio"
+                          for="1"
+                          @click="
+                            onChangeInput({
+                              value: Resource.Gender.Male,
+                              id: 'Gender',
+                            })
+                          "
+                        >
+                          <input
+                            type="radio"
+                            label="1"
+                            :value="Resource.Gender.Male"
+                          />
+                          <span class="radio">
+                            <span class="radio-border"></span>
+                            <span
+                              class="radio-circle"
+                              v-show="formData.Gender === Resource.Gender.Male"
+                            ></span>
+                          </span>
+                          <span class="label-radio">Nam</span>
+                        </label>
+                        <label
+                          class="container-radio"
+                          for="2"
+                          @click="
+                            onChangeInput({
+                              value: Resource.Gender.Other,
+                              id: 'Gender',
+                            })
+                          "
+                        >
+                          <input
+                            type="radio"
+                            label="2"
+                            :value="Resource.Gender.Other"
+                          />
+                          <span class="radio">
+                            <span class="radio-border"></span>
+                            <span
+                              class="radio-circle"
+                              v-show="formData.Gender === Resource.Gender.Other"
+                            ></span>
+                          </span>
+                          <span class="label-radio">Khác</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="w-40">
-                  <base-input
-                    :hasLabel="true"
-                    ref="IdentityDate"
-                    type="date"
-                    format="date"
-                    label="Ngày cấp"
-                    @onchangeinput="onChangeInput"
-                    :value="formData.IdentityDate"
-                    id="IdentityDate"
-                    :tabIndex="7"
-                  ></base-input>
+                <div class="flex row-input">
+                  <div class="w-60 p-r--6">
+                    <base-input
+                      :hasLabel="true"
+                      label="Số CMND"
+                      ref="IdentityNumber"
+                      @onchangeinput="onChangeInput"
+                      :value="formData.IdentityNumber"
+                      format="number"
+                      id="IdentityNumber"
+                      :tabIndex="6"
+                      :maxLength="12"
+                    ></base-input>
+                  </div>
+                  <div class="w-40">
+                    <base-input
+                      :hasLabel="true"
+                      ref="IdentityDate"
+                      type="date"
+                      format="date"
+                      label="Ngày cấp"
+                      @onchangeinput="onChangeInput"
+                      :value="formData.IdentityDate"
+                      id="IdentityDate"
+                      :tabIndex="7"
+                    ></base-input>
+                  </div>
+                </div>
+                <div class="row-input">
+                  <div class="w-100">
+                    <base-input
+                      ref="IdentityPlace"
+                      :hasLabel="true"
+                      label="Nơi cấp"
+                      @onchangeinput="onChangeInput"
+                      :value="formData.IdentityPlace"
+                      id="IdentityPlace"
+                      :tabIndex="8"
+                      :maxLength="255"
+                    ></base-input>
+                  </div>
                 </div>
               </div>
+            </div>
+            <div class="flex flex-column">
               <div class="row-input">
                 <div class="w-100">
                   <base-input
-                    ref="IdentityPlace"
+                    ref="Address"
                     :hasLabel="true"
-                    label="Nơi cấp"
+                    label="Địa chỉ"
                     @onchangeinput="onChangeInput"
-                    :value="formData.IdentityPlace"
-                    id="IdentityPlace"
-                    :tabIndex="8"
+                    id="Address"
+                    :value="formData.Address"
+                    :tabIndex="9"
                     :maxLength="255"
                   ></base-input>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="flex flex-column">
-            <div class="row-input">
-              <div class="w-100">
-                <base-input
-                  ref="Address"
-                  :hasLabel="true"
-                  label="Địa chỉ"
-                  @onchangeinput="onChangeInput"
-                  id="Address"
-                  :value="formData.Address"
-                  :tabIndex="9"
-                  :maxLength="255"
-                ></base-input>
+              <div class="flex row-input">
+                <div class="w-25 p-r--6">
+                  <base-input
+                    ref="MobilePhoneNumber"
+                    :hasLabel="true"
+                    label="ĐT di động"
+                    @onchangeinput="onChangeInput"
+                    id="MobilePhoneNumber"
+                    :value="formData.MobilePhoneNumber"
+                    :tabIndex="10"
+                    :maxLength="50"
+                  ></base-input>
+                </div>
+                <div class="w-25 p-r--6">
+                  <base-input
+                    ref="TelephoneNumber"
+                    :hasLabel="true"
+                    label="ĐT cố định"
+                    @onchangeinput="onChangeInput"
+                    id="TelephoneNumber"
+                    :value="formData.TelephoneNumber"
+                    :tabIndex="11"
+                    :maxLength="50"
+                  ></base-input>
+                </div>
+                <div class="w-25">
+                  <base-input
+                    ref="Email"
+                    :hasLabel="true"
+                    label="Email"
+                    @onchangeinput="onChangeInput"
+                    id="Email"
+                    format="email"
+                    :value="formData.Email"
+                    :tabIndex="12"
+                    :maxLength="50"
+                  ></base-input>
+                </div>
               </div>
-            </div>
-            <div class="flex row-input">
-              <div class="w-25 p-r--6">
-                <base-input
-                  ref="MobilePhoneNumber"
-                  :hasLabel="true"
-                  label="ĐT di động"
-                  @onchangeinput="onChangeInput"
-                  id="MobilePhoneNumber"
-                  :value="formData.MobilePhoneNumber"
-                  :tabIndex="10"
-                  :maxLength="50"
-                ></base-input>
-              </div>
-              <div class="w-25 p-r--6">
-                <base-input
-                  ref="TelephoneNumber"
-                  :hasLabel="true"
-                  label="ĐT cố định"
-                  @onchangeinput="onChangeInput"
-                  id="TelephoneNumber"
-                  :value="formData.TelephoneNumber"
-                  :tabIndex="11"
-                  :maxLength="50"
-                ></base-input>
-              </div>
-              <div class="w-25">
-                <base-input
-                  ref="Email"
-                  :hasLabel="true"
-                  label="Email"
-                  @onchangeinput="onChangeInput"
-                  id="Email"
-                  format="email"
-                  :value="formData.Email"
-                  :tabIndex="12"
-                  :maxLength="50"
-                ></base-input>
-              </div>
-            </div>
-            <div class="flex row-input">
-              <div class="w-25 p-r--6">
-                <base-input
-                  ref="BankAccount"
-                  :hasLabel="true"
-                  label="Tài khoản ngân hàng"
-                  @onchangeinput="onChangeInput"
-                  id="BankAccount"
-                  :value="formData.BankAccount"
-                  :tabIndex="13"
-                  :maxLength="25"
-                ></base-input>
-              </div>
-              <div class="w-25 p-r--6">
-                <base-input
-                  ref="BankName"
-                  :hasLabel="true"
-                  label="Tên ngân hàng"
-                  @onchangeinput="onChangeInput"
-                  id="BankName"
-                  :value="formData.BankName"
-                  :tabIndex="14"
-                  :maxLength="100"
-                ></base-input>
-              </div>
-              <div class="w-25">
-                <base-input
-                  ref="BankBranch"
-                  :hasLabel="true"
-                  label="Chi nhánh"
-                  @onchangeinput="onChangeInput"
-                  id="BankBranch"
-                  :value="formData.BankBranch"
-                  :maxLength="100"
-                  :tabIndex="15"
-                ></base-input>
+              <div class="flex row-input">
+                <div class="w-25 p-r--6">
+                  <base-input
+                    ref="BankAccount"
+                    :hasLabel="true"
+                    label="Tài khoản ngân hàng"
+                    @onchangeinput="onChangeInput"
+                    id="BankAccount"
+                    :value="formData.BankAccount"
+                    :tabIndex="13"
+                    :maxLength="25"
+                  ></base-input>
+                </div>
+                <div class="w-25 p-r--6">
+                  <base-input
+                    ref="BankName"
+                    :hasLabel="true"
+                    label="Tên ngân hàng"
+                    @onchangeinput="onChangeInput"
+                    id="BankName"
+                    :value="formData.BankName"
+                    :tabIndex="14"
+                    :maxLength="100"
+                  ></base-input>
+                </div>
+                <div class="w-25">
+                  <base-input
+                    ref="BankBranch"
+                    :hasLabel="true"
+                    label="Chi nhánh"
+                    @onchangeinput="onChangeInput"
+                    id="BankBranch"
+                    :value="formData.BankBranch"
+                    :maxLength="100"
+                    :tabIndex="15"
+                  ></base-input>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="footer">
-          <div class="divide"></div>
-          <div
-            class="flex"
-            style="align-items: center; justify-content: space-between;"
-          >
-            <base-button
-              label="Hủy"
-              :secondary="true"
-              @click="closeForm"
-            ></base-button>
-            <div class="flex">
-              <div class="p-l--10 p-r--10">
+          <div class="footer">
+            <div class="divide"></div>
+            <div
+              class="flex"
+              style="align-items: center; justify-content: space-between;"
+            >
+              <base-button
+                label="Hủy"
+                :secondary="true"
+                @click="closeForm"
+              ></base-button>
+              <div class="flex">
+                <div class="p-l--10 p-r--10">
+                  <base-button
+                    label="Cất"
+                    :secondary="true"
+                    @onclick="onSubmit(Resource.TypeSubmit.NoForm)"
+                  ></base-button>
+                </div>
                 <base-button
-                  label="Cất"
-                  :secondary="true"
-                  @onclick="onSubmit(Resource.TypeSubmit.NoForm)"
+                  label="Cất và Thêm"
+                  @onclick="onSubmit(Resource.TypeSubmit.NewForm)"
                 ></base-button>
               </div>
-              <base-button
-                label="Cất và Thêm"
-                @onclick="onSubmit(Resource.TypeSubmit.NewForm)"
-              ></base-button>
             </div>
           </div>
         </div>
       </div>
+      <base-popup :info="popupInfo" @close="closePopup"></base-popup>
+      <base-loader :isLoading="isLoading"></base-loader>
     </div>
-    <base-popup :info="popupInfo" @close="closePopup"></base-popup>
-    <base-loader :isLoading="isLoading"></base-loader>
-  </div>
+  </DxPopup>
 </template>
 
 <script>
@@ -364,8 +377,10 @@ import DepartmentAPI from "@/api/components/departmentAPI";
 import EmployeeAPI from "@/api/components/employeeAPI";
 import FormatData from "@/utils/formatData.js";
 import Resource from "@/constants/resource";
+import { DxPopup } from "devextreme-vue/popup";
 
 export default {
+  components: { DxPopup },
   props: {
     isShowed: {
       type: Boolean,
@@ -395,17 +410,22 @@ export default {
      * Xử lý khi mở form, xét lại formData=null
      * CreateBy: NHHoang(28/08/2021)
      */
+
     isShowed(newVal) {
       if (newVal) {
+        this.formData = _.cloneDeep(EmployeeModel);
+
         if (
           this.formMode === Resource.FormMode.Replica ||
           this.formMode === Resource.FormMode.Add
         ) {
           EmployeeAPI.getNewEmployeeCode().then((res) => {
-            if (this.formMode === Resource.FormMode.Replica)
+            if (this.formMode === Resource.FormMode.Replica) {
               this.formData = this.employeeReplication;
+            }
 
             this.formData.EmployeeCode = res.data;
+
             this.isFormDataChange = false;
           });
         }
@@ -799,15 +819,13 @@ export default {
      * CreatedBy: NHHoang (29/08/2021)
      */
     closeForm() {
-      this.formData = _.cloneDeep(EmployeeModel);
+      this.$emit("close-form");
 
       Object.keys(this.$refs).forEach(
         (el) => (this.$refs[el].isValidated = true)
       );
 
       this.isFormDataChange = false;
-
-      this.$emit("close-form");
     },
 
     /**

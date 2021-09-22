@@ -57,6 +57,8 @@ namespace MISA.Test.Core.Interfaces.Repositories
         /// CreatedBy: NHHoang (27/8/2021)
         String GetBigEmployeeCode();
 
+        Object GetReport();
+
         #endregion
     }
 }

@@ -1,6 +1,10 @@
 const path = require("path");
 
 module.exports = {
+  // runtimeCompiler: true,
+  // css: {
+  //   requireModuleExtension: true,
+  // },
   configureWebpack: {
     resolve: {
       alias: {
@@ -8,5 +12,6 @@ module.exports = {
       },
     },
     devtool: "source-map",
+    // plugins: [new MyAwesomeWebpackPlugin()],
   },
 };

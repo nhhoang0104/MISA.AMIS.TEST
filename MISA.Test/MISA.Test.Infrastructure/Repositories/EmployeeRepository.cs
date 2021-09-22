@@ -131,6 +131,11 @@ namespace MISA.Test.Infrastructure.Repositories
             }
         }
 
+        public Object GetReport()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
     }

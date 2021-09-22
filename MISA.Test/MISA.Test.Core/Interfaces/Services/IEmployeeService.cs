@@ -58,6 +58,12 @@ namespace MISA.Test.Core.Interfaces.Services
         /// CreatedBy: NHHoang (01/09/2021)
         MemoryStream Export(CancellationToken cancellationToken, string employeeFilter, int pageSize, int pageIndex);
 
+        /// <summary>
+        /// Lấy thống kê của các biến đổi nhân viên
+        /// </summary>
+        /// <returns></returns>
+        /// CreatedBy: NHHoang (20/09/2021)
+        ServiceResult GetHumanReport(ReportingCriteria reportingCriteria);
         #endregion
     }
 }

@@ -9,8 +9,9 @@
         v-if="type === 'date'"
         :value="value"
         :onValueChanged="onChangeInput"
-        displayFormat="dd/MM/yyyy"
-        placeholder="DD/MM/YYYY"
+        :displayFormat="displayFormat"
+        :dateSerializationFormat="dateSerializationFormat"
+        :placeholder="placeholder"
         :useMaskBehavior="true"
         :showClearButton="false"
         class="dxDateBox"
@@ -69,7 +70,7 @@ export default {
       type: String,
       default: "text",
     },
-    value: { type: [String, Date], default: "" },
+    value: { type: [String, Number, Date], default: "" },
     required: {
       type: Boolean,
       default: false,
@@ -102,6 +103,14 @@ export default {
       type: Number,
       required: false,
       default: 255,
+    },
+    displayFormat: {
+      type: String,
+      default: "dd/MM/yyyy",
+    },
+    dateSerializationFormat: {
+      type: String,
+      default: "yyyy-MM-dd",
     },
   },
 

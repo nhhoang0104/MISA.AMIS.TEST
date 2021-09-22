@@ -188,10 +188,10 @@ namespace MISA.Test.Api.Controllers
         {
             try
             {
-            var stream = this._employeeService.Export(cancellationToken, employeeFilter, pageSize, pageIndex);
-            string excelName = $"DanhSachNhanVien.xlsx";
+                var stream = this._employeeService.Export(cancellationToken, employeeFilter, pageSize, pageIndex);
+                string excelName = $"DanhSachNhanVien.xlsx";
 
-            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
 
             }
             catch (Exception e)
@@ -205,6 +205,32 @@ namespace MISA.Test.Api.Controllers
                 return StatusCode(500, errObj);
             }
 
+        }
+
+        /// <summary>
+        /// Thống kê biến đổi nhân sự
+        /// </summary>
+        /// <returns></returns>
+        /// CreatedBy: nhhoang (20/09/2021)
+        [HttpPost("HumanReport")]
+        public IActionResult Report(ReportingCriteria reportingCriteria)
+        {
+            try
+            {
+                var serviceResult = this._employeeService.GetHumanReport(reportingCriteria);
+
+                return StatusCode(200, serviceResult.Data);
+            }
+            catch (Exception e)
+            {
+                var errObj = new
+                {
+                    devMsg = e.Message,
+                    userMsg = MISA.Test.Core.Resources.ErrorMsg.ServerError_ErrorMsg,
+                };
+
+                return StatusCode(500, errObj);
+            }
         }
 
         #endregion

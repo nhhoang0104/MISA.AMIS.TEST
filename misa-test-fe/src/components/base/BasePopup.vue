@@ -1,46 +1,47 @@
 <template>
-  <div v-show="info.isShowed">
-    <div class="modal"></div>
-    <div class="pop-up">
-      <div class="pop-up__content">
-        <div class="icon__msg">
-          <div class="icon icon--48" :class="info.icon"></div>
+  <misa-popup :isShowed="info.isShowed" :width="444" :height="200">
+    <template #popup-content>
+      <div class="pop-up">
+        <div class="pop-up__content">
+          <div class="icon__msg">
+            <div class="icon icon--48" :class="info.icon"></div>
+          </div>
+          <div class="content__msg">
+            {{ info.message }}
+          </div>
         </div>
-        <div class="content__msg">
-          {{ info.message }}
+        <div class="pop-up__line"></div>
+        <div class="pop-up__footer">
+          <div class="left" v-show="info.btnLeft !== null">
+            <base-button
+              :label="info.btnLeft"
+              :secondary="true"
+              @click="handleCancel"
+            ></base-button>
+          </div>
+          <div class="right-sec" v-show="info.btnRightSec !== null">
+            <base-button
+              :label="info.btnRightSec"
+              @click="handleAction"
+            ></base-button>
+          </div>
+          <div class="right-first" v-show="info.btnRightFirst !== null">
+            <base-button
+              :label="info.btnRightFirst"
+              :secondary="true"
+              @click="$emit('close')"
+            ></base-button>
+          </div>
+          <div class="center" v-show="info.btnCenter">
+            <base-button
+              :label="info.btnCenter"
+              @click="$emit('close')"
+            ></base-button>
+          </div>
         </div>
       </div>
-      <div class="pop-up__line"></div>
-      <div class="pop-up__footer">
-        <div class="left" v-show="info.btnLeft !== null">
-          <base-button
-            :label="info.btnLeft"
-            :secondary="true"
-            @click="handleCancel"
-          ></base-button>
-        </div>
-        <div class="right-sec" v-show="info.btnRightSec !== null">
-          <base-button
-            :label="info.btnRightSec"
-            @click="handleAction"
-          ></base-button>
-        </div>
-        <div class="right-first" v-show="info.btnRightFirst !== null">
-          <base-button
-            :label="info.btnRightFirst"
-            :secondary="true"
-            @click="$emit('close')"
-          ></base-button>
-        </div>
-        <div class="center" v-show="info.btnCenter">
-          <base-button
-            :label="info.btnCenter"
-            @click="$emit('close')"
-          ></base-button>
-        </div>
-      </div>
-    </div>
-  </div>
+    </template>
+  </misa-popup>
 </template>
 
 <script>

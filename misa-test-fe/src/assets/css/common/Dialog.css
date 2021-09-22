@@ -1,16 +1,5 @@
 .dialog {
-  display: block;
-  overflow: hidden;
-  width: 900px;
-  height: 625px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background-color: var(--color-white);
-  opacity: 1;
   box-sizing: border-box;
-  z-index: 6;
 }
 
 .dialog .dialog__header {
@@ -39,34 +28,20 @@
 }
 
 .dialog .dialog__content {
-  transition: all 0.23s ease 0.1s;
   display: flex;
   flex-direction: column;
-  overflow: auto;
-  overflow-y: visible;
-  padding: 0 32px 20px 32px;
+  padding: 0 32px;
 }
 
 .dialog .dialog__content .body {
-  overflow: auto;
+  height: 100%;
 }
 
 .dialog .dialog__content .body .row-input {
   padding-bottom: 12px;
 }
 
-.dialog .dialog__content .footer {
-  height: 89px;
-}
-
-.dialog .dialog__content .divide {
-  width: 100%;
-  border-top: 1px solid #e0e0e0;
-  margin: 32px 0 20px 0;
-  position: relative;
-}
-
-@media screen and (min-height: 380px) {
+/* @media screen and (min-height: 380px) {
   .dialog {
     height: 350px;
   }
@@ -94,4 +69,4 @@
   .dialog .dialog__content .body {
     max-height: 445px;
   }
-}
+} */

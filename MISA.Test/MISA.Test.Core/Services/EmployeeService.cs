@@ -9,9 +9,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace MISA.Test.Core.Services
 {
@@ -279,6 +277,121 @@ namespace MISA.Test.Core.Services
         }
 
         /// <summary>
+        /// Lấy thống kê của các biến đổi nhân viên
+        /// </summary>
+        /// <returns></returns>
+        /// CreatedBy: NHHoang (20/09/2021)
+        public ServiceResult GetHumanReport(ReportingCriteria reportingCriteria)
+        {
+            var serviceResult = new ServiceResult();
+            var employeess = new List<Employee>();
+            var reportList = new List<Report>();
+
+            // Lấy danh sách nhân viên
+            employeess = this._employeeRepository.GetAll();
+
+            // Khởi tạo report
+            switch (reportingCriteria.ReportFollow)
+            {
+                case Enum.ReportFollow.MONTH:
+                    for (int i = 0; i < 12; i++)
+                    {
+                        var report = new Report();
+                        report.Label = (i + 1).ToString();
+                        reportList.Add(report);
+                    }
+                    break;
+                case Enum.ReportFollow.QUARTER:
+                    for (int i = 0; i < 4; i++)
+                    {
+                        var report = new Report();
+                        report.Label = (i + 1).ToString();
+                        reportList.Add(report);
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            // xử lý
+            foreach (var employee in employeess)
+            {
+                if (reportingCriteria.Type == Enum.TypeReport.ADD || reportingCriteria.Type == Enum.TypeReport.MUTATE)
+                {
+                    var index = GetIndex(employee.CreatedDate, reportingCriteria, reportList);
+
+                    if (index != null)
+                    {
+                        if (index == -1)
+                        {
+                            var report = new Report();
+                            report.Label = GetTime(employee.CreatedDate, reportingCriteria.ReportFollow, reportingCriteria.Year).ToString();
+                            report.Quantity += 1;
+                            report.QuantityAdd += 1;
+                            reportList.Add(report);
+                        }
+                        else
+                        {
+                            reportList[index.Value].Quantity += 1;
+                            reportList[index.Value].QuantityAdd += 1;
+                        }
+                    }
+                }
+
+                if (reportingCriteria.Type == Enum.TypeReport.UPDATE || reportingCriteria.Type == Enum.TypeReport.MUTATE)
+                {
+                    var index = GetIndex(employee.ModifiedDate, reportingCriteria, reportList);
+
+                    if (index != null)
+                    {
+                        if (index == -1)
+                        {
+                            var report = new Report();
+                            report.Label = GetTime(employee.ModifiedDate, reportingCriteria.ReportFollow, reportingCriteria.Year).ToString();
+                            report.Quantity += 1;
+                            report.QuantityUpdate += 1;
+                            reportList.Add(report);
+                        }
+                        else
+                        {
+                            reportList[index.Value].Quantity += 1;
+                            reportList[index.Value].QuantityUpdate += 1;
+                        }
+                    }
+                }
+
+                if (reportingCriteria.Type == Enum.TypeReport.DELETE || reportingCriteria.Type == Enum.TypeReport.MUTATE)
+                {
+                    if (employee.IsStop)
+                    {
+                        var index = GetIndex(employee.ModifiedDate, reportingCriteria, reportList);
+
+                        if (index != null)
+                        {
+                            if (index == -1)
+                            {
+                                var report = new Report();
+                                report.Label = GetTime(employee.ModifiedDate, reportingCriteria.ReportFollow, reportingCriteria.Year).ToString();
+                                report.Quantity += 1;
+                                report.QuantityDelete += 1;
+                                reportList.Add(report);
+                            }
+                            else
+                            {
+                                reportList[index.Value].Quantity += 1;
+                                reportList[index.Value].QuantityDelete += 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            serviceResult.Data = reportList;
+
+            return serviceResult;
+        }
+
+        /// <summary>
         /// Vaidate max
         /// </summary>
         /// <param name="entity"></param>
@@ -290,8 +403,67 @@ namespace MISA.Test.Core.Services
 
         }
 
+        /// <summary>
+        /// Lấy năm hoặc tháng hoặc quý
+        /// </summary>
+        /// <param name="time">thời gian</param>
+        /// <param name="reportFollow">thống kê theo</param>
+        /// <param name="year">năm</param>
+        /// <returns></returns>
+        /// CreatedBy: NHHoang (20/09/2021)
+        private Int32 GetTime(DateTime? time, Enum.ReportFollow reportFollow, Int32? year)
+        {
+            if (time == null) return -1;
+
+            switch (reportFollow)
+            {
+                case Enum.ReportFollow.MONTH:
+                    if (year == Int32.Parse(time?.Year.ToString())) return Int32.Parse(time?.ToString("MM"));
+                    return -1;
+                case Enum.ReportFollow.QUARTER:
+                    if (year == Int32.Parse(time?.Year.ToString())) return (Int32.Parse(time?.ToString("MM")) + 2) / 3;
+                    return -1;
+                case Enum.ReportFollow.YEAR:
+                    return Int32.Parse(time?.Year.ToString());
+                default:
+                    return -1;
+            }
+        }
+
+        /// <summary>
+        /// Lấy index của danh sách báo cáo
+        /// </summary>
+        /// <param name="time">thời gian</param>
+        /// <param name="reportingCriteria">tiêu chí báo cáo</param>
+        /// <param name="reportList">danh sách báo cáo</param>
+        /// <returns></returns>
+        /// CreatedBy: NHHoang (20/09/2021)
+        private Int32? GetIndex(DateTime? time, ReportingCriteria reportingCriteria, List<Report> reportList)
+        {
+            if (reportingCriteria.ReportFollow == Enum.ReportFollow.YEAR)
+            {
+                var year = GetTime(time, reportingCriteria.ReportFollow, reportingCriteria.Year);
+
+                if (year != -1)
+                {
+                    var index = reportList.FindIndex(delegate (Report item)
+                    {
+                        return item.Label == year.ToString();
+                    });
+
+                    return index;
+                }
+
+                return null;
+            }
+            else
+            {
+                var month = GetTime(time, reportingCriteria.ReportFollow, reportingCriteria.Year);
+
+                return month == -1 ? null : month - 1;
+            }
+        }
+
         #endregion
-
-
     }
 }

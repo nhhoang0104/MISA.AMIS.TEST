@@ -196,8 +196,8 @@
   background-position: -423px -201px;
 }
 
-.icon.icon-refresh-active {
-  background-position: -1098px -90px;
+.icon.icon-refresh-2 {
+  background-position: -1097px -88px;
 }
 
 .icon.icon-export {
@@ -250,4 +250,8 @@
 
 .icon.icon-toast-warning {
   background-position: -592px -143px;
+}
+
+.icon.icon-setting {
+  background-position: -33px -144px;
 }

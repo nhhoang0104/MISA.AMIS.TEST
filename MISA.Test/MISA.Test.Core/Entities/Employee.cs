@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MISA.Test.Core.Entities
 {
-    public class Employee
+    public class Employee:BaseEnitiy
     {
         #region Property
 
@@ -18,6 +18,7 @@ namespace MISA.Test.Core.Entities
         /// CreatedBy: NHHoang (27/8/2021)
         public Guid EmployeeId { get; set; }
 
+        [MISARequired]
         [MISAPropExport(("Mã nhân viên"))]
         /// <summary>
         /// Mã nhân viên
@@ -25,6 +26,7 @@ namespace MISA.Test.Core.Entities
         /// CreatedBy: NHHoang (27/8/2021)
         public string EmployeeCode { get; set; }
 
+        [MISARequired]
         [MISAPropExport("Họ và tên")]
         /// <summary>
         /// Ho ten day du
@@ -104,6 +106,7 @@ namespace MISA.Test.Core.Entities
         /// CreatedBy: NHHoang (27/8/2021)
         public string PositionName { get; set; }
 
+        [MISARequired]
         /// <summary>
         /// Id phòng ban
         /// </summary>
@@ -142,6 +145,11 @@ namespace MISA.Test.Core.Entities
         /// </summary>
         /// CreatedBy: NHHoang (27/8/2021)
         public string BankBranch { get; set; }
+
+        /// <summary>
+        /// Trạng thái dừng công việc
+        /// </summary>
+        public Boolean IsStop { get; set; }
 
         #endregion
     }

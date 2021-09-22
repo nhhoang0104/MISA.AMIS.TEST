@@ -53,6 +53,7 @@ Resource.FormMode = {
   Add: 1,
   Update: 2,
   Replica: 3,
+  Delete: 4,
 };
 
 // các loại submit
@@ -66,6 +67,37 @@ Resource.Gender = {
   Female: 0,
   Male: 1,
   Other: 2,
+};
+
+//
+Resource.BarChartValueField = {
+  ADD: ["QuantityAdd"],
+  UPDATE: ["QuantityUpdate"],
+  DELETE: ["QuantityDelete"],
+  MUTATE: ["QuantityAdd", "QuantityUpdate", "QuantityDelete"],
+};
+
+Resource.PieChartValueField = {
+  ADD: "QuantityAdd",
+  UPDATE: "QuantityUpdate",
+  DELETE: "QuantityDelete",
+  MUTATE: "Quantity",
+};
+
+Resource.NameChartToolTip = {
+  MONTH: "Tháng {0} \n {1} người",
+  QUARTER: "Quý {0} \n {1} người",
+  YEAR: "Năm {0} \n {1} người",
+};
+
+Resource.NameTypeReportLegend = {
+  QuantityAdd: "Tiếp nhận",
+  QuantityUpdate: "Chỉnh sửa",
+  QuantityDelete: "Nghỉ việc",
+  Quantity: "Biến đổi",
+  MONTH: "Tháng {0}",
+  QUARTER: "Quý {0}",
+  YEAR: "Năm {0}",
 };
 
 export default Resource;

@@ -1,8 +1,17 @@
 /* date box */
-.dxDateBox .dx-texteditor-input {
+.dxDateBox.dx-datebox {
+  height: 100%;
+}
+
+.dxDateBox input.dx-texteditor-input {
   padding-left: 10px;
   outline: none;
   border: none;
+  font-family: "Notosans";
+  line-height: normal;
+  font-size: 13px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .dxDateBox.dx-state-focused .dx-texteditor-input {
@@ -70,13 +79,16 @@ td.dx-calendar-cell.dx-calendar-other-view.dx-calendar-other-month.dx-calendar-s
 .dxDateBox .dx-dropdowneditor-button::after {
   background: url("../../img/Sprites.64af8f61.svg") no-repeat -128px -306px !important;
   z-index: 10;
-  height: 60px !important;
-  width: 40px;
+  height: 32px !important;
+  width: 28px;
   top: 0;
   left: 10px;
-  height: 50%;
   content: "";
   position: absolute;
+}
+
+td.dx-calendar-cell.dx-calendar-selected-date {
+  box-shadow: inset 0 0 0 1000px var(--color-btn-primary) !important;
 }
 
 .dx-dropdowneditor-button {

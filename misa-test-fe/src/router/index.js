@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import EmployeeList from "@/views/employee/EmployeeList";
+import EmployeeReport from "@/views/employee/EmployeeReport";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -13,6 +14,11 @@ const router = createRouter({
       path: "/dashboard",
       name: "EmployeeList",
       component: EmployeeList,
+    },
+    {
+      path: "/cash",
+      name: "EmployeeReport",
+      component: EmployeeReport,
     },
   ],
 
