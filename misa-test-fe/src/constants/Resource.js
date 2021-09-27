@@ -94,7 +94,7 @@ Resource.NameTypeReportLegend = {
   QuantityAdd: "Tiếp nhận",
   QuantityUpdate: "Chỉnh sửa",
   QuantityDelete: "Nghỉ việc",
-  Quantity: "Biến đổi",
+  Quantity: "Tổng số",
   MONTH: "Tháng {0}",
   QUARTER: "Quý {0}",
   YEAR: "Năm {0}",

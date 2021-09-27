@@ -57,7 +57,12 @@ namespace MISA.Test.Core.Interfaces.Repositories
         /// CreatedBy: NHHoang (27/8/2021)
         String GetBigEmployeeCode();
 
-        Object GetReport();
+        /// <summary>
+        /// danh sách báo cáo nhân sự
+        /// </summary>
+        /// <param name="reportingCriteria">các tiêu chí của báo báo</param>
+        /// <returns>báo cáo</returns>
+        List<Report> GetEmployeeReport(ReportingCriteria reportingCriteria);
 
         #endregion
     }

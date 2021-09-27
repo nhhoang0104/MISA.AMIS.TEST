@@ -131,10 +131,23 @@ namespace MISA.Test.Infrastructure.Repositories
             }
         }
 
-        public Object GetReport()
+        public List<Report> GetEmployeeReport(ReportingCriteria reportingCriteria)
         {
-            throw new NotImplementedException();
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@Type", reportingCriteria.Type);
+            parameters.Add("@ReportFollow", reportingCriteria.ReportFollow);
+            parameters.Add("@Year", reportingCriteria.Year);
+        
+            using (IDbConnection dbConnection = new MySqlConnection(_connectionString))
+            {
+                var employeeReport = dbConnection.Query<Report>("Proc_GetEmployeeReport", param: parameters, commandType: CommandType.StoredProcedure);
+
+                return employeeReport.ToList();
+            }
         }
+
+
 
         #endregion
 

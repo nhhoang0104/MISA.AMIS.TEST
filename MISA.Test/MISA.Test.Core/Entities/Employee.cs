@@ -149,7 +149,7 @@ namespace MISA.Test.Core.Entities
         /// <summary>
         /// Trạng thái dừng công việc
         /// </summary>
-        public Boolean IsStop { get; set; }
+        public Boolean IsDeleted { get; set; }
 
         #endregion
     }

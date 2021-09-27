@@ -106,9 +106,13 @@ namespace MISA.Test.Infrastructure.Repositories
 
                 idList = idList.Remove(idList.Length - 1);
 
-                var sqlCmd = $"DELETE FROM {this._modelName} WHERE {this._modelName}Id IN ({idList})";
+                DynamicParameters param = new DynamicParameters();
 
-                var rowEffect = dbConnection.Execute(sqlCmd);
+                param.Add($"@ListId", idList);
+                //var sqlCmd = $"UPDATE {this._modelName} SET {this._modelName}.IsStop = 1, {this._modelName}.ModifiedDate = CURRENT_TIMESTAMP() WHERE {this._modelName}Id IN ({idList})";
+                //var rowEffect = dbConnection.Execute(sqlCmd);
+
+                var rowEffect = dbConnection.Execute($"Proc_Delete{this._modelName}s", param: param, commandType: CommandType.StoredProcedure);
 
                 return rowEffect;
             }

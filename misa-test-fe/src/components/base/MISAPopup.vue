@@ -6,13 +6,13 @@
     :max-width="maxWidth"
     :height="height"
     :max-height="maxHeight"
-    :drag-enabled="true"
     :show-title="hasTitle"
     :show-close-button="false"
     :close-on-outside-click="
       clickOutsideEnable ? closeOnOutsideClick : clickOutsideEnable
     "
-    :resize-enabled="true"
+    :resize-enabled="resizeEnabled"
+    :drag-enabled="dragEnabled"
     title-template="title"
     content-template="content"
     class="misa-popup"
@@ -24,7 +24,7 @@
     <DxScrollView
       width="100%"
       :height="`calc(100% - ${heightFooter}px)`"
-      :disabled="!hasScroll"
+      :disabled="!scrollEnabled"
     >
       <slot name="popup-content"></slot>
     </DxScrollView>
@@ -40,14 +40,14 @@
     :max-width="maxWidth"
     :height="height"
     :max-height="maxHeight"
-    :drag-enabled="true"
     :show-title="hasTitle"
     :show-close-button="false"
     :close-on-outside-click="
       clickOutsideEnable ? closeOnOutsideClick : clickOutsideEnable
     "
     :position="position"
-    :resize-enabled="true"
+    :drag-enabled="dragEnabled"
+    :resize-enabled="resizeEnabled"
     :target="target"
     title-template="title"
     content-template="content"
@@ -60,7 +60,7 @@
     <DxScrollView
       width="100%"
       :height="`calc(100% - ${heightFooter}px)`"
-      :disabled="!hasScroll"
+      :disabled="!scrollEnabled"
     >
       <slot name="popup-content"></slot>
     </DxScrollView>
@@ -120,7 +120,15 @@ export default {
       type: Boolean,
       default: false,
     },
-    hasScroll: {
+    scrollEnabled: {
+      type: Boolean,
+      default: false,
+    },
+    dragEnabled: {
+      type: Boolean,
+      default: false,
+    },
+    resizeEnabled: {
       type: Boolean,
       default: false,
     },
@@ -176,7 +184,6 @@ export default {
   .dx-popup-title {
     padding: 0;
     border-bottom: 0px;
-    cursor: pointer !important;
   }
 
   .dx-popup-content {

@@ -2,11 +2,15 @@
   <div>
     <misa-popup
       :isShowed="visible"
-      :width="900"
+      width="100%"
+      :minWidth="700"
+      :maxWidth="900"
       height="100%"
-      :maxHeight="500"
+      :maxHeight="480"
       :hasTitle="true"
-      :hasScroll="true"
+      :scrollEnabled="true"
+      :resizeEnabled="true"
+      :dragEnabled="true"
       class="chart"
     >
       <template #popup-title>
@@ -20,7 +24,7 @@
             <div
               class="icon icon--24 icon-setting"
               id="box-report"
-              @click="openBox"
+              @click="clickBox"
             ></div>
             <div
               class="icon icon--24 icon-close"
@@ -70,7 +74,7 @@
       :width="400"
       :type="2"
       height="100%"
-      :max-height="374"
+      :maxHeight="374"
       :hasScroll="true"
       :hasFooter="true"
       :clickOutsideEnable="false"
@@ -342,11 +346,11 @@ export default {
     },
 
     /**
-     * Mở box các tiêu chí báo cáo
+     * Click box các tiêu chí báo cáo
      * CreatedBy: nhhoang(20/09/2021)
      */
-    openBox() {
-      this.isShowed = true;
+    clickBox() {
+      this.isShowed = !this.isShowed;
     },
 
     /**
@@ -384,6 +388,7 @@ export default {
   &__content {
     display: flex;
     justify-content: center;
+    padding: 0px 10px;
   }
 }
 
