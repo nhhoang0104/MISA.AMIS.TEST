@@ -20,6 +20,7 @@ namespace MISA.Test.Core.Services
 
 
         #region Contructor
+
         public BaseService(IBaseRepository<MISAEntity> baseRepository)
         {
             this._baseRepository = baseRepository;

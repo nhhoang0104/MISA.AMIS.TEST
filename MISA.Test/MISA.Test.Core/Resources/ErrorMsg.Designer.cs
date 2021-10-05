@@ -149,5 +149,14 @@ namespace MISA.Test.Core.Resources {
                 return ResourceManager.GetString("SQLCommand_ErrorMsg", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Giá trị của năm phải lớn hơn hoặc bằng 0.
+        /// </summary>
+        public static string Year_ErrorMsg {
+            get {
+                return ResourceManager.GetString("Year_ErrorMsg", resourceCulture);
+            }
+        }
     }
 }

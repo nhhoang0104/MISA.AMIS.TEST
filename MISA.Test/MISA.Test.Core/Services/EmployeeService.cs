@@ -104,6 +104,30 @@ namespace MISA.Test.Core.Services
         }
 
         /// <summary>
+        /// Lấy thong tin trang: tổng số trang, tổng số bản ghi
+        /// </summary>
+        /// <param name="employeeFilter">thông tin filter(EmployeeCode hoặc PhoneNumber hoặc FullName)</param>
+        /// <param name="pageSize">kích cỡ tragn</param>
+        /// <param name="pageIndex">id trang</param>
+        /// <returns></returns>
+        /// CreatedBy: NHHoang (01/10/2021)
+        public ServiceResult GetInfoPage(string employeeFilter, int pageSize, int pageIndex)
+        {
+            var serviceResult = new ServiceResult();
+
+            var tmp = string.Empty;
+
+            if (!(employeeFilter == null || employeeFilter == ""))
+            {
+                tmp = employeeFilter;
+            };
+
+            serviceResult.Data = this._employeeRepository.GetInfoPage(tmp, pageSize, pageIndex);
+
+            return serviceResult;
+        }
+
+        /// <summary>
         /// Lấy mã nhân viên mới
         /// </summary>
         /// <returns></returns>
@@ -148,8 +172,8 @@ namespace MISA.Test.Core.Services
         public MemoryStream Export(CancellationToken cancellationToken, string employeeFilter, int pageSize, int pageIndex)
         {
             var stream = new MemoryStream();
-            EmployeeFilterPaging employees = this._employeeRepository.GetByFilterPaging(employeeFilter, pageSize, pageIndex);
-            List<Employee> employeesList = employees.Employees;
+ 
+            List<Employee> employeesList = this._employeeRepository.GetByFilterPaging(employeeFilter, pageSize, pageIndex);
             var properties = typeof(Employee).GetProperties();
 
             using (var package = new ExcelPackage(stream))
@@ -284,6 +308,16 @@ namespace MISA.Test.Core.Services
         public ServiceResult GetHumanReport(ReportingCriteria reportingCriteria)
         {
             var serviceResult = new ServiceResult();
+
+            if(reportingCriteria.ReportFollow == Enum.ReportFollow.MONTH || reportingCriteria.ReportFollow == Enum.ReportFollow.QUARTER)
+            {
+                if(reportingCriteria.Year == null || reportingCriteria.Year < 0)
+                {
+                    serviceResult.IsValid = false;
+                    serviceResult.Messager = Resources.ErrorMsg.Year_ErrorMsg;
+                    return serviceResult;
+                }
+            }
 
             serviceResult.Data = this._employeeRepository.GetEmployeeReport(reportingCriteria);
 

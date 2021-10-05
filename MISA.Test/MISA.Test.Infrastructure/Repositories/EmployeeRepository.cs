@@ -15,6 +15,7 @@ namespace MISA.Test.Infrastructure.Repositories
     public class EmployeeRepository : BaseRepository<Employee>, IEmployeeRepository
     {
         #region Contructor
+
         public EmployeeRepository(IConfiguration configuration) : base(configuration)
         {
 
@@ -109,11 +110,35 @@ namespace MISA.Test.Infrastructure.Repositories
         /// </returns>
         /// CreatedBy: NHHoang (27/8/2021)
         /// ModifiedBy: NHHoang (01/09/2021) - Tạo các class để lấy danh dách nhân viên, tổng số trang, tổng số bản ghi
-        public EmployeeFilterPaging GetByFilterPaging(string employeeFilter, int pageSize, int pageIndex)
+        public List<Employee> GetByFilterPaging(string employeeFilter, int pageSize, int pageIndex)
         {
             var parameters = new DynamicParameters();
 
-            parameters.Add("@EmployeeFilter", employeeFilter);
+            parameters.Add("@EmployeeFilter", employeeFilter == "" ? null : employeeFilter);
+            parameters.Add("@Size", pageSize);
+            parameters.Add("@Offset", pageIndex);
+
+            using (IDbConnection dbConnection = new MySqlConnection(_connectionString))
+            {
+                var employees = dbConnection.Query<Employee>("Proc_GetEmployeeFilterPaging", param: parameters, commandType: CommandType.StoredProcedure);
+
+                return (List<Employee>)employees;
+            }
+        }
+
+        /// <summary>
+        /// Lấy thông tin trang
+        /// </summary>
+        /// <param name="employeeFilter">thông tin bộ lọc</param>
+        /// <param name="pageSize">vị trí trang</param>
+        /// <param name="pageIndex">kích cỡ của trang</param>
+        /// <returns></returns>
+        /// CreatedBy: NHHoang (01/10/2021)
+        public InfoPage GetInfoPage(string employeeFilter, int pageSize, int pageIndex)
+        {
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@EmployeeFilter", employeeFilter == "" ? null : employeeFilter);
             parameters.Add("@Size", pageSize);
             parameters.Add("@Offset", pageIndex);
             parameters.Add("@TotalRecord", dbType: DbType.Int32, direction: ParameterDirection.Output);
@@ -121,33 +146,71 @@ namespace MISA.Test.Infrastructure.Repositories
 
             using (IDbConnection dbConnection = new MySqlConnection(_connectionString))
             {
-                var employees = dbConnection.Query<Employee>("Proc_GetEmployeeFilterPaging", param: parameters, commandType: CommandType.StoredProcedure);
+                var employees = dbConnection.Execute("Proc_GetInfoPage", param: parameters, commandType: CommandType.StoredProcedure);
 
-                var data = new EmployeeFilterPaging();
-                data.Employees = (List<Employee>)employees;
-                data.TotalPage = parameters.Get<Int32>("@TotalPage");
-                data.TotalRecord = parameters.Get<Int32>("@TotalRecord");
+                var data = new InfoPage() { TotalPage = parameters.Get<Int32>("@TotalPage"), TotalRecord = parameters.Get<Int32>("@TotalRecord") };
+
                 return data;
-            }
+            };
         }
 
+        /// <summary>
+        /// danh sách báo cáo nhân sự
+        /// </summary>
+        /// <param name="reportingCriteria">các tiêu chí của báo báo</param>
+        /// <returns>báo cáo</returns>
         public List<Report> GetEmployeeReport(ReportingCriteria reportingCriteria)
         {
+            // Cách 1
+            //var parameters = new DynamicParameters();
+
+            //parameters.Add("@Type", reportingCriteria.Type);
+            //parameters.Add("@ReportFollow", reportingCriteria.ReportFollow);
+            //parameters.Add("@Year", reportingCriteria.Year);
+
+            //using (IDbConnection dbConnection = new MySqlConnection(_connectionString))
+            //{
+            //    var employeeReport = dbConnection.Query<Report>("Proc_GetEmployeeReport", param: parameters, commandType: CommandType.StoredProcedure);
+
+            //    return employeeReport.ToList();
+            //}
+
+            // Cách 2
             var parameters = new DynamicParameters();
 
             parameters.Add("@Type", reportingCriteria.Type);
-            parameters.Add("@ReportFollow", reportingCriteria.ReportFollow);
             parameters.Add("@Year", reportingCriteria.Year);
-        
+            //parameters.Add("@ReportFollow", reportingCriteria.ReportFollow);
+
             using (IDbConnection dbConnection = new MySqlConnection(_connectionString))
             {
-                var employeeReport = dbConnection.Query<Report>("Proc_GetEmployeeReport", param: parameters, commandType: CommandType.StoredProcedure);
+                // Báo cáo theo tháng của năm
+                if (reportingCriteria.ReportFollow == MISA.Test.Core.Enum.ReportFollow.MONTH)
+                {
+                    var employeeReport = dbConnection.Query<Report>("Proc_GetEmployeeReportByMonth", param: parameters, commandType: CommandType.StoredProcedure);
 
-                return employeeReport.ToList();
+                    return employeeReport.ToList();
+                }
+
+                // Báo cáo theo quý của năm
+                if (reportingCriteria.ReportFollow == MISA.Test.Core.Enum.ReportFollow.QUARTER)
+                {
+                    var employeeReport = dbConnection.Query<Report>("Proc_GetEmployeeReportByQuarter", param: parameters, commandType: CommandType.StoredProcedure);
+
+                    return employeeReport.ToList();
+                }
+
+                // Báo cáo theo năm
+                if (reportingCriteria.ReportFollow == MISA.Test.Core.Enum.ReportFollow.YEAR)
+                {
+                    var employeeReport = dbConnection.Query<Report>("Proc_GetEmployeeReportByYear", param: parameters, commandType: CommandType.StoredProcedure);
+
+                    return employeeReport.ToList();
+                }
             }
+
+            return new List<Report>();
         }
-
-
 
         #endregion
 

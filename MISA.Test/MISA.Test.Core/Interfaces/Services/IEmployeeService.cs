@@ -17,14 +17,22 @@ namespace MISA.Test.Core.Interfaces.Services
         /// Lấy danh sách nhân viên
         /// </summary>
         /// <param name="employeeFilter">thông tin filter(EmployeeCode hoặc PhoneNumber hoặc FullName)</param>
-        /// <param name="departmentId">id phòng ban</param>
-        /// <param name="positionId">id vị trí</param>
         /// <param name="pageSize">kích cỡ tragn</param>
         /// <param name="pageIndex">id trang</param>
         /// <returns></returns>
         /// CreatedBy: NHHoang (27/8/2021)
         /// Modified: NHHoang (01/09/2021)
         ServiceResult GetByFilterPaging(string employeeFilter, Int32 pageSize, Int32 pageIndex);
+
+        /// <summary>
+        /// Lấy thong tin trang: tổng số trang, tổng số bản ghi
+        /// </summary>
+        /// <param name="employeeFilter">thông tin filter(EmployeeCode hoặc PhoneNumber hoặc FullName)</param>
+        /// <param name="pageSize">kích cỡ tragn</param>
+        /// <param name="pageIndex">id trang</param>
+        /// <returns></returns>
+        /// CreatedBy: NHHoang (01/10/2021)
+        ServiceResult GetInfoPage(string employeeFilter, Int32 pageSize, Int32 pageIndex);
 
         /// <summary>
         /// Kiểm tra mã nhân viên đã tồn tại chưa ?

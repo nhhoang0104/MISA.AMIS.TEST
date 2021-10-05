@@ -105,24 +105,24 @@ export default {
 
       data: [
         {
-          value: 10,
-          label: "10 nhân viên/trang",
+          value: 100,
+          label: "100 nhân viên/trang",
         },
         {
-          value: 20,
-          label: "20 nhân viên/trang",
+          value: 200,
+          label: "200 nhân viên/trang",
         },
         {
-          value: 30,
-          label: "30 nhân viên/trang",
+          value: 300,
+          label: "300 nhân viên/trang",
         },
         {
-          value: 40,
-          label: "40 nhân viên/trang",
+          value: 400,
+          label: "400 nhân viên/trang",
         },
         {
-          value: 50,
-          label: "50 nhân viên/trang",
+          value: 500,
+          label: "500 nhân viên/trang",
         },
       ],
 

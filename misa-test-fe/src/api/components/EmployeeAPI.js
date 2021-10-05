@@ -53,6 +53,20 @@ class EmployeeAPI extends BaseAPI {
   }
 
   /**
+   * láy thông tin trang: tổng số bản ghi, số trang
+   * @param {*} pageIndex index trang
+   * @param {*} pageSize kích cỡ trang
+   * @param {*} employeeFilter bộ lọc
+   * @returns thông tin trang
+   * CreatedBy: NHHoang (30/08/2021)
+   */
+  getInfoPage(pageIndex, pageSize, employeeFilter = "") {
+    return BaseAPIConfig.get(
+      `${this.controller}/InfoPage?pageIndex=${pageIndex}&pageSize=${pageSize}&employeeFilter=${employeeFilter}`
+    );
+  }
+
+  /**
    * export dữ liệu
    * @param {*} pageIndex
    * @param {*} pageSize

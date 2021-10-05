@@ -147,4 +147,7 @@
   <data name="SQLCommand_ErrorMsg" xml:space="preserve">
     <value>SQL command error</value>
   </data>
+  <data name="Year_ErrorMsg" xml:space="preserve">
+    <value>Giá trị của năm phải lớn hơn hoặc bằng 0</value>
+  </data>
 </root>

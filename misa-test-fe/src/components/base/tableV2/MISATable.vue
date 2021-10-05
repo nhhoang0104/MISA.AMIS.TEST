@@ -24,8 +24,6 @@
       <DxScrolling
         :scroll-by-content="true"
         :scroll-by-thumb="true"
-        showScrollbar="always"
-        :use-native="false"
         mode="virtual"
       />
       <DxSelection show-check-boxes-mode="none" mode="none" />

@@ -1,4 +1,5 @@
 <template>
+  <div class="modal" v-show="isLoading"></div>
   <div class="loader" v-show="isLoading">
     <svg
       xmlns="http://www.w3.org/2000/svg"

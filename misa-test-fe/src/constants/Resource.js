@@ -1,4 +1,7 @@
 var Resource = Resource || {};
+import EnumTypeChart from "./EnumTypeChart";
+import EnumTime from "./EnumTime";
+import EnumTypeReport from "./EnumTypeReport";
 
 // message popup
 Resource.PopupMessage = {
@@ -69,35 +72,81 @@ Resource.Gender = {
   Other: 2,
 };
 
-//
-Resource.BarChartValueField = {
-  ADD: ["QuantityAdd"],
-  UPDATE: ["QuantityUpdate"],
-  DELETE: ["QuantityDelete"],
-  MUTATE: ["QuantityAdd", "QuantityUpdate", "QuantityDelete"],
-};
+Resource.BarChartValueField = [
+  { key: EnumTypeReport.ADD, value: ["QuantityAdd"] },
+  { key: EnumTypeReport.UPDATE, value: ["QuantityUpdate"] },
+  { key: EnumTypeReport.DELETE, value: ["QuantityDelete"] },
+  {
+    key: EnumTypeReport.MUTATE,
+    value: ["QuantityAdd", "QuantityUpdate", "QuantityDelete"],
+  },
+];
 
-Resource.PieChartValueField = {
-  ADD: "QuantityAdd",
-  UPDATE: "QuantityUpdate",
-  DELETE: "QuantityDelete",
-  MUTATE: "Quantity",
-};
+Resource.PieChartValueField = [
+  { key: EnumTypeReport.ADD, value: "QuantityAdd" },
+  { key: EnumTypeReport.UPDATE, value: "QuantityUpdate" },
+  { key: EnumTypeReport.DELETE, value: "QuantityDelete" },
+  {
+    key: EnumTypeReport.MUTATE,
+    value: "Quantity",
+  },
+];
 
-Resource.NameChartToolTip = {
-  MONTH: "Tháng {0} \n {1} người",
-  QUARTER: "Quý {0} \n {1} người",
-  YEAR: "Năm {0} \n {1} người",
-};
+Resource.ChartValueField = [
+  {
+    key: EnumTypeChart.Bar,
+    value: Resource.BarChartValueField,
+  },
+  {
+    key: EnumTypeChart.Line,
+    value: Resource.BarChartValueField,
+  },
+  {
+    key: EnumTypeChart.Pie,
+    value: Resource.PieChartValueField,
+  },
+];
 
-Resource.NameTypeReportLegend = {
-  QuantityAdd: "Tiếp nhận",
-  QuantityUpdate: "Chỉnh sửa",
-  QuantityDelete: "Nghỉ việc",
-  Quantity: "Tổng số",
-  MONTH: "Tháng {0}",
-  QUARTER: "Quý {0}",
-  YEAR: "Năm {0}",
-};
+Resource.NameChartToolTip = [
+  {
+    key: EnumTime.MONTH,
+    value: "Tháng {0} \n {1} người",
+  },
+  {
+    key: EnumTime.QUARTER,
+    value: "Quý {0} \n {1} người",
+  },
+  {
+    key: EnumTime.YEAR,
+    value: "Năm {0} \n {1} người",
+  },
+];
+
+Resource.NameLegendList = [
+  {
+    key: EnumTypeChart.Bar,
+    value: {
+      QuantityAdd: "Tiếp nhận",
+      QuantityUpdate: "Chỉnh sửa",
+      QuantityDelete: "Nghỉ việc",
+    },
+  },
+  {
+    key: EnumTypeChart.Line,
+    value: {
+      QuantityAdd: "Tiếp nhận",
+      QuantityUpdate: "Chỉnh sửa",
+      QuantityDelete: "Nghỉ việc",
+    },
+  },
+  {
+    key: EnumTypeChart.Pie,
+    value: {
+      MONTH: "Tháng {0}",
+      QUARTER: "Quý {0}",
+      YEAR: "Năm {0}",
+    },
+  },
+];
 
 export default Resource;

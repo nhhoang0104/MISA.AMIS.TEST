@@ -26,10 +26,7 @@
               id="box-report"
               @click="clickBox"
             ></div>
-            <div
-              class="icon icon--24 icon-close"
-              @click="$emit('close-report')"
-            ></div>
+            <div class="icon icon--24 icon-close" @click="closeReport"></div>
           </div>
         </div>
       </template>
@@ -122,6 +119,7 @@
                 v-show="reportingCriteria.ReportFollow !== EnumTime.YEAR"
                 type="number"
                 format="number"
+                :min="0"
                 @onchangeinput="onChangeYear"
                 :value="reportingCriteria.Year"
               ></base-input>
@@ -140,12 +138,13 @@
         </div>
       </template>
     </misa-popup>
+
+    <base-loader :isLoading="isLoading"></base-loader>
   </div>
 </template>
 
 <script>
 import EmployeeAPI from "@/api/components/employeeAPI";
-import EnumTypeReport from "@/constants/EnumTypeReport";
 import EnumRadioGroup from "@/constants/EnumRadioGroup";
 import EnumSelectBox from "@/constants/EnumSelectBox";
 import EnumTime from "@/constants/EnumTime";
@@ -175,6 +174,7 @@ export default {
       typeChart: EnumTypeChart.Pie,
       typeChartTmp: EnumTypeChart.Bar,
       isShowed: false,
+      isLoading: false,
     };
   },
 
@@ -197,10 +197,18 @@ export default {
 
   methods: {
     /**
+     * Đóng báo cáo
+     */
+    closeReport() {
+      this.closeBox();
+      this.$emit("close-report");
+    },
+    /**
      * Lấy dữ liệu báo cáo biển đổi nhân sự từ api
      * CreatedBy: nhhoang(20/09/2021)
      */
     loadDataChart() {
+      this.isLoading = true;
       EmployeeAPI.getHumanReport(this.reportingCriteria)
         .then((res) => {
           this.typeChart = this.typeChartTmp;
@@ -219,9 +227,12 @@ export default {
           this.templateToolTip = this.getTemplateToolTip(
             this.reportingCriteria.ReportFollow
           );
+
+          this.isLoading = false;
         })
         .catch((e) => {
           console.log(e);
+          this.isLoading = false;
         });
     },
 
@@ -262,16 +273,13 @@ export default {
      * CreatedBy: nhhoang(20/09/2021)
      */
     getValueFieldList(typeChart) {
-      switch (typeChart) {
-        case EnumTypeChart.Bar:
-        case EnumTypeChart.Line:
-          return Resource.BarChartValueField;
+      let res = [];
 
-        case EnumTypeChart.Pie:
-          return Resource.PieChartValueField;
-        default:
-          return {};
-      }
+      Resource.ChartValueField.forEach((valueField) => {
+        if (valueField.key === typeChart) res = valueField.value;
+      });
+
+      return res;
     },
 
     /**
@@ -280,19 +288,13 @@ export default {
      */
     getValueField(typeChart, typeReport) {
       let valueFieldList = this.getValueFieldList(typeChart);
+      let res = null;
 
-      switch (typeReport) {
-        case EnumTypeReport.ADD:
-          return valueFieldList.ADD;
-        case EnumTypeReport.UPDATE:
-          return valueFieldList.UPDATE;
-        case EnumTypeReport.DELETE:
-          return valueFieldList.DELETE;
-        case EnumTypeReport.MUTATE:
-          return valueFieldList.MUTATE;
-        default:
-          return "";
-      }
+      valueFieldList.forEach((field) => {
+        if (field.key === typeReport) res = field.value;
+      });
+
+      return res;
     },
 
     /**
@@ -300,41 +302,42 @@ export default {
      * CreatedBy: nhhoang(20/09/2021)
      */
     getLegendNameList(typeChart, typeReportFollow) {
-      switch (typeChart) {
-        case EnumTypeChart.Bar:
-        case EnumTypeChart.Line:
-          return Resource.NameTypeReportLegend;
-        case EnumTypeChart.Pie:
-          switch (typeReportFollow) {
-            case EnumTime.MONTH:
-              return Resource.NameTypeReportLegend.MONTH;
-            case EnumTime.QUARTER:
-              return Resource.NameTypeReportLegend.QUARTER;
-            case EnumTime.YEAR:
-              return Resource.NameTypeReportLegend.YEAR;
-            default:
-              return null;
-          }
-        default:
-          return null;
-      }
+      let res = null;
+
+      Resource.NameLegendList.forEach((legend) => {
+        if (typeChart === legend.key) {
+          if (typeChart === EnumTypeChart.Pie) {
+            switch (typeReportFollow) {
+              case EnumTime.MONTH:
+                res = legend.value.MONTH;
+                break;
+              case EnumTime.QUARTER:
+                res = legend.value.QUARTER;
+                break;
+              case EnumTime.YEAR:
+                res = legend.value.YEAR;
+                break;
+            }
+          } else res = legend.value;
+        }
+      });
+
+      return res;
     },
 
     /**
      * Lấy mẫu tooltip cho biểu đồ
+     * @param value: giá trị
      * CreatedBy: nhhoang(20/09/2021)
      */
     getTemplateToolTip(value) {
-      switch (value) {
-        case EnumTime.MONTH:
-          return Resource.NameChartToolTip.MONTH;
-        case EnumTime.QUARTER:
-          return Resource.NameChartToolTip.QUARTER;
-        case EnumTime.YEAR:
-          return Resource.NameChartToolTip.YEAR;
-        default:
-          return "";
-      }
+      let res = "";
+
+      Resource.NameChartToolTip.forEach((tooltip) => {
+        if (tooltip.key === value) res = tooltip.value;
+      });
+
+      return res;
     },
 
     /**

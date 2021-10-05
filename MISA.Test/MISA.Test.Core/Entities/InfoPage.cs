@@ -6,15 +6,9 @@ using System.Threading.Tasks;
 
 namespace MISA.Test.Core.Entities
 {
-    public class EmployeeFilterPaging
+    public class InfoPage
     {
         #region Property
-
-        /// <summary>
-        /// Danh sách bản ghi
-        /// </summary>
-        /// CreatedBy: NHHoang (01/09/2021)
-        public List<Employee> Employees { get; set; }
 
         /// <summary>
         /// tổng số trang

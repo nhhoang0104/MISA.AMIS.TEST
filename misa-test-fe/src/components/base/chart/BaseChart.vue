@@ -136,8 +136,12 @@ export default {
      * nhhoang (20/09/2021)
      */
     customizeTooltip(payload) {
+      let text = "";
+
+      text = this.templateToolTip.format(payload.argument, payload.valueText);
+
       return {
-        text: this.templateToolTip.format(payload.argument, payload.valueText),
+        text,
         fontColor: "#fff",
         color: "#111",
         borderColor: "#fff",

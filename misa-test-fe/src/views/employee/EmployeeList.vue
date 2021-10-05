@@ -123,7 +123,7 @@ export default {
       employeeIdDeleteList: [],
       currentPage: 1,
       employeeFilter: "",
-      pageSize: 10,
+      pageSize: 100,
       totalPage: 10,
       totalRecord: 100,
       isShowedForm: false,
@@ -212,6 +212,21 @@ export default {
     loadData() {
       this.isLoading = true;
 
+      EmployeeAPI.getInfoPage(
+        this.currentPage,
+        this.pageSize,
+        this.employeeFilter
+      )
+        .then((res) => {
+          if (res.status === Resource.StatusCode.Success) {
+            this.totalRecord = res.data.TotalRecord;
+            this.totalPage = res.data.TotalPage;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
       EmployeeAPI.getByFilterPaging(
         this.currentPage,
         this.pageSize,
@@ -224,14 +239,13 @@ export default {
               message: Resource.ToastMessage.LoadSuccess,
             });
 
-            this.employeeList = _.cloneDeep(res.data.Employees);
-            this.dataSrc = res.data.Employees.map((item) => {
+            this.employeeList = _.cloneDeep(res.data);
+
+            this.dataSrc = res.data.map((item) => {
               item.DateOfBirth = FormatData.formatDate(item.DateOfBirth);
               return item;
             });
 
-            this.totalRecord = res.data.TotalRecord;
-            this.totalPage = res.data.TotalPage;
             this.isLoading = false;
           }
         })
@@ -289,7 +303,7 @@ export default {
           this.currentPage = 1;
           this.employeeFilter = value;
           this.loadData();
-        }, 300);
+        }, 700);
       } catch (error) {
         console.log(error);
       }

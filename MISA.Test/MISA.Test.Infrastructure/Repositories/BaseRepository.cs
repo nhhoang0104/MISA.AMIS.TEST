@@ -14,9 +14,11 @@ namespace MISA.Test.Infrastructure.Repositories
     public class BaseRepository<MISAEntity> : IBaseRepository<MISAEntity>
     {
         #region Declaration
+        
         private readonly string _modelName;
 
         protected readonly string _connectionString;
+
         #endregion
 
         #region Method
@@ -98,21 +100,36 @@ namespace MISA.Test.Infrastructure.Repositories
         {
             using (IDbConnection dbConnection = new MySqlConnection(_connectionString))
             {
-                var idList = string.Empty;
+
+                //    var idlist = string.empty;
+                //    foreach (var id in entitiesid)
+                //    {
+                //        idlist += $"'{id.tostring()}',";
+                //    }
+
+                //    idlist = idlist.remove(idlist.length - 1);
+
+                //    dynamicparameters param = new dynamicparameters();
+
+                //    param.add($"@listid", idlist);
+
+                //    var roweffect = dbconnection.execute($"proc_delete{this._modelname}s", param: param, commandtype: commandtype.storedprocedure);
+
+                var rowEffect = 0;
+
+                dbConnection.Open();
+                var transaction = dbConnection.BeginTransaction();
+
                 foreach (var id in entitiesId)
                 {
-                    idList += $"'{id.ToString()}',";
+                    DynamicParameters param = new DynamicParameters();
+
+                    param.Add($"@{this._modelName}Id", id);
+
+                    rowEffect += dbConnection.Execute($"Proc_Delete{this._modelName}ById", param: param, transaction: transaction, commandType: CommandType.StoredProcedure);
                 }
 
-                idList = idList.Remove(idList.Length - 1);
-
-                DynamicParameters param = new DynamicParameters();
-
-                param.Add($"@ListId", idList);
-                //var sqlCmd = $"UPDATE {this._modelName} SET {this._modelName}.IsStop = 1, {this._modelName}.ModifiedDate = CURRENT_TIMESTAMP() WHERE {this._modelName}Id IN ({idList})";
-                //var rowEffect = dbConnection.Execute(sqlCmd);
-
-                var rowEffect = dbConnection.Execute($"Proc_Delete{this._modelName}s", param: param, commandType: CommandType.StoredProcedure);
+                transaction.Commit();
 
                 return rowEffect;
             }

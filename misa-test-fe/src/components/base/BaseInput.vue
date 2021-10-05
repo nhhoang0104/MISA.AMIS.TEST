@@ -29,6 +29,7 @@
         :value="value"
         :title="title"
         :placeholder="placeholder"
+        :min="min"
         :max="`${type === 'date' ? currentDate : null}`"
         :validated="isValidated"
         :tabIndex="tabIndex"
@@ -103,6 +104,11 @@ export default {
       type: Number,
       required: false,
       default: 255,
+    },
+    min: {
+      type: Number,
+      required: false,
+      default: null,
     },
     displayFormat: {
       type: String,

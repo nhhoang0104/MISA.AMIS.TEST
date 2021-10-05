@@ -21,7 +21,17 @@ namespace MISA.Test.Core.Interfaces.Repositories
         /// danh sách nhân viên, tổng số trang, tổng số bản ghi
         /// </returns>
         /// CreatedBy: NHHoang (27/8/2021)
-        EmployeeFilterPaging GetByFilterPaging(string employeeFilter, Int32 pageSize, Int32 pageIndex);
+        List<Employee> GetByFilterPaging(string employeeFilter, Int32 pageSize, Int32 pageIndex);
+
+        /// <summary>
+        /// Lấy thông tin trang
+        /// </summary>
+        /// <param name="employeeFilter">thông tin bộ lọc</param>
+        /// <param name="pageSize">vị trí trang</param>
+        /// <param name="pageIndex">kích cỡ của trang</param>
+        /// <returns></returns>
+        /// CreatedBy: NHHoang (01/10/2021)
+        InfoPage GetInfoPage(string employeeFilter, Int32 pageSize, Int32 pageIndex);
 
         /// <summary>
         /// Kiểm tra mã nhiên viên đã có trong hệ thống chưa 

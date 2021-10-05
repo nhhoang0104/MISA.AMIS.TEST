@@ -36,8 +36,6 @@ namespace MISA.Test.Api.Controllers
         /// Lấy dữ liệu theo bộ lộc và phân trang
         /// </summary>
         /// <param name="employeeFilter">thông tin filter(EmployeeCode hoặc PhoneNumber hoặc FullName</param>
-        /// <param name="departmentId">id phòng ban</param>
-        /// <param name="positionId">id vị trí</param>
         /// <param name="pageSize">kích cỡ trang</param>
         /// <param name="pageIndex">index trang</param>
         /// <returns>danh sách nhân viên</returns>
@@ -48,6 +46,48 @@ namespace MISA.Test.Api.Controllers
             try
             {
                 var serviceResult = _employeeService.GetByFilterPaging(employeeFilter, pageSize, pageIndex);
+
+                if (serviceResult.IsValid == true)
+                {
+                    return StatusCode(200, serviceResult.Data);
+                }
+                else
+                {
+                    var errObj = new
+                    {
+                        devMsg = serviceResult.Messager,
+                        userMsg = serviceResult.Messager,
+                    };
+
+                    return BadRequest(errObj);
+                }
+            }
+            catch (Exception e)
+            {
+                var errObj = new
+                {
+                    devMsg = e.Message,
+                    userMsg = MISA.Test.Core.Resources.ErrorMsg.ServerError_ErrorMsg,
+                };
+
+                return StatusCode(500, errObj);
+            }
+        }
+
+        /// <summary>
+        /// Lấy dữ liệu theo bộ lộc và phân trang
+        /// </summary>
+        /// <param name="employeeFilter">thông tin filter(EmployeeCode hoặc PhoneNumber hoặc FullName</param>
+        /// <param name="pageSize">kích cỡ trang</param>
+        /// <param name="pageIndex">index trang</param>
+        /// <returns>danh sách nhân viên</returns>
+        /// CreatedBy: NHHoang (27/8/2021)
+        [HttpGet("InfoPage")]
+        public IActionResult GetInfoPage([FromQuery] string employeeFilter, [FromQuery] int pageSize, [FromQuery] int pageIndex)
+        {
+            try
+            {
+                var serviceResult = _employeeService.GetInfoPage(employeeFilter, pageSize, pageIndex);
 
                 if (serviceResult.IsValid == true)
                 {
@@ -217,9 +257,20 @@ namespace MISA.Test.Api.Controllers
         {
             try
             {
+               
                 var serviceResult = this._employeeService.GetHumanReport(reportingCriteria);
 
-                return StatusCode(200, serviceResult.Data);
+                if(serviceResult.IsValid) return StatusCode(200, serviceResult.Data);
+                else
+                {
+                    var errObj = new
+                    {
+                        devMsg = serviceResult.Messager,
+                        userMsg = serviceResult.Messager,
+                    };
+
+                    return StatusCode(400, errObj);
+                }
             }
             catch (Exception e)
             {
