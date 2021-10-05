@@ -18,7 +18,6 @@ namespace MISA.Test.Core.Services
 
         #endregion
 
-
         #region Contructor
 
         public BaseService(IBaseRepository<MISAEntity> baseRepository)
