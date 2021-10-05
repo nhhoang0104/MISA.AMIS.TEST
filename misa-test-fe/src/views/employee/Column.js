@@ -43,13 +43,13 @@ export const columns = [
     ColFixed: false,
     ColAlignment: "left",
   },
-  {
-    ColId: "DepartmentName",
-    ColName: "TÊN ĐƠN VỊ",
-    ColWidth: 250,
-    ColFixed: false,
-    ColAlignment: "left",
-  },
+  // {
+  //   ColId: "DepartmentName",
+  //   ColName: "TÊN ĐƠN VỊ",
+  //   ColWidth: 250,
+  //   ColFixed: false,
+  //   ColAlignment: "left",
+  // },
   {
     ColId: "BankAccount",
     ColName: "SỐ TÀI KHOẢN",

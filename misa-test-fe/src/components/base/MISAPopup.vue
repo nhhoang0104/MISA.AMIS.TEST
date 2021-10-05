@@ -157,17 +157,16 @@ export default {
      * Xử lý click outside popup
      * CreatedBy: nhhoang(20/09/2021)
      */
-    closeOnOutsideClick() {
-      //let target = e.target.children[0];
-      console.log(1);
-      // if (target) {
-      //   if (target.getAttribute("accesskey") === "misa-popup") {
-      //     this.$emit("close-form");
-      //     return true;
-      //   }
-      // }
+    closeOnOutsideClick(e) {
+      let target = e.target.children[0];
+      if (target) {
+        if (target.getAttribute("accesskey") === "misa-popup") {
+          this.$emit("close-form");
+          return true;
+        }
+      }
 
-      // return false;
+      return false;
     },
   },
 };
@@ -178,6 +177,7 @@ export default {
   .dx-overlay-content {
     border: 0px !important;
   }
+
   &.dx-overlay-shader {
     background-color: rgba(0, 0, 0, 0.5);
   }
